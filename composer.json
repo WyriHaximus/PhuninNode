@@ -1,0 +1,24 @@
+{
+    "name": "wyrihaximus/phunin-node",
+    "description": "munin-node in PHP",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Cees-Jan Kiewiet",
+            "email": "ceesjank@gmail.com",
+            "homepage": "http://wyrihaximus.net/"
+        }
+    ],
+    "keywords": [
+        "munin",
+        "munin-node"
+    ],
+    "require": {
+        "react/react": "0.2.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "PhuninNode": "src/"
+        }
+    }
+}
