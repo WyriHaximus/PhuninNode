@@ -13,10 +13,10 @@ namespace PhuninNode\Tests;
 
 abstract class AbstractConnectionTest extends \PHPUnit_Framework_TestCase {
     
-    protected $loop;
-    protected $timer;
-    protected $conn;
-    protected $node;
+    public $loop;
+    public $timer;
+    public $conn;
+    public $node;
     
     public function setUp() {
         parent::setUp();
