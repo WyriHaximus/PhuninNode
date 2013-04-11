@@ -73,7 +73,8 @@ class PluginsCategories implements \PhuninNode\Interfaces\Plugin {
         
         $this->values[$key] = new \PhuninNode\Value();
         $this->values[$key]->setKey($key);
-        $this->values[$key]->setValue($this->getPluginCategories()[$key]);
+        $categories = $this->getPluginCategories();
+        $this->values[$key]->setValue($categories[$key]);
         
         return $this->values[$key];
     }
