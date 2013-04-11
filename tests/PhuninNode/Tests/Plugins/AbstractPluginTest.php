@@ -41,14 +41,14 @@ abstract class AbstractPluginTest extends \PhuninNode\Tests\AbstractConnectionTe
         $this->conn->on('data', function ($data) use ($that, &$i) {
             switch ($i) {
                 case 0:
-                    $this->assertEquals("# munin node at HOSTNAME\n", $data);
+                    $that->assertEquals("# munin node at HOSTNAME\n", $data);
                     $that->conn->write('fetch ' . $that->plugin->getSlug() . PHP_EOL);
                     break;
                 case 1:
                     $that->conn->write('fetch ' . $that->plugin->getSlug() . PHP_EOL);
                     break;
                 case 2:
-                    $this->loop->stop();
+                    $that->loop->stop();
                     break;
             }
             $i++;
@@ -62,7 +62,7 @@ abstract class AbstractPluginTest extends \PhuninNode\Tests\AbstractConnectionTe
         $this->conn->on('data', function ($data) use ($that, &$i) {
             switch ($i) {
                 case 0:
-                    $this->assertEquals("# munin node at HOSTNAME\n", $data);
+                    $that->assertEquals("# munin node at HOSTNAME\n", $data);
                     $that->conn->write('config ' . $that->plugin->getSlug() . PHP_EOL);
                     break;
                 case 1:

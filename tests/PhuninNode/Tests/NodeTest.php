@@ -19,7 +19,7 @@ class NodeTest extends AbstractConnectionTest {
         $this->conn->on('data', function ($data) use ($that, &$i) {
             switch ($i) {
                 case 0:
-                    $this->assertEquals("# munin node at HOSTNAME\n", $data);
+                    $that->assertEquals("# munin node at HOSTNAME\n", $data);
                     $that->conn->write('quit' . PHP_EOL);
                     break;
             }
