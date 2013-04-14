@@ -58,7 +58,7 @@ class Uptime implements \PhuninNode\Interfaces\Plugin {
     private function getUptimeValue() {
         $value = new \PhuninNode\Value();
         $value->setKey('uptime');
-        $value->setValue(round((time() - $this->startTime) / self::DAY_IN_SECONDS), 2);
+        $value->setValue(round(((time() - $this->startTime) / self::DAY_IN_SECONDS), 2));
         return $value;
     }
 }
