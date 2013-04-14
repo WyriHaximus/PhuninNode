@@ -42,7 +42,6 @@ class Uptime implements \PhuninNode\Interfaces\Plugin {
         $this->configuration->setPair('graph_args', '--base 1000 -l 0');
         $this->configuration->setPair('graph_scale', 'no');
         $this->configuration->setPair('graph_vlabel', 'uptime in days');
-        $this->configuration->setPair('graph_category', 'system');
         $this->configuration->setPair('uptime.label', 'uptime');
         $this->configuration->setPair('uptime.draw', 'AREA');
 
