@@ -13,7 +13,7 @@ namespace PhuninNode\Plugins;
 
 class Uptime implements \PhuninNode\Interfaces\Plugin {
     
-    const DAY_IN_SECONDS = 21600;
+    const DAY_IN_SECONDS = 86400;
     
     private $node;
     private $configuration;
