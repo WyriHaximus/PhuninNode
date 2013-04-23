@@ -14,6 +14,6 @@ namespace PhuninNode\Interfaces;
 interface Plugin {
     public function setNode(\PhuninNode\Node $node);
     public function getSlug();
-    public function getConfiguration();
-    public function getValues();
+    public function getConfiguration(\React\Promise\DeferredResolver $deferredResolver);
+    public function getValues(\React\Promise\DeferredResolver $deferredResolver);
 }

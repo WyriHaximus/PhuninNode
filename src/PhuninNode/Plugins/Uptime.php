@@ -31,9 +31,10 @@ class Uptime implements \PhuninNode\Interfaces\Plugin {
         return 'uptime';
     }
     
-    public function getConfiguration() {
+    public function getConfiguration(\React\Promise\DeferredResolver $deferredResolver) {
         if ($this->configuration instanceof \PhuninNode\PluginConfiguration) {
-            return $this->configuration;
+            $deferredResolver->resolve($this->configuration);
+            return;
         }
         
         $this->configuration = new \PhuninNode\PluginConfiguration();
@@ -43,15 +44,14 @@ class Uptime implements \PhuninNode\Interfaces\Plugin {
         $this->configuration->setPair('graph_vlabel', 'uptime in days');
         $this->configuration->setPair('uptime.label', 'uptime');
         $this->configuration->setPair('uptime.draw', 'AREA');
-
         
-        return $this->configuration;
+        $deferredResolver->resolve($this->configuration);
     }
     
-    public function getValues() {
+    public function getValues(\React\Promise\DeferredResolver $deferredResolver) {
         $values = new \SplObjectStorage;
         $values->attach($this->getUptimeValue());
-        return $values;
+        $deferredResolver->resolve($values);
     }
     
     private function getUptimeValue() {

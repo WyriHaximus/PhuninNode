@@ -23,9 +23,10 @@ class Plugins implements \PhuninNode\Interfaces\Plugin {
         return 'plugins';
     }
     
-    public function getConfiguration() {
+    public function getConfiguration(\React\Promise\DeferredResolver $deferredResolver) {
         if ($this->configuration instanceof \PhuninNode\PluginConfiguration) {
-            return $this->configuration;
+            $deferredResolver->resolve($this->configuration);
+            return;
         }
         
         $this->configuration = new \PhuninNode\PluginConfiguration();
@@ -34,14 +35,14 @@ class Plugins implements \PhuninNode\Interfaces\Plugin {
         $this->configuration->setPair('plugins_count.label', 'Plugin Count');
         $this->configuration->setPair('plugins_category_count.label', 'Plugin Category Count');
         
-        return $this->configuration;
+        $deferredResolver->resolve($this->configuration);
     }
     
-    public function getValues() {
+    public function getValues(\React\Promise\DeferredResolver $deferredResolver) {
         $values = new \SplObjectStorage;
         $values->attach($this->getPluginCountValue());
         $values->attach($this->getPluginCategoryCountValue());
-        return $values;
+        $deferredResolver->resolve($values);
     }
     
     private function getPluginCountValue() {
@@ -62,20 +63,21 @@ class Plugins implements \PhuninNode\Interfaces\Plugin {
         }
         
         $categories = array();
-        $count = 0;
         $plugins = $this->node->getPlugins();
         foreach ($plugins as $plugin) {
-            $category = $plugin->getConfiguration()->getPair('graph_category')->getValue();
-            if (!isset($categories[$category])) {
-                $categories[$category] = true;
-                $count++;
-            }
+            $deferred = new \React\Promise\Deferred();
+            $deferred->promise()->then(function($configuration) use (&$categories) {
+                $category = $configuration->getPair('graph_category')->getValue();
+                if (!isset($categories[$category])) {
+                    $categories[$category] = true;
+                }
+            });
+            $plugin->getConfiguration($deferred->resolver());
         }
-        unset($categories);
         
         $this->values['plugins_category_count'] = new \PhuninNode\Value();
         $this->values['plugins_category_count']->setKey('plugins_category_count');
-        $this->values['plugins_category_count']->setValue($count);
+        $this->values['plugins_category_count']->setValue(count($categories));
         
         return $this->values['plugins_category_count'];
     }

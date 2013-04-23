@@ -66,10 +66,14 @@ class Connection {
         list(, $resource) = explode(' ', $data);
         $plugin = $this->node->getPlugin($resource);
         if ($plugin !== false) {
-            foreach ($plugin->getConfiguration()->getPairs() as $configuration) {
-                $this->conn->write($configuration->getKey() . ' ' . $configuration->getValue() . "\n");
-            }
-            $this->conn->write(".\n");
+            $deferred = new \React\Promise\Deferred();
+            $deferred->promise()->then(function($configuration) {
+                foreach ($configuration->getPairs() as $pair) {
+                    $this->conn->write($pair->getKey() . ' ' . $pair->getValue() . "\n");
+                }
+                $this->conn->write(".\n");
+            });
+            $plugin->getConfiguration($deferred->resolver());
         } else {
             $this->conn->close();
         }
@@ -79,10 +83,14 @@ class Connection {
         list(, $resource) = explode(' ', $data);
         $plugin = $this->node->getPlugin($resource);
         if ($plugin !== false) {
-            foreach ($plugin->getValues() as $value) {
-                $this->conn->write($value->getKey() . '.value ' . str_replace(',', '.', $value->getValue()) . "\n");
-            }
-            $this->conn->write(".\n");
+            $deferred = new \React\Promise\Deferred();
+            $deferred->promise()->then(function($values) {
+                foreach ($values as $value) {
+                    $this->conn->write($value->getKey() . '.value ' . str_replace(',', '.', $value->getValue()) . "\n");
+                }
+                $this->conn->write(".\n");
+            });
+            $plugin->getValues($deferred->resolver());
         } else {
             $this->conn->close();
         }

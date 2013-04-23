@@ -25,14 +25,30 @@ abstract class AbstractPluginTest extends \PhuninNode\Tests\AbstractConnectionTe
     }
     
     public function testConfiguration() {
-        $this->assertInstanceOf('PhuninNode\PluginConfiguration', $this->plugin->getConfiguration());
-        $this->assertInstanceOf('PhuninNode\PluginConfiguration', $this->plugin->getConfiguration());
+        $that = $this;
+        
+        $deferred = new \React\Promise\Deferred();
+        $deferred->promise()->then(function($configuration) use ($that) {
+            $that->assertInstanceOf('PhuninNode\PluginConfiguration', $configuration);
+        });
+        $this->plugin->getConfiguration($deferred->resolver());
+        
+        $deferred = new \React\Promise\Deferred();
+        $deferred->promise()->then(function($configuration) use ($that) {
+            $that->assertInstanceOf('PhuninNode\PluginConfiguration', $configuration);
+        });
+        $this->plugin->getConfiguration($deferred->resolver());
     }
     
     public function testConfigurationValues() {
-        foreach ($this->plugin->getConfiguration() as $value) {
-            $this->assertInstanceOf('PhuninNode\Value', $value);
-        }
+        $that = $this;
+        $deferred = new \React\Promise\Deferred();
+        $deferred->promise()->then(function($configuration) use ($that) {
+            foreach ($configuration as $value) {
+                $that->assertInstanceOf('PhuninNode\Value', $value);
+            }
+        });
+        $this->plugin->getConfiguration($deferred->resolver());
     }
     
     public function testTwoFetchCalls() {

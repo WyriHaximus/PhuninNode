@@ -23,9 +23,10 @@ class MemoryUsage implements \PhuninNode\Interfaces\Plugin {
         return 'memory_usage';
     }
     
-    public function getConfiguration() {
+    public function getConfiguration(\React\Promise\DeferredResolver $deferredResolver) {
         if ($this->configuration instanceof \PhuninNode\PluginConfiguration) {
-            return $this->configuration;
+            $deferredResolver->resolve($this->configuration);
+            return;
         }
         
         $this->configuration = new \PhuninNode\PluginConfiguration();
@@ -34,14 +35,14 @@ class MemoryUsage implements \PhuninNode\Interfaces\Plugin {
         $this->configuration->setPair('memory_usage.label', 'Current Memory Usage');
         $this->configuration->setPair('memory_peak_usage.label', 'Peak Memory Usage');
         
-        return $this->configuration;
+        $deferredResolver->resolve($this->configuration);
     }
     
-    public function getValues() {
+    public function getValues(\React\Promise\DeferredResolver $deferredResolver) {
         $values = new \SplObjectStorage;
         $values->attach($this->getMemoryUsageValue());
         $values->attach($this->getMemoryPeakUsageValue());
-        return $values;
+        $deferredResolver->resolve($values);
     }
     
     private function getMemoryUsageValue() {

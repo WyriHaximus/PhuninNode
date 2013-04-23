@@ -24,9 +24,10 @@ class PluginsCategories implements \PhuninNode\Interfaces\Plugin {
         return 'plugins_categories';
     }
     
-    public function getConfiguration() {
+    public function getConfiguration(\React\Promise\DeferredResolver $deferredResolver) {
         if ($this->configuration instanceof \PhuninNode\PluginConfiguration) {
-            return $this->configuration;
+            $deferredResolver->resolve($this->configuration);
+            return;
         }
         
         $this->configuration = new \PhuninNode\PluginConfiguration();
@@ -37,15 +38,15 @@ class PluginsCategories implements \PhuninNode\Interfaces\Plugin {
             $this->configuration->setPair($key . '.label', $key);
         }
         
-        return $this->configuration;
+        $deferredResolver->resolve($this->configuration);
     }
     
-    public function getValues() {
+    public function getValues(\React\Promise\DeferredResolver $deferredResolver) {
         $values = new \SplObjectStorage;
         foreach ($this->getPluginCategories() as $key => $value) {
             $values->attach($this->getPluginCategoryValue($key));
         }
-        return $values;
+        $deferredResolver->resolve($values);
     }
     
     private function getPluginCategories() {
@@ -53,14 +54,19 @@ class PluginsCategories implements \PhuninNode\Interfaces\Plugin {
             return $this->categories;
         }
         
+        $that = $this;
+        
         $plugins = $this->node->getPlugins();
         foreach ($plugins as $plugin) {
-            $category = $plugin->getConfiguration()->getPair('graph_category')->getValue();
-            if (!isset($this->categories[$category])) {
-                $this->categories[$category] = 0;
-            }
-            
-            $this->categories[$category]++;
+            $deferred = new \React\Promise\Deferred();
+            $deferred->promise()->then(function($configuration) use ($that) {
+                $category = $configuration->getPair('graph_category')->getValue();
+                if (!isset($this->categories[$category])) {
+                    $this->categories[$category] = 0;
+                }
+                $this->categories[$category]++;
+            });
+            $plugin->getConfiguration($deferred->resolver());
         }
         
         return $this->categories;
