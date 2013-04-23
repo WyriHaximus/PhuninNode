@@ -33,7 +33,6 @@ abstract class AbstractConnectionTest extends \PHPUnit_Framework_TestCase {
         $client = stream_socket_client('tcp://127.0.0.1:63168');
         $this->conn = new \React\Socket\Connection($client, $this->loop);
         
-        $that = $this;
         $this->conn->on('close', function($conn) use ($loop) {
             $loop->stop();
         });
