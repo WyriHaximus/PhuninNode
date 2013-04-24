@@ -19,16 +19,14 @@ class Node {
     private $ip = '0.0.0.0';
     private $loop;
     private $socket;
-    private $debug;
     
     private $plugins;
     private $connections;
     
-    public function __construct($loop, $port = 4949, $ip = '0.0.0.0', $debug = false) {
+    public function __construct($loop, $port = 4949, $ip = '0.0.0.0') {
         $this->loop = $loop;
         $this->port = (int) $port;
         $this->ip = $ip;
-        $this->debug = $debug;
             
         $this->plugins = new \SplObjectStorage;
         $this->connections = new \SplObjectStorage;
