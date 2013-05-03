@@ -1,4 +1,4 @@
-PhuninNode
+PhuninNode [![Build Status](https://secure.travis-ci.org/WyriHaximus/PhuninNode.png)](http://travis-ci.org/WyriHaximus/PhuninNode)
 ==========
 
 PhuninNode is a munin-node port PHP aiming to provide application monitoring utilizing munin.
@@ -34,6 +34,7 @@ Installation is easy with composer just add PhuninNode to your composer.json.
 
 - Async support
 - Further work out munin protocol support
+- Wildcard plugins like [this](http://munin-monitoring.org/browser/munin/plugins/node.d.linux/if_.in)
 
 ## License ##
 
