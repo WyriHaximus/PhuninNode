@@ -13,7 +13,6 @@ namespace PhuninNode\Plugins;
 
 class MemoryUsage implements \PhuninNode\Interfaces\Plugin {
     private $node;
-    private $values = array();
     private $configuration;
     public function setNode(\PhuninNode\Node $node) {
         $this->node = $node;
