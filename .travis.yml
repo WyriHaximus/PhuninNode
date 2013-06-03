@@ -8,11 +8,11 @@ branches:
   only:
     - master
 before_script:
+  - mkdir -p build/cov
   - composer self-update
   - composer install
 script: phpunit
 after_script:
-  - mkdir -p build/cov
   - php vendor/bin/coveralls -v
 notifications:
   webhooks:
