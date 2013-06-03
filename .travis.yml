@@ -12,7 +12,7 @@ before_script:
   - composer install
 script: phpunit
 after_script:
-  - mkdir -p build/logs
+  - mkdir -p build/cov
   - php vendor/bin/coveralls -v
 notifications:
   webhooks:
