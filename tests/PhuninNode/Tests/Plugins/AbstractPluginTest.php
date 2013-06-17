@@ -11,7 +11,7 @@
 
 namespace PhuninNode\Tests\Plugins;
 
-abstract class AbstractPluginTest extends \PhuninNode\Tests\AbstractConnectionTest {
+abstract class AbstractPluginTest extends \PhuninNode\Tests\AbstractConnectionContextTest {
     
     protected $plugin;
     

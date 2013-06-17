@@ -11,7 +11,7 @@
 
 namespace PhuninNode;
 
-class Connection {
+class ConnectionContext {
     private $conn;
     private $node;
     private $commandMap = array();

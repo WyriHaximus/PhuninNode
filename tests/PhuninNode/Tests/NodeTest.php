@@ -11,7 +11,7 @@
 
 namespace PhuninNode\Tests;
 
-class NodeTest extends AbstractConnectionTest {
+class NodeTest extends AbstractConnectionContextTest {
     
     public function testIsUp() {
         $i = 0;

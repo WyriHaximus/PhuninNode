@@ -11,7 +11,7 @@
 
 namespace PhuninNode\Tests;
 
-abstract class AbstractConnectionTest extends \PHPUnit_Framework_TestCase {
+abstract class AbstractConnectionContextTest extends \PHPUnit_Framework_TestCase {
     
     public $loop;
     public $timer;

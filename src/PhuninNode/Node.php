@@ -45,7 +45,7 @@ class Node {
     }
     
     public function onConnection($conn) {
-        $this->connections->attach(new Connection($conn, $this));
+        $this->connections->attach(new ConnectionContext($conn, $this));
     }
     
     public function onClose($connection) {
