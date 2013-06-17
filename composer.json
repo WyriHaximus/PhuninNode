@@ -43,7 +43,8 @@
     },
     "autoload": {
         "psr-0": {
-            "PhuninNode": "src/"
+            "PhuninNode\\Tests": "tests",
+            "PhuninNode": "src"
         }
     }
 }
