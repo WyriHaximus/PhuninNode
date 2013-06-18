@@ -38,7 +38,7 @@ class ConnectionContextTest extends AbstractConnectionContextTest {
                     $that->conn->write('version' . PHP_EOL);
                     break;
                 case 1:
-                    $that->assertEquals("PhuninNode on HOSTNAME version: 0.2.0-DEV\n", $data);
+                    $that->assertEquals("PhuninNode on HOSTNAME version: 0.2.1\n", $data);
                     $that->conn->write('quit' . PHP_EOL);
                     break;
             }
