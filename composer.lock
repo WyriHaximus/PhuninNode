@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "2f72174aae8284b84f82eddffb2d81b1",
+    "hash": "88276f447576c66df4f6346906ae347d",
     "packages": [
         {
             "name": "evenement/evenement",
@@ -28,6 +28,7 @@
                     "Evenement": "src"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -46,17 +47,17 @@
         },
         {
             "name": "guzzle/parser",
-            "version": "v3.4.1",
+            "version": "v3.7.0",
             "target-dir": "Guzzle/Parser",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/parser.git",
-                "reference": "v3.4.1"
+                "reference": "v3.7.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/parser/zipball/v3.4.1",
-                "reference": "v3.4.1",
+                "url": "https://api.github.com/repos/guzzle/parser/zipball/v3.7.0",
+                "reference": "v3.7.0",
                 "shasum": ""
             },
             "require": {
@@ -65,7 +66,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.3-dev"
+                    "dev-master": "3.7-dev"
                 }
             },
             "autoload": {
@@ -86,7 +87,7 @@
                 "message",
                 "url"
             ],
-            "time": "2013-03-07 22:13:59"
+            "time": "2013-06-11 00:24:07"
         },
         {
             "name": "react/promise",
@@ -133,16 +134,16 @@
         },
         {
             "name": "react/react",
-            "version": "v0.3.1",
+            "version": "v0.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/reactphp/react.git",
-                "reference": "v0.3.1"
+                "reference": "v0.3.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/reactphp/react/zipball/v0.3.1",
-                "reference": "v0.3.1",
+                "url": "https://api.github.com/repos/reactphp/react/zipball/v0.3.2",
+                "reference": "v0.3.2",
                 "shasum": ""
             },
             "require": {
@@ -185,7 +186,7 @@
                 "event-loop",
                 "reactor"
             ],
-            "time": "2013-04-21 21:37:30"
+            "time": "2013-05-10 15:22:46"
         }
     ],
     "packages-dev": [

@@ -10,7 +10,4 @@
             <directory suffix=".php">lib/PhuninNode/</directory>
         </whitelist>
     </filter>
-    <logging>
-        <log type="coverage-php" target="build/cov/coverage.cov"/>
-    </logging>
 </phpunit>
