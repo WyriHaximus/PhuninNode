@@ -14,7 +14,7 @@
         "munin-node"
     ],
     "require": {
-        "react/react": "0.3.*"
+        "react/react": "0.2.*"
     },
     "autoload": {
         "psr-0": {
