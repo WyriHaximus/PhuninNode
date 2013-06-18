@@ -35,7 +35,7 @@ class ConnectionContext {
         $this->commandMap['fetch'] = array($this, 'onFetch');
         $this->commandMap['quit'] = array($this, 'onQuit');
     }
-    private function onData($data) {
+    public function onData($data) {
         $data = trim($data);
         list($command) = explode(' ', $data);
         if (isset($this->commandMap[$command])) {
@@ -46,7 +46,7 @@ class ConnectionContext {
         }
     }
     
-    private function onList($data) {
+    public function onList($data) {
         $list = array();
         foreach ($this->node->getPlugins() as $plugin) {
             $list[] = $plugin->getSlug();
@@ -54,15 +54,15 @@ class ConnectionContext {
         $this->conn->write(implode(' ', $list) . "\n");
     }
     
-    private function onNodes($data) {
+    public function onNodes($data) {
         $this->conn->write(implode(' ', array('HOSTNAME')) . "\n");
     }
     
-    private function onVersion($data) {
+    public function onVersion($data) {
         $this->conn->write('PhuninNode on HOSTNAME version: ' . Node::VERSION . "\n");
     }
     
-    private function onConfig($data) {
+    public function onConfig($data) {
         list(, $resource) = explode(' ', $data);
         $plugin = $this->node->getPlugin($resource);
         if ($plugin !== false) {
@@ -79,7 +79,7 @@ class ConnectionContext {
         }
     }
     
-    private function onFetch($data) {
+    public function onFetch($data) {
         list(, $resource) = explode(' ', $data);
         $plugin = $this->node->getPlugin($resource);
         if ($plugin !== false) {
@@ -96,11 +96,11 @@ class ConnectionContext {
         }
     }
     
-    private function onQuit($data) {
+    public function onQuit($data) {
         $this->conn->close();
     }
     
-    private function onClose() {
+    public function onClose() {
         $this->node->onClose($this);
     }
 }
