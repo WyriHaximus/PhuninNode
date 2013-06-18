@@ -15,12 +15,12 @@ class ConnectionContextTest extends AbstractConnectionContextTest {
     
     public function testIsUp() {
         $i = 0;
-        $that = $this;
-        $this->conn->on('data', function ($data) use ($that, &$i) {
+        
+        $this->conn->on('data', function ($data) use (&$i) {
             switch ($i) {
                 case 0:
-                    $that->assertEquals("# munin node at HOSTNAME\n", $data);
-                    $that->conn->write('quit' . PHP_EOL);
+                    $this->assertEquals("# munin node at HOSTNAME\n", $data);
+                    $this->conn->write('quit' . PHP_EOL);
                     break;
             }
             $i++;
@@ -30,16 +30,16 @@ class ConnectionContextTest extends AbstractConnectionContextTest {
     
     public function testVersion() {
         $i = 0;
-        $that = $this;
-        $this->conn->on('data', function ($data) use ($that, &$i) {
+        
+        $this->conn->on('data', function ($data) use (&$i) {
             switch ($i) {
                 case 0:
-                    $that->assertEquals("# munin node at HOSTNAME\n", $data);
-                    $that->conn->write('version' . PHP_EOL);
+                    $this->assertEquals("# munin node at HOSTNAME\n", $data);
+                    $this->conn->write('version' . PHP_EOL);
                     break;
                 case 1:
-                    $that->assertEquals("PhuninNode on HOSTNAME version: 0.2.1\n", $data);
-                    $that->conn->write('quit' . PHP_EOL);
+                    $this->assertEquals("PhuninNode on HOSTNAME version: 0.2.1\n", $data);
+                    $this->conn->write('quit' . PHP_EOL);
                     break;
             }
             $i++;
@@ -49,16 +49,16 @@ class ConnectionContextTest extends AbstractConnectionContextTest {
     
     public function testList() {
         $i = 0;
-        $that = $this;
-        $this->conn->on('data', function ($data) use ($that, &$i) {
+        
+        $this->conn->on('data', function ($data) use (&$i) {
             switch ($i) {
                 case 0:
-                    $that->assertEquals("# munin node at HOSTNAME\n", $data);
-                    $that->conn->write('list' . PHP_EOL);
+                    $this->assertEquals("# munin node at HOSTNAME\n", $data);
+                    $this->conn->write('list' . PHP_EOL);
                     break;
                 case 1:
-                    $that->assertEquals("plugins plugins_categories memory_usage\n", $data);
-                    $that->conn->write('quit' . PHP_EOL);
+                    $this->assertEquals("plugins plugins_categories memory_usage\n", $data);
+                    $this->conn->write('quit' . PHP_EOL);
                     break;
             }
             $i++;
@@ -68,16 +68,16 @@ class ConnectionContextTest extends AbstractConnectionContextTest {
     
     public function testConfig() {
         $i = 0;
-        $that = $this;
-        $this->conn->on('data', function ($data) use ($that, &$i) {
+        
+        $this->conn->on('data', function ($data) use (&$i) {
             switch ($i) {
                 case 0:
-                    $that->assertEquals("# munin node at HOSTNAME\n", $data);
-                    $that->conn->write('config memory_usage' . PHP_EOL);
+                    $this->assertEquals("# munin node at HOSTNAME\n", $data);
+                    $this->conn->write('config memory_usage' . PHP_EOL);
                     break;
                 case 1:
-                    $that->assertEquals("graph_category phunin_node\ngraph_title Memory Usage\nmemory_usage.label Current Memory Usage\nmemory_peak_usage.label Peak Memory Usage\n.\n", $data);
-                    $that->conn->write('quit' . PHP_EOL);
+                    $this->assertEquals("graph_category phunin_node\ngraph_title Memory Usage\nmemory_usage.label Current Memory Usage\nmemory_peak_usage.label Peak Memory Usage\n.\n", $data);
+                    $this->conn->write('quit' . PHP_EOL);
                     break;
             }
             $i++;
@@ -87,16 +87,16 @@ class ConnectionContextTest extends AbstractConnectionContextTest {
     
     public function testFetch() {
         $i = 0;
-        $that = $this;
-        $this->conn->on('data', function ($data) use ($that, &$i) {
+        
+        $this->conn->on('data', function ($data) use (&$i) {
             switch ($i) {
                 case 0:
-                    $that->assertEquals("# munin node at HOSTNAME\n", $data);
-                    $that->conn->write('fetch plugins_categories' . PHP_EOL);
+                    $this->assertEquals("# munin node at HOSTNAME\n", $data);
+                    $this->conn->write('fetch plugins_categories' . PHP_EOL);
                     break;
                 case 1:
-                    $that->assertEquals("phunin_node.value 3\n.\n", $data);
-                    $that->conn->write('quit' . PHP_EOL);
+                    $this->assertEquals("phunin_node.value 3\n.\n", $data);
+                    $this->conn->write('quit' . PHP_EOL);
                     break;
             }
             $i++;
@@ -106,16 +106,16 @@ class ConnectionContextTest extends AbstractConnectionContextTest {
     
     public function testNodes() {
         $i = 0;
-        $that = $this;
-        $this->conn->on('data', function ($data) use ($that, &$i) {
+        
+        $this->conn->on('data', function ($data) use (&$i) {
             switch ($i) {
                 case 0:
-                    $that->assertEquals("# munin node at HOSTNAME\n", $data);
-                    $that->conn->write('nodes' . PHP_EOL);
+                    $this->assertEquals("# munin node at HOSTNAME\n", $data);
+                    $this->conn->write('nodes' . PHP_EOL);
                     break;
                 case 1:
-                    $that->assertEquals("HOSTNAME\n", $data);
-                    $that->conn->write('quit' . PHP_EOL);
+                    $this->assertEquals("HOSTNAME\n", $data);
+                    $this->conn->write('quit' . PHP_EOL);
                     break;
             }
             $i++;
@@ -125,16 +125,16 @@ class ConnectionContextTest extends AbstractConnectionContextTest {
     
     public function testUnknownCommand() {
         $i = 0;
-        $that = $this;
-        $this->conn->on('data', function ($data) use ($that, &$i) {
+        
+        $this->conn->on('data', function ($data) use (&$i) {
             switch ($i) {
                 case 0:
-                    $that->assertEquals("# munin node at HOSTNAME\n", $data);
-                    $that->conn->write('unknown_command' . PHP_EOL);
+                    $this->assertEquals("# munin node at HOSTNAME\n", $data);
+                    $this->conn->write('unknown_command' . PHP_EOL);
                     break;
                 case 1:
-                    $that->assertEquals("# Unknown command. Try list, nodes, version, config, fetch or quit\n", $data);
-                    $that->conn->write('quit' . PHP_EOL);
+                    $this->assertEquals("# Unknown command. Try list, nodes, version, config, fetch or quit\n", $data);
+                    $this->conn->write('quit' . PHP_EOL);
                     break;
             }
             $i++;
@@ -144,12 +144,12 @@ class ConnectionContextTest extends AbstractConnectionContextTest {
     
     public function testConfigUnknownPlugin() {
         $i = 0;
-        $that = $this;
-        $this->conn->on('data', function ($data) use ($that, &$i) {
+        
+        $this->conn->on('data', function ($data) use (&$i) {
             switch ($i) {
                 case 0:
-                    $that->assertEquals("# munin node at HOSTNAME\n", $data);
-                    $that->conn->write('config unknown_plugin' . PHP_EOL);
+                    $this->assertEquals("# munin node at HOSTNAME\n", $data);
+                    $this->conn->write('config unknown_plugin' . PHP_EOL);
                     break;
                 case 1:
                     $this->assertTrue(false);
@@ -163,12 +163,12 @@ class ConnectionContextTest extends AbstractConnectionContextTest {
     
     public function testFetchUnknownPlugin() {
         $i = 0;
-        $that = $this;
-        $this->conn->on('data', function ($data) use ($that, &$i) {
+        
+        $this->conn->on('data', function ($data) use (&$i) {
             switch ($i) {
                 case 0:
-                    $that->assertEquals("# munin node at HOSTNAME\n", $data);
-                    $that->conn->write('fetch unknown_plugin' . PHP_EOL);
+                    $this->assertEquals("# munin node at HOSTNAME\n", $data);
+                    $this->conn->write('fetch unknown_plugin' . PHP_EOL);
                     break;
                 case 1:
                     $this->assertTrue(false);

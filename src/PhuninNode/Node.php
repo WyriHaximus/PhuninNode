@@ -34,9 +34,8 @@ class Node {
         $this->socket = new \React\Socket\Server($this->loop);
         $this->socket->listen($this->port, $this->ip);
         
-        $that = $this;
-        $this->socket->on('connection', function($conn) use ($that) {
-            $that->onConnection($conn);
+        $this->socket->on('connection', function($conn) {
+            $this->onConnection($conn);
         });
     }
     

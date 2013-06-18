@@ -25,27 +25,27 @@ abstract class AbstractPluginTest extends \PhuninNode\Tests\AbstractConnectionCo
     }
     
     public function testConfiguration() {
-        $that = $this;
+        
         
         $deferred = new \React\Promise\Deferred();
-        $deferred->promise()->then(function($configuration) use ($that) {
-            $that->assertInstanceOf('PhuninNode\PluginConfiguration', $configuration);
+        $deferred->promise()->then(function($configuration) {
+            $this->assertInstanceOf('PhuninNode\PluginConfiguration', $configuration);
         });
         $this->plugin->getConfiguration($deferred->resolver());
         
         $deferred = new \React\Promise\Deferred();
-        $deferred->promise()->then(function($configuration) use ($that) {
-            $that->assertInstanceOf('PhuninNode\PluginConfiguration', $configuration);
+        $deferred->promise()->then(function($configuration) {
+            $this->assertInstanceOf('PhuninNode\PluginConfiguration', $configuration);
         });
         $this->plugin->getConfiguration($deferred->resolver());
     }
     
     public function testConfigurationValues() {
-        $that = $this;
+        
         $deferred = new \React\Promise\Deferred();
-        $deferred->promise()->then(function($configuration) use ($that) {
+        $deferred->promise()->then(function($configuration) {
             foreach ($configuration as $value) {
-                $that->assertInstanceOf('PhuninNode\Value', $value);
+                $this->assertInstanceOf('PhuninNode\Value', $value);
             }
         });
         $this->plugin->getConfiguration($deferred->resolver());
@@ -53,18 +53,18 @@ abstract class AbstractPluginTest extends \PhuninNode\Tests\AbstractConnectionCo
     
     public function testTwoFetchCalls() {
         $i = 0;
-        $that = $this;
-        $this->conn->on('data', function ($data) use ($that, &$i) {
+        
+        $this->conn->on('data', function ($data) use (&$i) {
             switch ($i) {
                 case 0:
-                    $that->assertEquals("# munin node at HOSTNAME\n", $data);
-                    $that->conn->write('fetch ' . $that->plugin->getSlug() . PHP_EOL);
+                    $this->assertEquals("# munin node at HOSTNAME\n", $data);
+                    $this->conn->write('fetch ' . $this->plugin->getSlug() . PHP_EOL);
                     break;
                 case 1:
-                    $that->conn->write('fetch ' . $that->plugin->getSlug() . PHP_EOL);
+                    $this->conn->write('fetch ' . $this->plugin->getSlug() . PHP_EOL);
                     break;
                 case 2:
-                    $that->loop->stop();
+                    $this->loop->stop();
                     break;
             }
             $i++;
@@ -74,15 +74,15 @@ abstract class AbstractPluginTest extends \PhuninNode\Tests\AbstractConnectionCo
     
     public function testTwoConfigCalls() {
         $i = 0;
-        $that = $this;
-        $this->conn->on('data', function ($data) use ($that, &$i) {
+        
+        $this->conn->on('data', function ($data) use (&$i) {
             switch ($i) {
                 case 0:
-                    $that->assertEquals("# munin node at HOSTNAME\n", $data);
-                    $that->conn->write('config ' . $that->plugin->getSlug() . PHP_EOL);
+                    $this->assertEquals("# munin node at HOSTNAME\n", $data);
+                    $this->conn->write('config ' . $this->plugin->getSlug() . PHP_EOL);
                     break;
                 case 1:
-                    $that->conn->write('config ' . $that->plugin->getSlug() . PHP_EOL);
+                    $this->conn->write('config ' . $this->plugin->getSlug() . PHP_EOL);
                     break;
                 case 2:
                     $this->loop->stop();

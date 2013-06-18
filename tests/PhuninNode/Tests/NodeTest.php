@@ -15,12 +15,11 @@ class NodeTest extends AbstractConnectionContextTest {
     
     public function testIsUp() {
         $i = 0;
-        $that = $this;
-        $this->conn->on('data', function ($data) use ($that, &$i) {
+        $this->conn->on('data', function ($data) use (&$i) {
             switch ($i) {
                 case 0:
-                    $that->assertEquals("# munin node at HOSTNAME\n", $data);
-                    $that->conn->write('quit' . PHP_EOL);
+                    $this->assertEquals("# munin node at HOSTNAME\n", $data);
+                    $this->conn->write('quit' . PHP_EOL);
                     break;
             }
             $i++;

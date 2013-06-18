@@ -54,12 +54,10 @@ class PluginsCategories implements \PhuninNode\Interfaces\Plugin {
             return $this->categories;
         }
         
-        $that = $this;
-        
         $plugins = $this->node->getPlugins();
         foreach ($plugins as $plugin) {
             $deferred = new \React\Promise\Deferred();
-            $deferred->promise()->then(function($configuration) use ($that) {
+            $deferred->promise()->then(function($configuration) {
                 $category = $configuration->getPair('graph_category')->getValue();
                 if (!isset($this->categories[$category])) {
                     $this->categories[$category] = 0;
