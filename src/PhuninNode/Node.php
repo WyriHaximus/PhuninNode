@@ -13,7 +13,7 @@ namespace PhuninNode;
 
 class Node {
     
-    const VERSION = '0.2.2';
+    const VERSION = '0.3.0-DEV';
     
     private $port = 4949;
     private $ip = '0.0.0.0';
