@@ -1,6 +1,7 @@
 PhuninNode
 ==========
 
+[![Build Status](https://travis-ci.org/WyriHaximus/PhuninNode.png)](https://travis-ci.org/WyriHaximus/PhuninNode)
 [![Build Status](https://secure.travis-ci.org/WyriHaximus/PhuninNode.png)](http://travis-ci.org/WyriHaximus/PhuninNode) [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/WyriHaximus/phuninnode/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 PhuninNode is a munin-node port PHP aiming to provide application monitoring utilizing munin.
