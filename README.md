@@ -2,8 +2,8 @@ PhuninNode
 ==========
 
 [![Build Status](https://travis-ci.org/WyriHaximus/PhuninNode.png)](https://travis-ci.org/WyriHaximus/PhuninNode)
-[![Latest Stable Version](https://poser.pugx.org/WyriHaximus/PhuninNode/v/stable.png)](https://packagist.org/packages/WyriHaximus/PhuninNode)
-[![Total Downloads](https://poser.pugx.org/WyriHaximus/PhuninNode/downloads.png)](https://packagist.org/packages/WyriHaximus/PhuninNode)
+[![Latest Stable Version](https://poser.pugx.org/WyriHaximus/Phunin-Node/v/stable.png)](https://packagist.org/packages/WyriHaximus/Phunin-Node)
+[![Total Downloads](https://poser.pugx.org/WyriHaximus/Phunin-Node/downloads.png)](https://packagist.org/packages/WyriHaximus/Phunin-Node)
 [![Coverage Status](https://coveralls.io/repos/WyriHaximus/PhuninNode/badge.png)](https://coveralls.io/r/WyriHaximus/PhuninNode)
 [![Build Status](https://secure.travis-ci.org/WyriHaximus/PhuninNode.png)](http://travis-ci.org/WyriHaximus/PhuninNode) [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/WyriHaximus/phuninnode/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
