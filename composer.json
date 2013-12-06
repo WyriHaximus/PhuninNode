@@ -16,6 +16,9 @@
     "require": {
         "react/react": "0.3.*"
     },
+    "require-dev": {
+        "satooshi/php-coveralls": "~0.6"
+    },
     "autoload": {
         "psr-0": {
             "PhuninNode\\Tests": "tests",
