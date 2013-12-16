@@ -18,6 +18,7 @@ class ConnectionContext {
     private $conn;
     private $node;
     private $commandMap = [];
+
     public function __construct(\React\Socket\Connection $conn, Node $node) {
         $this->conn = $conn;
         $this->node = $node;
@@ -34,6 +35,7 @@ class ConnectionContext {
 
 		$this->conn->write(self::GREETING);
     }
+
     public function onData($data) {
         $data = trim($data);
         list($command) = explode(' ', $data);
