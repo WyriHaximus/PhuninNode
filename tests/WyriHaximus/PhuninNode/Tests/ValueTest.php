@@ -20,6 +20,12 @@ class ValueTest extends \PHPUnit_Framework_TestCase {
         $this->Value = new \WyriHaximus\PhuninNode\Value();
     }
     
+    public function testConstruct() {
+		$this->Value = new \WyriHaximus\PhuninNode\Value(1, 2);
+        $this->assertEquals(1, $this->Value->getKey());
+		$this->assertEquals(2, $this->Value->getValue());
+    }
+
     public function testKey() {
         $this->assertEquals(null, $this->Value->getKey());
         $this->Value->setKey(true);
