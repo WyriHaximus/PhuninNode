@@ -13,7 +13,7 @@ namespace WyriHaximus\PhuninNode\Plugins;
 
 class Plugins implements \WyriHaximus\PhuninNode\Interfaces\Plugin {
     private $node;
-    private $values = array();
+    private $values = [];
     private $configuration;
     public function setNode(\WyriHaximus\PhuninNode\Node $node) {
         $this->node = $node;
@@ -62,7 +62,7 @@ class Plugins implements \WyriHaximus\PhuninNode\Interfaces\Plugin {
             return $this->values['plugins_category_count'];
         }
         
-        $categories = array();
+        $categories = [];
         $plugins = $this->node->getPlugins();
         foreach ($plugins as $plugin) {
             $deferred = new \React\Promise\Deferred();

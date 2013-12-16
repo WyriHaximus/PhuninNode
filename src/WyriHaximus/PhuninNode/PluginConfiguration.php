@@ -13,7 +13,7 @@ namespace WyriHaximus\PhuninNode;
 
 class PluginConfiguration {
     
-    private $pairs = array();
+    private $pairs = [];
     
     public function setPair($key, $value) {
         $pair = new Value();

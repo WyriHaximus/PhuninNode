@@ -14,8 +14,8 @@ namespace WyriHaximus\PhuninNode;
 class ConnectionContext {
     private $conn;
     private $node;
-    private $commandMap = array();
-    public function __construct($conn, $node) {
+    private $commandMap = [];
+    public function __construct(\React\Socket\Connection $conn, Node $node) {
         $this->conn = $conn;
         $this->node = $node;
         $this->conn->write("# munin node at HOSTNAME\n");
@@ -27,12 +27,12 @@ class ConnectionContext {
             $this->onClose($data);
         });
         
-        $this->commandMap['list'] = array($this, 'onList');
-        $this->commandMap['nodes'] = array($this, 'onNodes');
-        $this->commandMap['version'] = array($this, 'onVersion');
-        $this->commandMap['config'] = array($this, 'onConfig');
-        $this->commandMap['fetch'] = array($this, 'onFetch');
-        $this->commandMap['quit'] = array($this, 'onQuit');
+        $this->commandMap['list'] = [$this, 'onList'];
+        $this->commandMap['nodes'] = [$this, 'onNodes'];
+        $this->commandMap['version'] = [$this, 'onVersion'];
+        $this->commandMap['config'] = [$this, 'onConfig'];
+        $this->commandMap['fetch'] = [$this, 'onFetch'];
+        $this->commandMap['quit'] = [$this, 'onQuit'];
     }
     private function onData($data) {
         $data = trim($data);
@@ -46,7 +46,7 @@ class ConnectionContext {
     }
     
     private function onList($data) {
-        $list = array();
+        $list = [];
         foreach ($this->node->getPlugins() as $plugin) {
             $list[] = $plugin->getSlug();
         }
@@ -54,7 +54,7 @@ class ConnectionContext {
     }
     
     private function onNodes($data) {
-        $this->conn->write(implode(' ', array('HOSTNAME')) . "\n");
+        $this->conn->write(implode(' ', ['HOSTNAME']) . "\n");
     }
     
     private function onVersion($data) {

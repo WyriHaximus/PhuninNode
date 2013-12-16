@@ -15,28 +15,28 @@ class PluginConfigurationTest extends \PHPUnit_Framework_TestCase {
     
     private $Value;
     
-    private $testData = array(
-        array(
+    private $testData = [
+        [
             'key' => 'a',
             'value' => 1,
-        ),
-        array(
+		],
+        [
             'key' => 'b',
             'value' => 2,
-        ),
-        array(
+        ],
+        [
             'key' => 'c',
             'value' => 3,
-        ),
-        array(
+        ],
+        [
             'key' => 'd',
             'value' => 4,
-        ),
-        array(
+        ],
+        [
             'key' => 'e',
             'value' => 5,
-        ),
-    );
+        ],
+	];
     
     public function setUp() {
         parent::setUp();

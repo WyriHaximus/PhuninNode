@@ -13,8 +13,8 @@ namespace WyriHaximus\PhuninNode\Plugins;
 
 class PluginsCategories implements \WyriHaximus\PhuninNode\Interfaces\Plugin {
     private $node;
-    private $categories = array();
-    private $values = array();
+    private $categories = [];
+    private $values = [];
     private $configuration;
     public function setNode(\WyriHaximus\PhuninNode\Node $node) {
         $this->node = $node;

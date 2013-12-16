@@ -34,16 +34,14 @@ class Node {
         $this->socket = new \React\Socket\Server($this->loop);
         $this->socket->listen($this->port, $this->ip);
         
-        $this->socket->on('connection', function($conn) {
-            $this->onConnection($conn);
-        });
+        $this->socket->on('connection', [$this, 'onConnection']);
     }
     
     public function shutdown() {
         $this->socket->shutdown();
     }
     
-    public function onConnection($conn) {
+    public function onConnection(\React\Socket\Connection $conn) {
         $this->connections->attach(new ConnectionContext($conn, $this));
     }
     
