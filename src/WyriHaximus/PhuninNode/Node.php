@@ -14,25 +14,19 @@ namespace WyriHaximus\PhuninNode;
 class Node {
     
     const VERSION = '0.3.0-DEV';
-    
-    private $port = 4949;
-    private $ip = '0.0.0.0';
+
     private $loop;
     private $socket;
     
     private $plugins;
     private $connections;
     
-    public function __construct($loop, $port = 4949, $ip = '0.0.0.0') {
+    public function __construct($loop, $socket) {
         $this->loop = $loop;
-        $this->port = (int) $port;
-        $this->ip = $ip;
+		$this->socket = $socket;
             
         $this->plugins = new \SplObjectStorage;
         $this->connections = new \SplObjectStorage;
-        
-        $this->socket = new \React\Socket\Server($this->loop);
-        $this->socket->listen($this->port, $this->ip);
         
         $this->socket->on('connection', [$this, 'onConnection']);
     }
