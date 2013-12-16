@@ -22,13 +22,13 @@ Installation is easy with composer just add PhuninNode to your composer.json.
 $loop = \React\EventLoop\Factory::create();
 
 // Bind to IP and port
-$node = new \PhuninNode\Node($loop, 12345, '0.0.0.0');
+$node = new \WyriHaximus\PhuninNode\Node($loop, 12345, '0.0.0.0');
 
 // Add plugins
-$node->addPlugin(new \PhuninNode\Plugins\Plugins());
-$node->addPlugin(new \PhuninNode\Plugins\PluginsCategories());
-$node->addPlugin(new \PhuninNode\Plugins\MemoryUsage());
-$node->addPlugin(new \PhuninNode\Plugins\Uptime());
+$node->addPlugin(new \WyriHaximus\PhuninNode\Plugins\Plugins());
+$node->addPlugin(new \WyriHaximus\PhuninNode\Plugins\PluginsCategories());
+$node->addPlugin(new \WyriHaximus\PhuninNode\Plugins\MemoryUsage());
+$node->addPlugin(new \WyriHaximus\PhuninNode\Plugins\Uptime());
 
 // Get rolling
 $loop->run();

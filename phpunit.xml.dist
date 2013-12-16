@@ -2,12 +2,12 @@
 <phpunit bootstrap="tests/bootstrap.php" colors="true">
     <testsuites>
         <testsuite name="PhuninNode Test Suite">
-            <directory>tests/PhuninNode/</directory>
+            <directory>tests/WyriHaximus/PhuninNode/</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist>
-            <directory suffix=".php">lib/PhuninNode/</directory>
+            <directory suffix=".php">lib/WyriHaximus/PhuninNode/</directory>
         </whitelist>
     </filter>
 </phpunit>

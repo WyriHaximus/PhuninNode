@@ -34,7 +34,7 @@ class Cisco_EPC3925_Upstream_Power_Level implements \PhuninNode\Interfaces\Plugi
             return;
         }
         
-        $this->configuration = new \PhuninNode\PluginConfiguration();
+        $this->configuration = new \WyriHaximus\PhuninNode\PluginConfiguration();
         $this->configuration->setPair('graph_category', 'cisco_epc3925');
         $this->configuration->setPair('graph_title', 'Upstream Power Level');
         
@@ -163,7 +163,7 @@ Noticed the extra `\SplObjectStorage`, it's used to store the values. A similar 
 
 ```php
             foreach ($channels as $channel => $value) {
-                $valueObject = new \PhuninNode\Value();
+                $valueObject = new \WyriHaximus\PhuninNode\Value();
                 $valueObject->setKey($channel);
                 $valueObject->setValue($value);
                 

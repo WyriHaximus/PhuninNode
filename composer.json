@@ -21,8 +21,8 @@
     },
     "autoload": {
         "psr-0": {
-            "PhuninNode\\Tests": "tests",
-            "PhuninNode": "src"
+            "WyriHaximus\\PhuninNode": "src/",
+            "WyriHaximus\\PhuninNode\\Tests": "tests/"
         }
     }
 }
