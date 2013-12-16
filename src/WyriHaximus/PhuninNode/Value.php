@@ -16,7 +16,12 @@ class Value {
     private $key;
     
     private $value;
-    
+
+	public function __construct($key, $value) {
+		$this->setKey($key);
+		$this->setValue($value);
+	}
+
     public function setKey($key) {
         $this->key = $key;
     }
