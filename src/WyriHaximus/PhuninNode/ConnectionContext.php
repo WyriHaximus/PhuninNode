@@ -12,6 +12,9 @@
 namespace WyriHaximus\PhuninNode;
 
 class ConnectionContext {
+
+	const GREETING = "# munin node at HOSTNAME\n";
+
     private $conn;
     private $node;
     private $commandMap = [];
@@ -29,7 +32,7 @@ class ConnectionContext {
         $this->commandMap['fetch'] = [$this, 'onFetch'];
         $this->commandMap['quit'] = [$this, 'onQuit'];
 
-		$this->conn->write("# munin node at HOSTNAME\n");
+		$this->conn->write(self::GREETING);
     }
     public function onData($data) {
         $data = trim($data);
