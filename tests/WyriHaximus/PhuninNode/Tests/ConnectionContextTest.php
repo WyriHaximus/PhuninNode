@@ -11,173 +11,164 @@
 
 namespace WyriHaximus\PhuninNode\Tests;
 
-class ConnectionContextTest extends AbstractConnectionContextTest {
-    
-    public function testIsUp() {
-        $i = 0;
-        
-        $this->conn->on('data', function ($data) use (&$i) {
-            switch ($i) {
-                case 0:
-                    $this->assertEquals("# munin node at HOSTNAME\n", $data);
-                    $this->conn->write('quit' . PHP_EOL);
-                    break;
-            }
-            $i++;
-        });
-        $this->loop->run();
-    }
-    
-    public function testVersion() {
-        $i = 0;
-        
-        $this->conn->on('data', function ($data) use (&$i) {
-            switch ($i) {
-                case 0:
-                    $this->assertEquals("# munin node at HOSTNAME\n", $data);
-                    $this->conn->write('version' . PHP_EOL);
-                    break;
-                case 1:
-                    $this->assertEquals("PhuninNode on HOSTNAME version: 0.3.0-DEV\n", $data);
-                    $this->conn->write('quit' . PHP_EOL);
-                    break;
-            }
-            $i++;
-        });
-        $this->loop->run();
-    }
-    
-    public function testList() {
-        $i = 0;
-        
-        $this->conn->on('data', function ($data) use (&$i) {
-            switch ($i) {
-                case 0:
-                    $this->assertEquals("# munin node at HOSTNAME\n", $data);
-                    $this->conn->write('list' . PHP_EOL);
-                    break;
-                case 1:
-                    $this->assertEquals("plugins plugins_categories memory_usage\n", $data);
-                    $this->conn->write('quit' . PHP_EOL);
-                    break;
-            }
-            $i++;
-        });
-        $this->loop->run();
-    }
-    
-    public function testConfig() {
-        $i = 0;
-        
-        $this->conn->on('data', function ($data) use (&$i) {
-            switch ($i) {
-                case 0:
-                    $this->assertEquals("# munin node at HOSTNAME\n", $data);
-                    $this->conn->write('config memory_usage' . PHP_EOL);
-                    break;
-                case 1:
-                    $this->assertEquals("graph_category phunin_node\ngraph_title Memory Usage\nmemory_usage.label Current Memory Usage\nmemory_peak_usage.label Peak Memory Usage\n.\n", $data);
-                    $this->conn->write('quit' . PHP_EOL);
-                    break;
-            }
-            $i++;
-        });
-        $this->loop->run();
-    }
-    
-    public function testFetch() {
-        $i = 0;
-        
-        $this->conn->on('data', function ($data) use (&$i) {
-            switch ($i) {
-                case 0:
-                    $this->assertEquals("# munin node at HOSTNAME\n", $data);
-                    $this->conn->write('fetch plugins_categories' . PHP_EOL);
-                    break;
-                case 1:
-                    $this->assertEquals("phunin_node.value 3\n.\n", $data);
-                    $this->conn->write('quit' . PHP_EOL);
-                    break;
-            }
-            $i++;
-        });
-        $this->loop->run();
-    }
-    
-    public function testNodes() {
-        $i = 0;
-        
-        $this->conn->on('data', function ($data) use (&$i) {
-            switch ($i) {
-                case 0:
-                    $this->assertEquals("# munin node at HOSTNAME\n", $data);
-                    $this->conn->write('nodes' . PHP_EOL);
-                    break;
-                case 1:
-                    $this->assertEquals("HOSTNAME\n", $data);
-                    $this->conn->write('quit' . PHP_EOL);
-                    break;
-            }
-            $i++;
-        });
-        $this->loop->run();
-    }
-    
-    public function testUnknownCommand() {
-        $i = 0;
-        
-        $this->conn->on('data', function ($data) use (&$i) {
-            switch ($i) {
-                case 0:
-                    $this->assertEquals("# munin node at HOSTNAME\n", $data);
-                    $this->conn->write('unknown_command' . PHP_EOL);
-                    break;
-                case 1:
-                    $this->assertEquals("# Unknown command. Try list, nodes, version, config, fetch or quit\n", $data);
-                    $this->conn->write('quit' . PHP_EOL);
-                    break;
-            }
-            $i++;
-        });
-        $this->loop->run();
-    }
-    
-    public function testConfigUnknownPlugin() {
-        $i = 0;
-        
-        $this->conn->on('data', function ($data) use (&$i) {
-            switch ($i) {
-                case 0:
-                    $this->assertEquals("# munin node at HOSTNAME\n", $data);
-                    $this->conn->write('config unknown_plugin' . PHP_EOL);
-                    break;
-                case 1:
-                    $this->assertTrue(false);
-                    break;
-            }
-            $i++;
-        });
-        $this->loop->run();
-        $this->assertTrue(true);
-    }
-    
-    public function testFetchUnknownPlugin() {
-        $i = 0;
-        
-        $this->conn->on('data', function ($data) use (&$i) {
-            switch ($i) {
-                case 0:
-                    $this->assertEquals("# munin node at HOSTNAME\n", $data);
-                    $this->conn->write('fetch unknown_plugin' . PHP_EOL);
-                    break;
-                case 1:
-                    $this->assertTrue(false);
-                    break;
-            }
-            $i++;
-        });
-        $this->loop->run();
-        $this->assertTrue(true);
-    }
-    
+class ConnectionContextTest extends \PHPUnit_Framework_TestCase {
+
+	public function setUp() {
+		$this->loop = $this->getMock('\React\EventLoop\StreamSelectLoop');
+		$this->socket = $this->getMock('\React\Socket\Server', [
+			'on',
+			'write',
+		], [
+			$this->loop,
+			'0.0.0.0',
+			12345
+		]);
+
+		$this->node = $this->getMock('\WyriHaximus\PhuninNode\Node', [
+			'getPlugins',
+			'getPlugin',
+			'getValues',
+		], [
+			$this->loop,
+			$this->socket,
+		]);
+
+		$this->plugins = new \SplObjectStorage();
+		$plugin = $this->getMock('\WyriHaximus\PhuninNode\Interfaces\Plugin', [
+			'getSlug',
+			'getConfiguration',
+			'setNode',
+			'getValues',
+		]);
+		$plugin->method('getSlug')
+			->willReturn('a');
+		$plugin->method('getConfiguration')
+			->will($this->returnCallback(function($resolver) {
+				$configuration = new \WyriHaximus\PhuninNode\PluginConfiguration();
+				$configuration->setPair('graph_category', 'a');
+				$resolver->resolve($configuration);
+			}));
+		$this->plugins->attach($plugin);
+	}
+
+	public function tearDown() {
+		unset($this->loop, $this->socket, $this->node, $this->plugins);
+	}
+
+	public function testConstruct() {
+		$connection = $this->getMock('\React\Socket\Connection', [
+			'on',
+			'write',
+		], [
+			$this->socket,
+			$this->loop,
+		]);
+
+		$connection->expects($this->at(0))
+			->method('on')
+			->with('data', $this->callback(function($callback) {
+				return $this->isInstanceOf('\WyriHaximus\PhuninNode\ConnectionContext', $callback[0]) && $this->identicalTo('onData', $callback[1]);
+			}));
+		$connection->expects($this->at(1))
+			->method('on')
+			->with('close', $this->callback(function($callback) {
+				return $this->isInstanceOf('\WyriHaximus\PhuninNode\ConnectionContext', $callback[0]) && $this->identicalTo('onClose', $callback[1]);
+			}));
+		$connection->expects($this->at(2))
+			->method('write')
+			->with("# munin node at HOSTNAME\n");
+
+		$connetionContext = new \WyriHaximus\PhuninNode\ConnectionContext($connection, $this->node);
+	}
+
+	public function testOnData() {
+		$this->node->expects($this->any())
+			->method('getPlugins')
+			->willReturn($this->plugins);
+		$this->plugins->rewind();
+		$this->node->expects($this->any())
+			->method('getPlugin')
+			->willReturn($this->plugins->current());
+		$this->plugins->current()
+			->method('getValues')
+			->will($this->returnCallback(function($deferredResolver) {
+				$values = new \SplObjectStorage;
+				$values->attach(new \WyriHaximus\PhuninNode\Value(1, 2));
+				$deferredResolver->resolve($values);
+			}));
+
+		$connection = $this->getMock('\React\Socket\Connection', [
+			'write',
+			'close',
+		], [
+			$this->socket,
+			$this->loop,
+		]);
+
+		$connection->expects($this->at(1))
+			->method('write')
+			->with("a\n");
+		$connection->expects($this->at(2))
+			->method('write')
+			->with("HOSTNAME\n");
+		$connection->expects($this->at(3))
+			->method('write')
+			->with("PhuninNode on HOSTNAME version: 0.3.0-DEV\n");
+		$connection->expects($this->at(4))
+			->method('close');
+		$connection->expects($this->at(5))
+			->method('close');
+
+		$this->node->expects($this->any())
+			->method('resolverFactory')
+			->will($this->returnCallback(function($callback) {
+				$resolver = new \React\Promise\Deferred();
+				$resolver->promise()->then($callback);
+				return $resolver;
+			}));
+
+		$connection->expects($this->at(6))
+			->method('write')
+			->with(".\n");
+		$connection->expects($this->at(7))
+			->method('write')
+			->with("graph_category a\n");
+		$connection->expects($this->at(8))
+			->method('write')
+			->with(".\n");
+		$connection->expects($this->at(9))
+			->method('close');
+		$connection->expects($this->at(10))
+			->method('close');
+		$connection->expects($this->at(11))
+			->method('write')
+			->with(".\n");
+		$connection->expects($this->at(12))
+			->method('write')
+			->with("1.value 2\n");
+		$connection->expects($this->at(13))
+			->method('write')
+			->with(".\n");
+		$connection->expects($this->at(14))
+			->method('close');
+		$connection->expects($this->at(15))
+			->method('write')
+			->with("# Unknown command. Try list, nodes, version, config, fetch or quit\n");
+
+
+		$connetionContext = new \WyriHaximus\PhuninNode\ConnectionContext($connection, $this->node);
+
+		$connetionContext->onData("list\n");
+		$connetionContext->onData("nodes\n");
+		$connetionContext->onData("version\n");
+		$connetionContext->onData("config\n");
+		$connetionContext->onData("config b\n");
+		$connetionContext->onData("config a\n");
+		$connetionContext->onData("fetch\n");
+		$connetionContext->onData("fetch b\n");
+		$connetionContext->onData("fetch a\n");
+		$connetionContext->onData("quit\n");
+		$connetionContext->onData("skjargyefw\n");
+	}
+
 }

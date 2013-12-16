@@ -40,7 +40,7 @@ class ConnectionContext {
         $data = trim($data);
         list($command) = explode(' ', $data);
         if (isset($this->commandMap[$command])) {
-            call_user_func_array($this->commandMap[$command], array($data));
+            call_user_func_array($this->commandMap[$command], [$data]);
         } else {
             $list = implode(', ', array_keys($this->commandMap));
             $this->conn->write('# Unknown command. Try ' . substr_replace($list, ' or ', strrpos($list, ', '), 2) . "\n");
@@ -64,33 +64,51 @@ class ConnectionContext {
     }
 
 	public function onConfig($data) {
-        list(, $resource) = explode(' ', $data);
-        $plugin = $this->node->getPlugin($resource);
-        if ($plugin !== false) {
-            $deferred = new \React\Promise\Deferred();
-            $deferred->promise()->then(function($configuration) {
-                foreach ($configuration->getPairs() as $pair) {
-                    $this->conn->write($pair->getKey() . ' ' . $pair->getValue() . "\n");
-                }
-                $this->conn->write(".\n");
-            });
-            $plugin->getConfiguration($deferred->resolver());
-        } else {
-            $this->conn->close();
-        }
+        $data = explode(' ', $data);
+
+		if (!isset($data[1])) {
+			$this->conn->close();
+			return;
+		}
+
+        $plugin = $this->node->getPlugin(trim($data[1]));
+
+		if ($plugin === false) {
+			$this->conn->close();
+			return;
+		}
+
+		$deferred = $this->node->resolverFactory(function($configuration) {
+			foreach ($configuration->getPairs() as $pair) {
+				$this->conn->write($pair->getKey() . ' ' . $pair->getValue() . "\n");
+			}
+			$this->conn->write(".\n");
+		});
+		$plugin->getConfiguration($deferred->resolver());
     }
 
 	public function onFetch($data) {
-        list(, $resource) = explode(' ', $data);
-        $plugin = $this->node->getPlugin($resource);
+		$data = explode(' ', $data);
+
+		if (!isset($data[1])) {
+			$this->conn->close();
+			return;
+		}
+
+		$plugin = $this->node->getPlugin(trim($data[1]));
+
+		if ($plugin === false) {
+			$this->conn->close();
+			return;
+		}
+
         if ($plugin !== false) {
-            $deferred = new \React\Promise\Deferred();
-            $deferred->promise()->then(function($values) {
-                foreach ($values as $value) {
-                    $this->conn->write($value->getKey() . '.value ' . str_replace(',', '.', $value->getValue()) . "\n");
-                }
-                $this->conn->write(".\n");
-            });
+			$deferred = $this->node->resolverFactory(function($values) {
+				foreach ($values as $value) {
+					$this->conn->write($value->getKey() . '.value ' . str_replace(',', '.', $value->getValue()) . "\n");
+				}
+				$this->conn->write(".\n");
+			});
             $plugin->getValues($deferred->resolver());
         } else {
             $this->conn->close();
