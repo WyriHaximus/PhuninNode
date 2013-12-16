@@ -19,13 +19,9 @@ class ConnectionContext {
         $this->conn = $conn;
         $this->node = $node;
         $this->conn->write("# munin node at HOSTNAME\n");
-        
-        $this->conn->on('data', function($data) {
-            $this->onData($data);
-        });
-        $this->conn->on('close', function($data) {
-            $this->onClose($data);
-        });
+
+		$this->conn->on('data', [$this, 'onData']);
+		$this->conn->on('close', [$this, 'onClose']);
         
         $this->commandMap['list'] = [$this, 'onList'];
         $this->commandMap['nodes'] = [$this, 'onNodes'];
@@ -34,7 +30,7 @@ class ConnectionContext {
         $this->commandMap['fetch'] = [$this, 'onFetch'];
         $this->commandMap['quit'] = [$this, 'onQuit'];
     }
-    private function onData($data) {
+    public function onData($data) {
         $data = trim($data);
         list($command) = explode(' ', $data);
         if (isset($this->commandMap[$command])) {
@@ -44,24 +40,24 @@ class ConnectionContext {
             $this->conn->write('# Unknown command. Try ' . substr_replace($list, ' or ', strrpos($list, ', '), 2) . "\n");
         }
     }
-    
-    private function onList($data) {
+
+	public function onList($data) {
         $list = [];
         foreach ($this->node->getPlugins() as $plugin) {
             $list[] = $plugin->getSlug();
         }
         $this->conn->write(implode(' ', $list) . "\n");
     }
-    
-    private function onNodes($data) {
+
+	public function onNodes($data) {
         $this->conn->write(implode(' ', ['HOSTNAME']) . "\n");
     }
-    
-    private function onVersion($data) {
+
+	public function onVersion($data) {
         $this->conn->write('PhuninNode on HOSTNAME version: ' . Node::VERSION . "\n");
     }
-    
-    private function onConfig($data) {
+
+	public function onConfig($data) {
         list(, $resource) = explode(' ', $data);
         $plugin = $this->node->getPlugin($resource);
         if ($plugin !== false) {
@@ -77,8 +73,8 @@ class ConnectionContext {
             $this->conn->close();
         }
     }
-    
-    private function onFetch($data) {
+
+	public function onFetch($data) {
         list(, $resource) = explode(' ', $data);
         $plugin = $this->node->getPlugin($resource);
         if ($plugin !== false) {
@@ -94,12 +90,12 @@ class ConnectionContext {
             $this->conn->close();
         }
     }
-    
-    private function onQuit($data) {
+
+	public function onQuit($data) {
         $this->conn->close();
     }
-    
-    private function onClose() {
+
+	public function onClose() {
         $this->node->onClose($this);
     }
 }
