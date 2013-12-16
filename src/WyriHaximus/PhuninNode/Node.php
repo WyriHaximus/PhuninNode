@@ -21,7 +21,7 @@ class Node {
     private $plugins;
     private $connections;
     
-    public function __construct($loop, $socket) {
+    public function __construct(\React\EventLoop\LoopInterface $loop, \React\Socket\Server $socket) {
         $this->loop = $loop;
 		$this->socket = $socket;
             
