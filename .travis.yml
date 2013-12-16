@@ -7,7 +7,7 @@ branches:
     - master
 before_script:
   - composer install
-script: phpunit --coverage-text --coverage-clover ./build/logs/clover.xml
+script: php vendor/bin/phpunit --coverage-text --coverage-clover ./build/logs/clover.xml
 notifications:
   webhooks:
     urls: 
