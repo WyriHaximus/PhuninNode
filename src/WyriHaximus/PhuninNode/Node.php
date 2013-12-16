@@ -64,5 +64,11 @@ class Node {
         
         return false;
     }
+
+	public function resolverFactory($callback) {
+		$resolver = new \React\Promise\Deferred();
+		$resolver->promise()->then($callback);
+		return $resolver;
+	}
     
 }
