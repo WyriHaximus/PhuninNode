@@ -18,17 +18,18 @@ class ConnectionContext {
     public function __construct(\React\Socket\Connection $conn, Node $node) {
         $this->conn = $conn;
         $this->node = $node;
-        $this->conn->write("# munin node at HOSTNAME\n");
 
 		$this->conn->on('data', [$this, 'onData']);
 		$this->conn->on('close', [$this, 'onClose']);
-        
+
         $this->commandMap['list'] = [$this, 'onList'];
         $this->commandMap['nodes'] = [$this, 'onNodes'];
         $this->commandMap['version'] = [$this, 'onVersion'];
         $this->commandMap['config'] = [$this, 'onConfig'];
         $this->commandMap['fetch'] = [$this, 'onFetch'];
         $this->commandMap['quit'] = [$this, 'onQuit'];
+
+		$this->conn->write("# munin node at HOSTNAME\n");
     }
     public function onData($data) {
         $data = trim($data);
