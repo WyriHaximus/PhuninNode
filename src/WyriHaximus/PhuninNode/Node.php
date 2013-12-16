@@ -52,6 +52,10 @@ class Node {
     public function getPlugins() {
         return $this->plugins;
     }
+
+    public function getConnections() {
+        return $this->connections;
+    }
     
     public function getPlugin($slug) {
         $this->plugins->rewind();
