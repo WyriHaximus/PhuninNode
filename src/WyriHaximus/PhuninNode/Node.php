@@ -49,7 +49,7 @@ class Node {
         $this->plugins->attach($plugin);
     }
     
-    public function getPLugins() {
+    public function getPlugins() {
         return $this->plugins;
     }
     
