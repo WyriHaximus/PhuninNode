@@ -14,8 +14,10 @@ namespace WyriHaximus\PhuninNode\Tests\Plugins;
 class PluginsTest extends AbstractPluginTest {
     
     public function setUp() {
+		$this->plugin = new \WyriHaximus\PhuninNode\Plugins\Plugins();
+
         parent::setUp();
-        $this->plugin = new \WyriHaximus\PhuninNode\Plugins\Plugins();
+
         $this->node->addPlugin($this->plugin);
     }
     
