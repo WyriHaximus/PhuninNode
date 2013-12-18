@@ -28,7 +28,7 @@ Installation is easy with composer just add PhuninNode to your composer.json.
 $loop = \React\EventLoop\Factory::create();
 
 // Create a socket
-$socket = new \React\Socket\Server($this->loop);
+$socket = new \React\Socket\Server($loop);
 $socket->listen(12345, '0.0.0.0');
 
 // Bind to IP and port
