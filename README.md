@@ -44,7 +44,7 @@ $node->addPlugin(new \WyriHaximus\PhuninNode\Plugins\Uptime());
 $loop->run();
 ```
 
-## Todo ##
+## Ideas ##
 
 - Async support
 - Further work out munin protocol support
