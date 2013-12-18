@@ -115,7 +115,7 @@ class ConnectionContext {
         }
     }
 
-	public function onQuit($data) {
+	public function onQuit() {
         $this->conn->close();
     }
 
