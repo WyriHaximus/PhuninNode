@@ -47,7 +47,7 @@ class ConnectionContext {
         }
     }
 
-	public function onList($data) {
+	public function onList() {
         $list = [];
         foreach ($this->node->getPlugins() as $plugin) {
             $list[] = $plugin->getSlug();
@@ -55,11 +55,11 @@ class ConnectionContext {
         $this->conn->write(implode(' ', $list) . "\n");
     }
 
-	public function onNodes($data) {
+	public function onNodes() {
         $this->conn->write(implode(' ', ['HOSTNAME']) . "\n");
     }
 
-	public function onVersion($data) {
+	public function onVersion() {
         $this->conn->write('PhuninNode on HOSTNAME version: ' . Node::VERSION . "\n");
     }
 
