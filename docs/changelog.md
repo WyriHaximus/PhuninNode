@@ -1,16 +1,16 @@
 # Changelog #
 
 ## 0.2.3 ##
-- Unknown
+- React bumped to 0.3
 
 ## 0.2.2 ##
-- Unknown
+- Bumped minimum PHP 5.4
 
 ## 0.2.1 ##
-- Unknown
+- Missing version tag
 
 ## 0.2.0 ##
-- Unknown
+- Connection overhaul
 
 ## 0.1.1 ##
 - composer.lock was missing
