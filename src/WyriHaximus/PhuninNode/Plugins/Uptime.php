@@ -11,7 +11,7 @@
 
 namespace WyriHaximus\PhuninNode\Plugins;
 
-class Uptime implements \WyriHaximus\PhuninNode\Interfaces\Plugin {
+class Uptime implements \WyriHaximus\PhuninNode\PluginInterface {
     
     const DAY_IN_SECONDS = 86400;
     

@@ -11,7 +11,7 @@
 
 namespace WyriHaximus\PhuninNode\Plugins;
 
-class PluginsCategories implements \WyriHaximus\PhuninNode\Interfaces\Plugin {
+class PluginsCategories implements \WyriHaximus\PhuninNode\PluginInterface {
     private $node;
     private $categories = [];
     private $values = [];

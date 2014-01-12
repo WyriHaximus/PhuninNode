@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace WyriHaximus\PhuninNode\Interfaces;
+namespace WyriHaximus\PhuninNode;
 
-interface Plugin {
+interface PluginInterface {
     public function setNode(\WyriHaximus\PhuninNode\Node $node);
     public function getSlug();
     public function getConfiguration(\React\Promise\DeferredResolver $deferredResolver);

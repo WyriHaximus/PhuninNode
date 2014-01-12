@@ -11,7 +11,7 @@
 
 namespace WyriHaximus\PhuninNode\Plugins;
 
-class MemoryUsage implements \WyriHaximus\PhuninNode\Interfaces\Plugin {
+class MemoryUsage implements \WyriHaximus\PhuninNode\PluginInterface {
     private $node;
     private $configuration;
     public function setNode(\WyriHaximus\PhuninNode\Node $node) {

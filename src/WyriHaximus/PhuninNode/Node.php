@@ -43,7 +43,7 @@ class Node {
         $this->connections->detach($connection);
     }
     
-    public function addPlugin(\WyriHaximus\PhuninNode\Interfaces\Plugin $plugin) {
+    public function addPlugin(\WyriHaximus\PhuninNode\PluginInterface $plugin) {
         $plugin->setNode($this);
         
         $this->plugins->attach($plugin);

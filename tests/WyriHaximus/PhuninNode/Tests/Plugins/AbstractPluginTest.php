@@ -41,7 +41,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase {
 		$this->plugin->setNode($this->node);
 
 		$this->plugins = new \SplObjectStorage();
-		$plugin = $this->getMock('\WyriHaximus\PhuninNode\Interfaces\Plugin', [
+		$plugin = $this->getMock('\WyriHaximus\PhuninNode\PluginInterface', [
 			'getSlug',
 			'getConfiguration',
 			'setNode',
@@ -66,7 +66,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase {
     
     public function testPlugin() {
         $classImplements = class_implements($this->plugin);
-        $this->assertTrue(isset($classImplements['WyriHaximus\PhuninNode\Interfaces\Plugin']));
+        $this->assertTrue(isset($classImplements['WyriHaximus\PhuninNode\PluginInterface']));
     }
     
     public function testGetConfiguration() {
