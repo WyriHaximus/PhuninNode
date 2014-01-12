@@ -1,5 +1,10 @@
 # Changelog #
 
+## 0.3.0 (Not released yet) ##
+- Redone all the test
+- PSR-2 For the sake of using a standard
+- PSR-4 For autoloading
+
 ## 0.2.3 ##
 - React bumped to 0.3
 
@@ -10,7 +15,7 @@
 - Missing version tag
 
 ## 0.2.0 ##
-- Connection overhaul
+- Connection overhaul into ConnectionContext
 
 ## 0.1.1 ##
 - composer.lock was missing
