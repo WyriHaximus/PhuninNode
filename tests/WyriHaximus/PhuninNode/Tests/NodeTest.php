@@ -25,7 +25,7 @@ class NodeTest extends \PHPUnit_Framework_TestCase {
 		]);
 
 		$this->plugins = new \SplObjectStorage();
-		$plugin = $this->getMock('\WyriHaximus\PhuninNode\Interfaces\Plugin', [
+		$plugin = $this->getMock('\WyriHaximus\PhuninNode\PluginInterface', [
 			'getSlug',
 			'getConfiguration',
 			'setNode',
