@@ -11,14 +11,16 @@
 
 namespace WyriHaximus\PhuninNode\Tests\Plugins;
 
-class UptimeTest extends AbstractPluginTest {
-    
-    public function setUp() {
-		$this->plugin = new \WyriHaximus\PhuninNode\Plugins\Uptime();
+class UptimeTest extends AbstractPluginTest
+{
+
+    public function setUp()
+    {
+        $this->plugin = new \WyriHaximus\PhuninNode\Plugins\Uptime();
 
         parent::setUp();
 
         $this->node->addPlugin($this->plugin);
     }
-    
+
 }

@@ -11,15 +11,16 @@
 
 namespace WyriHaximus\PhuninNode\Tests;
 
-class PluginConfigurationTest extends \PHPUnit_Framework_TestCase {
-    
+class PluginConfigurationTest extends \PHPUnit_Framework_TestCase
+{
+
     private $Value;
-    
+
     private $testData = [
         [
             'key' => 'a',
             'value' => 1,
-		],
+        ],
         [
             'key' => 'b',
             'value' => 2,
@@ -36,14 +37,16 @@ class PluginConfigurationTest extends \PHPUnit_Framework_TestCase {
             'key' => 'e',
             'value' => 5,
         ],
-	];
-    
-    public function setUp() {
+    ];
+
+    public function setUp()
+    {
         parent::setUp();
         $this->PluginConfiguration = new \WyriHaximus\PhuninNode\PluginConfiguration();
     }
-    
-    public function testPairs() {
+
+    public function testPairs()
+    {
         $this->assertEquals(0, count($this->PluginConfiguration->getPairs()));
         for ($i = 0; $i < count($this->testData); $i++) {
             $this->PluginConfiguration->setPair($this->testData[$i]['key'], $this->testData[$i]['value']);
@@ -54,10 +57,11 @@ class PluginConfigurationTest extends \PHPUnit_Framework_TestCase {
             $this->assertEquals($this->testData[$i]['value'], $pair->getValue());
         }
     }
-    
-    public function tearDown() {
+
+    public function tearDown()
+    {
         unset($this->PluginConfiguration);
         parent::tearDown();
     }
-    
+
 }

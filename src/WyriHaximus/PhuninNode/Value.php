@@ -11,30 +11,36 @@
 
 namespace WyriHaximus\PhuninNode;
 
-class Value {
+class Value
+{
 
     private $key;
-    
+
     private $value;
 
-	public function __construct($key = null, $value = null) {
-		$this->setKey($key);
-		$this->setValue($value);
-	}
+    public function __construct($key = null, $value = null)
+    {
+        $this->setKey($key);
+        $this->setValue($value);
+    }
 
-    public function setKey($key) {
+    public function setKey($key)
+    {
         $this->key = $key;
     }
-    
-    public function getKey() {
+
+    public function getKey()
+    {
         return $this->key;
     }
-    
-    public function setValue($value) {
+
+    public function setValue($value)
+    {
         $this->value = $value;
     }
-    
-    public function getValue() {
+
+    public function getValue()
+    {
         return $this->value;
     }
 }

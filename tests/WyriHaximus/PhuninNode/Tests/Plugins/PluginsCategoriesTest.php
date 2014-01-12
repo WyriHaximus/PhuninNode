@@ -11,14 +11,16 @@
 
 namespace WyriHaximus\PhuninNode\Tests\Plugins;
 
-class PluginsCategoriesTest extends AbstractPluginTest {
-    
-    public function setUp() {
-		$this->plugin = new \WyriHaximus\PhuninNode\Plugins\PluginsCategories();
+class PluginsCategoriesTest extends AbstractPluginTest
+{
+
+    public function setUp()
+    {
+        $this->plugin = new \WyriHaximus\PhuninNode\Plugins\PluginsCategories();
 
         parent::setUp();
 
         $this->node->addPlugin($this->plugin);
     }
-    
+
 }

@@ -11,14 +11,16 @@
 
 namespace WyriHaximus\PhuninNode\Tests\Plugins;
 
-class MemoryUsageTest extends AbstractPluginTest {
-    
-    public function setUp() {
-		$this->plugin = new \WyriHaximus\PhuninNode\Plugins\MemoryUsage();
+class MemoryUsageTest extends AbstractPluginTest
+{
+
+    public function setUp()
+    {
+        $this->plugin = new \WyriHaximus\PhuninNode\Plugins\MemoryUsage();
 
         parent::setUp();
 
         $this->node->addPlugin($this->plugin);
     }
-    
+
 }

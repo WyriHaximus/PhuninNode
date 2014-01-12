@@ -11,32 +11,37 @@
 
 namespace WyriHaximus\PhuninNode\Plugins;
 
-class Uptime implements \WyriHaximus\PhuninNode\PluginInterface {
-    
+class Uptime implements \WyriHaximus\PhuninNode\PluginInterface
+{
+
     const DAY_IN_SECONDS = 86400;
-    
+
     private $node;
     private $configuration;
     private $startTime = 0;
-    
-    public function __construct() {
+
+    public function __construct()
+    {
         $this->startTime = time();
     }
-    
-    public function setNode(\WyriHaximus\PhuninNode\Node $node) {
+
+    public function setNode(\WyriHaximus\PhuninNode\Node $node)
+    {
         $this->node = $node;
     }
-    
-    public function getSlug() {
+
+    public function getSlug()
+    {
         return 'uptime';
     }
-    
-    public function getConfiguration(\React\Promise\DeferredResolver $deferredResolver) {
+
+    public function getConfiguration(\React\Promise\DeferredResolver $deferredResolver)
+    {
         if ($this->configuration instanceof \WyriHaximus\PhuninNode\PluginConfiguration) {
             $deferredResolver->resolve($this->configuration);
             return;
         }
-        
+
         $this->configuration = new \WyriHaximus\PhuninNode\PluginConfiguration();
         $this->configuration->setPair('graph_category', 'phunin_node');
         $this->configuration->setPair('graph_title', 'Uptime');
@@ -44,17 +49,19 @@ class Uptime implements \WyriHaximus\PhuninNode\PluginInterface {
         $this->configuration->setPair('graph_vlabel', 'uptime in days');
         $this->configuration->setPair('uptime.label', 'uptime');
         $this->configuration->setPair('uptime.draw', 'AREA');
-        
+
         $deferredResolver->resolve($this->configuration);
     }
-    
-    public function getValues(\React\Promise\DeferredResolver $deferredResolver) {
+
+    public function getValues(\React\Promise\DeferredResolver $deferredResolver)
+    {
         $values = new \SplObjectStorage;
         $values->attach($this->getUptimeValue());
         $deferredResolver->resolve($values);
     }
-    
-    private function getUptimeValue() {
+
+    private function getUptimeValue()
+    {
         $value = new \WyriHaximus\PhuninNode\Value();
         $value->setKey('uptime');
         $value->setValue(round(((time() - $this->startTime) / self::DAY_IN_SECONDS), 2));

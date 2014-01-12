@@ -11,9 +11,13 @@
 
 namespace WyriHaximus\PhuninNode;
 
-interface PluginInterface {
+interface PluginInterface
+{
     public function setNode(\WyriHaximus\PhuninNode\Node $node);
+
     public function getSlug();
+
     public function getConfiguration(\React\Promise\DeferredResolver $deferredResolver);
+
     public function getValues(\React\Promise\DeferredResolver $deferredResolver);
 }

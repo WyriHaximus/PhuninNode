@@ -11,20 +11,22 @@
 
 namespace WyriHaximus\PhuninNode;
 
-class ConnectionContext {
+class ConnectionContext
+{
 
-	const GREETING = "# munin node at HOSTNAME\n";
+    const GREETING = "# munin node at HOSTNAME\n";
 
     private $conn;
     private $node;
     private $commandMap = [];
 
-    public function __construct(\React\Socket\Connection $conn, Node $node) {
+    public function __construct(\React\Socket\Connection $conn, Node $node)
+    {
         $this->conn = $conn;
         $this->node = $node;
 
-		$this->conn->on('data', [$this, 'onData']);
-		$this->conn->on('close', [$this, 'onClose']);
+        $this->conn->on('data', [$this, 'onData']);
+        $this->conn->on('close', [$this, 'onClose']);
 
         $this->commandMap['list'] = [$this, 'onList'];
         $this->commandMap['nodes'] = [$this, 'onNodes'];
@@ -33,21 +35,25 @@ class ConnectionContext {
         $this->commandMap['fetch'] = [$this, 'onFetch'];
         $this->commandMap['quit'] = [$this, 'onQuit'];
 
-		$this->conn->write(self::GREETING);
+        $this->conn->write(self::GREETING);
     }
 
-    public function onData($data) {
+    public function onData($data)
+    {
         $data = trim($data);
         list($command) = explode(' ', $data);
         if (isset($this->commandMap[$command])) {
             call_user_func_array($this->commandMap[$command], [$data]);
         } else {
             $list = implode(', ', array_keys($this->commandMap));
-            $this->conn->write('# Unknown command. Try ' . substr_replace($list, ' or ', strrpos($list, ', '), 2) . "\n");
+            $this->conn->write(
+                '# Unknown command. Try ' . substr_replace($list, ' or ', strrpos($list, ', '), 2) . "\n"
+            );
         }
     }
 
-	public function onList() {
+    public function onList()
+    {
         $list = [];
         foreach ($this->node->getPlugins() as $plugin) {
             $list[] = $plugin->getSlug();
@@ -55,71 +61,83 @@ class ConnectionContext {
         $this->conn->write(implode(' ', $list) . "\n");
     }
 
-	public function onNodes() {
+    public function onNodes()
+    {
         $this->conn->write(implode(' ', ['HOSTNAME']) . "\n");
     }
 
-	public function onVersion() {
+    public function onVersion()
+    {
         $this->conn->write('PhuninNode on HOSTNAME version: ' . Node::VERSION . "\n");
     }
 
-	public function onConfig($data) {
+    public function onConfig($data)
+    {
         $data = explode(' ', $data);
 
-		if (!isset($data[1])) {
-			$this->conn->close();
-			return;
-		}
+        if (!isset($data[1])) {
+            $this->conn->close();
+            return;
+        }
 
         $plugin = $this->node->getPlugin(trim($data[1]));
 
-		if ($plugin === false) {
-			$this->conn->close();
-			return;
-		}
+        if ($plugin === false) {
+            $this->conn->close();
+            return;
+        }
 
-		$deferred = $this->node->resolverFactory(function($configuration) {
-			foreach ($configuration->getPairs() as $pair) {
-				$this->conn->write($pair->getKey() . ' ' . $pair->getValue() . "\n");
-			}
-			$this->conn->write(".\n");
-		});
-		$plugin->getConfiguration($deferred->resolver());
+        $deferred = $this->node->resolverFactory(
+            function ($configuration) {
+                foreach ($configuration->getPairs() as $pair) {
+                    $this->conn->write($pair->getKey() . ' ' . $pair->getValue() . "\n");
+                }
+                $this->conn->write(".\n");
+            }
+        );
+        $plugin->getConfiguration($deferred->resolver());
     }
 
-	public function onFetch($data) {
-		$data = explode(' ', $data);
+    public function onFetch($data)
+    {
+        $data = explode(' ', $data);
 
-		if (!isset($data[1])) {
-			$this->conn->close();
-			return;
-		}
+        if (!isset($data[1])) {
+            $this->conn->close();
+            return;
+        }
 
-		$plugin = $this->node->getPlugin(trim($data[1]));
+        $plugin = $this->node->getPlugin(trim($data[1]));
 
-		if ($plugin === false) {
-			$this->conn->close();
-			return;
-		}
+        if ($plugin === false) {
+            $this->conn->close();
+            return;
+        }
 
         if ($plugin !== false) {
-			$deferred = $this->node->resolverFactory(function($values) {
-				foreach ($values as $value) {
-					$this->conn->write($value->getKey() . '.value ' . str_replace(',', '.', $value->getValue()) . "\n");
-				}
-				$this->conn->write(".\n");
-			});
+            $deferred = $this->node->resolverFactory(
+                function ($values) {
+                    foreach ($values as $value) {
+                        $this->conn->write(
+                            $value->getKey() . '.value ' . str_replace(',', '.', $value->getValue()) . "\n"
+                        );
+                    }
+                    $this->conn->write(".\n");
+                }
+            );
             $plugin->getValues($deferred->resolver());
         } else {
             $this->conn->close();
         }
     }
 
-	public function onQuit() {
+    public function onQuit()
+    {
         $this->conn->close();
     }
 
-	public function onClose() {
+    public function onClose()
+    {
         $this->node->onClose($this);
     }
 }

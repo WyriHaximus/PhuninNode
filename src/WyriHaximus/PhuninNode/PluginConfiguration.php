@@ -11,23 +11,26 @@
 
 namespace WyriHaximus\PhuninNode;
 
-class PluginConfiguration {
-    
+class PluginConfiguration
+{
+
     private $pairs = [];
-    
-    public function setPair($key, $value) {
+
+    public function setPair($key, $value)
+    {
         $pair = new Value();
         $pair->setKey($key);
         $pair->setValue($value);
         $this->pairs[$key] = $pair;
     }
-    
-    public function getPair($key) {
+
+    public function getPair($key)
+    {
         return $this->pairs[$key];
     }
-    
-    public function getPairs() {
+
+    public function getPairs()
+    {
         return $this->pairs;
     }
-    
 }

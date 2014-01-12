@@ -11,68 +11,77 @@
 
 namespace WyriHaximus\PhuninNode;
 
-class Node {
-    
+class Node
+{
+
     const VERSION = '0.3.0-DEV';
 
     private $loop;
     private $socket;
-    
+
     private $plugins;
     private $connections;
-    
-    public function __construct(\React\EventLoop\LoopInterface $loop, \React\Socket\Server $socket) {
+
+    public function __construct(\React\EventLoop\LoopInterface $loop, \React\Socket\Server $socket)
+    {
         $this->loop = $loop;
-		$this->socket = $socket;
-            
+        $this->socket = $socket;
+
         $this->plugins = new \SplObjectStorage;
         $this->connections = new \SplObjectStorage;
-        
+
         $this->socket->on('connection', [$this, 'onConnection']);
     }
-    
-    public function shutdown() {
+
+    public function shutdown()
+    {
         $this->socket->shutdown();
     }
-    
-    public function onConnection(\React\Socket\Connection $conn) {
+
+    public function onConnection(\React\Socket\Connection $conn)
+    {
         $this->connections->attach(new ConnectionContext($conn, $this));
     }
-    
-    public function onClose($connection) {
+
+    public function onClose($connection)
+    {
         $this->connections->detach($connection);
     }
-    
-    public function addPlugin(\WyriHaximus\PhuninNode\PluginInterface $plugin) {
+
+    public function addPlugin(\WyriHaximus\PhuninNode\PluginInterface $plugin)
+    {
         $plugin->setNode($this);
-        
+
         $this->plugins->attach($plugin);
     }
-    
-    public function getPlugins() {
+
+    public function getPlugins()
+    {
         return $this->plugins;
     }
 
-    public function getConnections() {
+    public function getConnections()
+    {
         return $this->connections;
     }
-    
-    public function getPlugin($slug) {
+
+    public function getPlugin($slug)
+    {
         $this->plugins->rewind();
-        while($this->plugins->valid()) {
+        while ($this->plugins->valid()) {
             if ($this->plugins->current()->getSlug() == $slug) {
                 return $this->plugins->current();
             }
             $this->plugins->next();
         }
-        
+
         return false;
     }
 
-	public function resolverFactory($callback) {
-		$resolver = new \React\Promise\Deferred();
-		$resolver->promise()->then($callback);
-		return $resolver;
-	}
-    
+    public function resolverFactory($callback)
+    {
+        $resolver = new \React\Promise\Deferred();
+        $resolver->promise()->then($callback);
+        return $resolver;
+    }
 }

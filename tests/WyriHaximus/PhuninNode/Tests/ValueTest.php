@@ -11,36 +11,42 @@
 
 namespace WyriHaximus\PhuninNode\Tests;
 
-class ValueTest extends \PHPUnit_Framework_TestCase {
-    
+class ValueTest extends \PHPUnit_Framework_TestCase
+{
+
     private $Value;
-    
-    public function setUp() {
+
+    public function setUp()
+    {
         parent::setUp();
         $this->Value = new \WyriHaximus\PhuninNode\Value();
     }
-    
-    public function testConstruct() {
-		$this->Value = new \WyriHaximus\PhuninNode\Value(1, 2);
+
+    public function testConstruct()
+    {
+        $this->Value = new \WyriHaximus\PhuninNode\Value(1, 2);
         $this->assertEquals(1, $this->Value->getKey());
-		$this->assertEquals(2, $this->Value->getValue());
+        $this->assertEquals(2, $this->Value->getValue());
     }
 
-    public function testKey() {
+    public function testKey()
+    {
         $this->assertEquals(null, $this->Value->getKey());
         $this->Value->setKey(true);
         $this->assertEquals(true, $this->Value->getKey());
     }
-    
-    public function testValue() {
+
+    public function testValue()
+    {
         $this->assertEquals(null, $this->Value->getValue());
         $this->Value->setValue(true);
         $this->assertEquals(true, $this->Value->getValue());
     }
-    
-    public function tearDown() {
+
+    public function tearDown()
+    {
         unset($this->Value);
         parent::tearDown();
     }
-    
+
 }
