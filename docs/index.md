@@ -21,8 +21,12 @@ Installation is easy with composer just add PhuninNode to your composer.json.
 // Create eventloop
 $loop = \React\EventLoop\Factory::create();
 
+// Create a socket
+$socket = new \React\Socket\Server($loop);
+$socket->listen(12345, '0.0.0.0');
+
 // Bind to IP and port
-$node = new \WyriHaximus\PhuninNode\Node($loop, 12345, '0.0.0.0');
+$node = new \WyriHaximus\PhuninNode\Node($loop, $socket);
 
 // Add plugins
 $node->addPlugin(new \WyriHaximus\PhuninNode\Plugins\Plugins());
