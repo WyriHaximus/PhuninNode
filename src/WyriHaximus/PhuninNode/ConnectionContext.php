@@ -11,15 +11,36 @@
 
 namespace WyriHaximus\PhuninNode;
 
+/**
+ * Class ConnectionContext
+ * @package WyriHaximus\PhuninNode
+ */
 class ConnectionContext
 {
-
+    /**
+     * The greeting munin expects
+     */
     const GREETING = "# munin node at HOSTNAME\n";
 
+    /**
+     * @var \React\Socket\Connection
+     */
     private $conn;
+
+    /**
+     * @var Node
+     */
     private $node;
+
+    /**
+     * @var array
+     */
     private $commandMap = [];
 
+    /**
+     * @param \React\Socket\Connection $conn
+     * @param Node $node
+     */
     public function __construct(\React\Socket\Connection $conn, Node $node)
     {
         $this->conn = $conn;
@@ -38,6 +59,11 @@ class ConnectionContext
         $this->conn->write(self::GREETING);
     }
 
+    /**
+     * Handle a command call from the clients side
+     *
+     * @param string $data
+     */
     public function onData($data)
     {
         $data = trim($data);
@@ -52,6 +78,9 @@ class ConnectionContext
         }
     }
 
+    /**
+     * List all plugins
+     */
     public function onList()
     {
         $list = [];
@@ -61,16 +90,27 @@ class ConnectionContext
         $this->conn->write(implode(' ', $list) . "\n");
     }
 
+    /**
+     * List all connected nodes (for now only localhost)
+     */
     public function onNodes()
     {
         $this->conn->write(implode(' ', ['HOSTNAME']) . "\n");
     }
 
+    /**
+     * Respond with the current version
+     */
     public function onVersion()
     {
         $this->conn->write('PhuninNode on HOSTNAME version: ' . Node::VERSION . "\n");
     }
 
+    /**
+     * Return the configuration for the given plugin
+     *
+     * @param string $data
+     */
     public function onConfig($data)
     {
         $data = explode(' ', $data);
@@ -98,6 +138,11 @@ class ConnectionContext
         $plugin->getConfiguration($deferred->resolver());
     }
 
+    /**
+     * Fetch data for the given plugin
+     *
+     * @param string $data
+     */
     public function onFetch($data)
     {
         $data = explode(' ', $data);
@@ -131,11 +176,17 @@ class ConnectionContext
         }
     }
 
+    /**
+     * Close connection
+     */
     public function onQuit()
     {
         $this->conn->close();
     }
 
+    /**
+     * Close connection
+     */
     public function onClose()
     {
         $this->node->onClose($this);

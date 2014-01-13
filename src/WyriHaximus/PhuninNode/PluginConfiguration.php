@@ -11,11 +11,22 @@
 
 namespace WyriHaximus\PhuninNode;
 
+/**
+ * Class PluginConfiguration
+ * @package WyriHaximus\PhuninNode
+ */
 class PluginConfiguration
 {
 
+    /**
+     * @var array
+     */
     private $pairs = [];
 
+    /**
+     * @param $key
+     * @param $value
+     */
     public function setPair($key, $value)
     {
         $pair = new Value();
@@ -24,11 +35,18 @@ class PluginConfiguration
         $this->pairs[$key] = $pair;
     }
 
+    /**
+     * @param string $key
+     * @return mixed
+     */
     public function getPair($key)
     {
         return $this->pairs[$key];
     }
 
+    /**
+     * @return array
+     */
     public function getPairs()
     {
         return $this->pairs;

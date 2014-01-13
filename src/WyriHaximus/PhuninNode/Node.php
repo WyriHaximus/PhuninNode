@@ -11,18 +11,51 @@
 
 namespace WyriHaximus\PhuninNode;
 
+use \React\EventLoop\LoopInterface;
+use \React\Socket\Server as Socket;
+use \React\Socket\Connection;
+
+/**
+ * Class Node
+ * @package WyriHaximus\PhuninNode
+ */
 class Node
 {
 
+    /**
+     * Current version of PhuninNode
+     */
     const VERSION = '0.3.0-DEV';
 
+    /**
+     * @var \React\EventLoop\LoopInterface
+     */
     private $loop;
+
+    /**
+     * @var \React\Socket\Server
+     */
     private $socket;
 
+    /**
+     * Collection of Plugins in use (PluginInterface)
+     *
+     * @var \SplObjectStorage
+     */
     private $plugins;
+
+    /**
+     * Collection of connected clients (ConnectionContext)
+     *
+     * @var \SplObjectStorage
+     */
     private $connections;
 
-    public function __construct(\React\EventLoop\LoopInterface $loop, \React\Socket\Server $socket)
+    /**
+     * @param \React\EventLoop\LoopInterface $loop
+     * @param \React\Socket\Server $socket The socket to bind on
+     */
+    public function __construct(LoopInterface $loop, Socket $socket)
     {
         $this->loop = $loop;
         $this->socket = $socket;
@@ -33,38 +66,70 @@ class Node
         $this->socket->on('connection', [$this, 'onConnection']);
     }
 
+    /**
+     * Shutdown Node and the underlying socket
+     */
     public function shutdown()
     {
         $this->socket->shutdown();
     }
 
-    public function onConnection(\React\Socket\Connection $conn)
+    /**
+     * @param Connection $conn
+     */
+    public function onConnection(Connection $conn)
     {
         $this->connections->attach(new ConnectionContext($conn, $this));
     }
 
-    public function onClose($connection)
+    /**
+     * Detach connection from connection collection
+     *
+     * @param ConnectionContext $connection
+     */
+    public function onClose(ConnectionContext $connection)
     {
         $this->connections->detach($connection);
     }
 
-    public function addPlugin(\WyriHaximus\PhuninNode\PluginInterface $plugin)
+    /**
+     * Attach a plugin
+     *
+     * @param PluginInterface $plugin
+     */
+    public function addPlugin(PluginInterface $plugin)
     {
         $plugin->setNode($this);
 
         $this->plugins->attach($plugin);
     }
 
+    /**
+     * Returns the plugins collection
+     *
+     * @return \SplObjectStorage
+     */
     public function getPlugins()
     {
         return $this->plugins;
     }
 
+    /**
+     * Return the connection collection
+     *
+     * @return \SplObjectStorage
+     */
     public function getConnections()
     {
         return $this->connections;
     }
 
+    /**
+     * Get a plugin by slug or return false when none can be found
+     *
+     * @param string $slug
+     * @return bool|PluginInterface
+     */
     public function getPlugin($slug)
     {
         $this->plugins->rewind();
@@ -78,6 +143,12 @@ class Node
         return false;
     }
 
+    /**
+     * Create and setup a promise
+     *
+     * @param $callback
+     * @return \React\Promise\Deferred
+     */
     public function resolverFactory($callback)
     {
         $resolver = new \React\Promise\Deferred();

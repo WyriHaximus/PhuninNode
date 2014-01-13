@@ -13,19 +13,37 @@ namespace WyriHaximus\PhuninNode\Plugins;
 
 class MemoryUsage implements \WyriHaximus\PhuninNode\PluginInterface
 {
+    /**
+     * @var \WyriHaximus\PhuninNode\Node
+     */
     private $node;
+
+    /**
+     * Cached configuration state
+     *
+     * @var \WyriHaximus\PhuninNode\PluginConfiguration
+     */
     private $configuration;
 
+    /**
+     * @inheretDoc
+     */
     public function setNode(\WyriHaximus\PhuninNode\Node $node)
     {
         $this->node = $node;
     }
 
+    /**
+     * @inheretDoc
+     */
     public function getSlug()
     {
         return 'memory_usage';
     }
 
+    /**
+     * @inheretDoc
+     */
     public function getConfiguration(\React\Promise\DeferredResolver $deferredResolver)
     {
         if ($this->configuration instanceof \WyriHaximus\PhuninNode\PluginConfiguration) {
@@ -42,6 +60,9 @@ class MemoryUsage implements \WyriHaximus\PhuninNode\PluginInterface
         $deferredResolver->resolve($this->configuration);
     }
 
+    /**
+     * @inheretDoc
+     */
     public function getValues(\React\Promise\DeferredResolver $deferredResolver)
     {
         $values = new \SplObjectStorage;

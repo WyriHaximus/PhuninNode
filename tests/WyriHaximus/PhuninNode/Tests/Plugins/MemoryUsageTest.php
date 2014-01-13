@@ -11,6 +11,10 @@
 
 namespace WyriHaximus\PhuninNode\Tests\Plugins;
 
+/**
+ * Class MemoryUsageTest
+ * @package WyriHaximus\PhuninNode\Tests\Plugins
+ */
 class MemoryUsageTest extends AbstractPluginTest
 {
 

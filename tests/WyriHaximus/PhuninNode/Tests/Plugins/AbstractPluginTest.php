@@ -11,6 +11,10 @@
 
 namespace WyriHaximus\PhuninNode\Tests\Plugins;
 
+/**
+ * Class AbstractPluginTest
+ * @package WyriHaximus\PhuninNode\Tests\Plugins
+ */
 abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
 {
 

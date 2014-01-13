@@ -11,6 +11,10 @@
 
 namespace WyriHaximus\PhuninNode\Tests\Plugins;
 
+/**
+ * Class UptimeTest
+ * @package WyriHaximus\PhuninNode\Tests\Plugins
+ */
 class UptimeTest extends AbstractPluginTest
 {
 

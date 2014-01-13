@@ -13,20 +13,42 @@ namespace WyriHaximus\PhuninNode\Plugins;
 
 class Plugins implements \WyriHaximus\PhuninNode\PluginInterface
 {
+    /**
+     * @var \WyriHaximus\PhuninNode\Node
+     */
     private $node;
+
+    /**
+     * @var array
+     */
     private $values = [];
+
+    /**
+     * Cached configuration state
+     *
+     * @var \WyriHaximus\PhuninNode\PluginConfiguration
+     */
     private $configuration;
 
+    /**
+     * @inheretDoc
+     */
     public function setNode(\WyriHaximus\PhuninNode\Node $node)
     {
         $this->node = $node;
     }
 
+    /**
+     * @inheretDoc
+     */
     public function getSlug()
     {
         return 'plugins';
     }
 
+    /**
+     * @inheretDoc
+     */
     public function getConfiguration(\React\Promise\DeferredResolver $deferredResolver)
     {
         if ($this->configuration instanceof \WyriHaximus\PhuninNode\PluginConfiguration) {
@@ -43,6 +65,9 @@ class Plugins implements \WyriHaximus\PhuninNode\PluginInterface
         $deferredResolver->resolve($this->configuration);
     }
 
+    /**
+     * @inheretDoc
+     */
     public function getValues(\React\Promise\DeferredResolver $deferredResolver)
     {
         $values = new \SplObjectStorage;
@@ -51,6 +76,9 @@ class Plugins implements \WyriHaximus\PhuninNode\PluginInterface
         $deferredResolver->resolve($values);
     }
 
+    /**
+     * @return \WyriHaximus\PhuninNode\Value
+     */
     private function getPluginCountValue()
     {
         if (isset($this->values['plugins_count']) &&
@@ -65,6 +93,9 @@ class Plugins implements \WyriHaximus\PhuninNode\PluginInterface
         return $this->values['plugins_count'];
     }
 
+    /**
+     * @return \WyriHaximus\PhuninNode\Value
+     */
     private function getPluginCategoryCountValue()
     {
         if (isset($this->values['plugins_category_count']) &&

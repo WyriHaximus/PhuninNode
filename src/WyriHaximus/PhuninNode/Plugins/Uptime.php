@@ -11,30 +11,63 @@
 
 namespace WyriHaximus\PhuninNode\Plugins;
 
+/**
+ * Class Uptime
+ * @package WyriHaximus\PhuninNode\Plugins
+ */
 class Uptime implements \WyriHaximus\PhuninNode\PluginInterface
 {
-
+    /**
+     * Seconds in a day
+     */
     const DAY_IN_SECONDS = 86400;
 
+    /**
+     * @var \WyriHaximus\PhuninNode\Node
+     */
     private $node;
+
+    /**
+     * Cached configuration state
+     *
+     * @var \WyriHaximus\PhuninNode\PluginConfiguration
+     */
     private $configuration;
+
+    /**
+     * Start time of this instance
+     *
+     * @var int
+     */
     private $startTime = 0;
 
+    /**
+     * Save the time this instance started
+     */
     public function __construct()
     {
         $this->startTime = time();
     }
 
+    /**
+     * @inheretDoc
+     */
     public function setNode(\WyriHaximus\PhuninNode\Node $node)
     {
         $this->node = $node;
     }
 
+    /**
+     * @inheretDoc
+     */
     public function getSlug()
     {
         return 'uptime';
     }
 
+    /**
+     * @inheretDoc
+     */
     public function getConfiguration(\React\Promise\DeferredResolver $deferredResolver)
     {
         if ($this->configuration instanceof \WyriHaximus\PhuninNode\PluginConfiguration) {
@@ -53,6 +86,9 @@ class Uptime implements \WyriHaximus\PhuninNode\PluginInterface
         $deferredResolver->resolve($this->configuration);
     }
 
+    /**
+     * @inheretDoc
+     */
     public function getValues(\React\Promise\DeferredResolver $deferredResolver)
     {
         $values = new \SplObjectStorage;

@@ -11,6 +11,10 @@
 
 namespace WyriHaximus\PhuninNode\Tests;
 
+/**
+ * Class PluginConfigurationTest
+ * @package WyriHaximus\PhuninNode\Tests
+ */
 class PluginConfigurationTest extends \PHPUnit_Framework_TestCase
 {
 

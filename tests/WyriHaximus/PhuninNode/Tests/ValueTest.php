@@ -11,6 +11,10 @@
 
 namespace WyriHaximus\PhuninNode\Tests;
 
+/**
+ * Class ValueTest
+ * @package WyriHaximus\PhuninNode\Tests
+ */
 class ValueTest extends \PHPUnit_Framework_TestCase
 {
 

@@ -11,6 +11,10 @@
 
 namespace WyriHaximus\PhuninNode\Tests\Plugins;
 
+/**
+ * Class PluginsCategoriesTest
+ * @package WyriHaximus\PhuninNode\Tests\Plugins
+ */
 class PluginsCategoriesTest extends AbstractPluginTest
 {
 

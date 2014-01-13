@@ -11,6 +11,10 @@
 
 namespace WyriHaximus\PhuninNode\Tests;
 
+/**
+ * Class NodeTest
+ * @package WyriHaximus\PhuninNode\Tests
+ */
 class NodeTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()

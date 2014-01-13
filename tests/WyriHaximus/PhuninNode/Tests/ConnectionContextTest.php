@@ -11,6 +11,10 @@
 
 namespace WyriHaximus\PhuninNode\Tests;
 
+/**
+ * Class ConnectionContextTest
+ * @package WyriHaximus\PhuninNode\Tests
+ */
 class ConnectionContextTest extends \PHPUnit_Framework_TestCase
 {
 

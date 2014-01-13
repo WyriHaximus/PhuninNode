@@ -11,23 +11,53 @@
 
 namespace WyriHaximus\PhuninNode\Plugins;
 
+/**
+ * Class PluginsCategories
+ * @package WyriHaximus\PhuninNode\Plugins
+ */
 class PluginsCategories implements \WyriHaximus\PhuninNode\PluginInterface
 {
+    /**
+     * @var \WyriHaximus\PhuninNode\Node
+     */
     private $node;
+
+    /**
+     * @var array
+     */
     private $categories = [];
+
+    /**
+     * @var array
+     */
     private $values = [];
+
+    /**
+     * Cached configuration state
+     *
+     * @var \WyriHaximus\PhuninNode\PluginConfiguration
+     */
     private $configuration;
 
+    /**
+     * @inheretDoc
+     */
     public function setNode(\WyriHaximus\PhuninNode\Node $node)
     {
         $this->node = $node;
     }
 
+    /**
+     * @inheretDoc
+     */
     public function getSlug()
     {
         return 'plugins_categories';
     }
 
+    /**
+     * @inheretDoc
+     */
     public function getConfiguration(\React\Promise\DeferredResolver $deferredResolver)
     {
         if ($this->configuration instanceof \WyriHaximus\PhuninNode\PluginConfiguration) {
@@ -46,6 +76,9 @@ class PluginsCategories implements \WyriHaximus\PhuninNode\PluginInterface
         $deferredResolver->resolve($this->configuration);
     }
 
+    /**
+     * @inheretDoc
+     */
     public function getValues(\React\Promise\DeferredResolver $deferredResolver)
     {
         $values = new \SplObjectStorage;
@@ -55,6 +88,9 @@ class PluginsCategories implements \WyriHaximus\PhuninNode\PluginInterface
         $deferredResolver->resolve($values);
     }
 
+    /**
+     * @return array
+     */
     private function getPluginCategories()
     {
         if (count($this->categories) > 0) {
@@ -79,6 +115,10 @@ class PluginsCategories implements \WyriHaximus\PhuninNode\PluginInterface
         return $this->categories;
     }
 
+    /**
+     * @param $key
+     * @return \WyriHaximus\PhuninNode\Value
+     */
     private function getPluginCategoryValue($key)
     {
         if (isset($this->values[$key]) && $this->values[$key] instanceof \WyriHaximus\PhuninNode\Value) {
