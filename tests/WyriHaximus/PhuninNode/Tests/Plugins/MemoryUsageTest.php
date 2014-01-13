@@ -26,5 +26,4 @@ class MemoryUsageTest extends AbstractPluginTest
 
         $this->node->addPlugin($this->plugin);
     }
-
 }

@@ -67,5 +67,4 @@ class PluginConfigurationTest extends \PHPUnit_Framework_TestCase
         unset($this->PluginConfiguration);
         parent::tearDown();
     }
-
 }

@@ -226,5 +226,4 @@ class ConnectionContextTest extends \PHPUnit_Framework_TestCase
         $connetionContext->onData("quit\n");
         $connetionContext->onData("skjargyefw\n");
     }
-
 }

@@ -26,5 +26,4 @@ class PluginsTest extends AbstractPluginTest
 
         $this->node->addPlugin($this->plugin);
     }
-
 }

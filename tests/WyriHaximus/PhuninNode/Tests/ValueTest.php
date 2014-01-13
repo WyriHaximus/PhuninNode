@@ -52,5 +52,4 @@ class ValueTest extends \PHPUnit_Framework_TestCase
         unset($this->Value);
         parent::tearDown();
     }
-
 }

@@ -177,5 +177,4 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
         $this->plugin->getValues($deferred->resolver());
         $this->assertTrue($callbackRan);
     }
-
 }

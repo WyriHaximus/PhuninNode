@@ -26,5 +26,4 @@ class UptimeTest extends AbstractPluginTest
 
         $this->node->addPlugin($this->plugin);
     }
-
 }
