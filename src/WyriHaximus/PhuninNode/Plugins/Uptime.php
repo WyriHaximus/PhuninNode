@@ -50,7 +50,7 @@ class Uptime implements \WyriHaximus\PhuninNode\PluginInterface
     }
 
     /**
-     * @inheretDoc
+     * {@inheritdoc}
      */
     public function setNode(\WyriHaximus\PhuninNode\Node $node)
     {
@@ -58,7 +58,7 @@ class Uptime implements \WyriHaximus\PhuninNode\PluginInterface
     }
 
     /**
-     * @inheretDoc
+     * {@inheritdoc}
      */
     public function getSlug()
     {
@@ -66,7 +66,7 @@ class Uptime implements \WyriHaximus\PhuninNode\PluginInterface
     }
 
     /**
-     * @inheretDoc
+     * {@inheritdoc}
      */
     public function getConfiguration(\React\Promise\DeferredResolver $deferredResolver)
     {
@@ -87,7 +87,7 @@ class Uptime implements \WyriHaximus\PhuninNode\PluginInterface
     }
 
     /**
-     * @inheretDoc
+     * {@inheritdoc}
      */
     public function getValues(\React\Promise\DeferredResolver $deferredResolver)
     {

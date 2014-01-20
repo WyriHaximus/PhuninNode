@@ -31,7 +31,7 @@ class Plugins implements \WyriHaximus\PhuninNode\PluginInterface
     private $configuration;
 
     /**
-     * @inheretDoc
+     * {@inheritdoc}
      */
     public function setNode(\WyriHaximus\PhuninNode\Node $node)
     {
@@ -39,7 +39,7 @@ class Plugins implements \WyriHaximus\PhuninNode\PluginInterface
     }
 
     /**
-     * @inheretDoc
+     * {@inheritdoc}
      */
     public function getSlug()
     {
@@ -47,7 +47,7 @@ class Plugins implements \WyriHaximus\PhuninNode\PluginInterface
     }
 
     /**
-     * @inheretDoc
+     * {@inheritdoc}
      */
     public function getConfiguration(\React\Promise\DeferredResolver $deferredResolver)
     {
@@ -66,7 +66,7 @@ class Plugins implements \WyriHaximus\PhuninNode\PluginInterface
     }
 
     /**
-     * @inheretDoc
+     * {@inheritdoc}
      */
     public function getValues(\React\Promise\DeferredResolver $deferredResolver)
     {

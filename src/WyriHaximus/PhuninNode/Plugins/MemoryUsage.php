@@ -26,7 +26,7 @@ class MemoryUsage implements \WyriHaximus\PhuninNode\PluginInterface
     private $configuration;
 
     /**
-     * @inheretDoc
+     * {@inheritdoc}
      */
     public function setNode(\WyriHaximus\PhuninNode\Node $node)
     {
@@ -34,7 +34,7 @@ class MemoryUsage implements \WyriHaximus\PhuninNode\PluginInterface
     }
 
     /**
-     * @inheretDoc
+     * {@inheritdoc}
      */
     public function getSlug()
     {
@@ -42,7 +42,7 @@ class MemoryUsage implements \WyriHaximus\PhuninNode\PluginInterface
     }
 
     /**
-     * @inheretDoc
+     * {@inheritdoc}
      */
     public function getConfiguration(\React\Promise\DeferredResolver $deferredResolver)
     {
@@ -61,7 +61,7 @@ class MemoryUsage implements \WyriHaximus\PhuninNode\PluginInterface
     }
 
     /**
-     * @inheretDoc
+     * {@inheritdoc}
      */
     public function getValues(\React\Promise\DeferredResolver $deferredResolver)
     {

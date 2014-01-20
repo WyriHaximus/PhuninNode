@@ -48,7 +48,7 @@ class PluginsCategories implements \WyriHaximus\PhuninNode\PluginInterface
     }
 
     /**
-     * @inheretDoc
+     * {@inheritdoc}
      */
     public function getSlug()
     {
@@ -56,7 +56,7 @@ class PluginsCategories implements \WyriHaximus\PhuninNode\PluginInterface
     }
 
     /**
-     * @inheretDoc
+     * {@inheritdoc}
      */
     public function getConfiguration(\React\Promise\DeferredResolver $deferredResolver)
     {
@@ -77,7 +77,7 @@ class PluginsCategories implements \WyriHaximus\PhuninNode\PluginInterface
     }
 
     /**
-     * @inheretDoc
+     * {@inheritdoc}
      */
     public function getValues(\React\Promise\DeferredResolver $deferredResolver)
     {
