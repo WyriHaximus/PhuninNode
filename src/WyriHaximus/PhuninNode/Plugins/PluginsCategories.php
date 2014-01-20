@@ -40,7 +40,7 @@ class PluginsCategories implements \WyriHaximus\PhuninNode\PluginInterface
     private $configuration;
 
     /**
-     * @inheretDoc
+     * {@inheritdoc}
      */
     public function setNode(\WyriHaximus\PhuninNode\Node $node)
     {
