@@ -11,6 +11,10 @@
 
 namespace WyriHaximus\PhuninNode\Plugins;
 
+/**
+ * Class MemoryUsage
+ * @package WyriHaximus\PhuninNode\Plugins
+ */
 class MemoryUsage implements \WyriHaximus\PhuninNode\PluginInterface
 {
     /**
@@ -71,6 +75,9 @@ class MemoryUsage implements \WyriHaximus\PhuninNode\PluginInterface
         $deferredResolver->resolve($values);
     }
 
+    /**
+     * @return \WyriHaximus\PhuninNode\Value
+     */
     private function getMemoryUsageValue()
     {
 
@@ -81,6 +88,9 @@ class MemoryUsage implements \WyriHaximus\PhuninNode\PluginInterface
         return $value;
     }
 
+    /**
+     * @return \WyriHaximus\PhuninNode\Value
+     */
     private function getMemoryPeakUsageValue()
     {
 

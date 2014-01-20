@@ -11,6 +11,10 @@
 
 namespace WyriHaximus\PhuninNode\Plugins;
 
+/**
+ * Class Plugins
+ * @package WyriHaximus\PhuninNode\Plugins
+ */
 class Plugins implements \WyriHaximus\PhuninNode\PluginInterface
 {
     /**

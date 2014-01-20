@@ -96,6 +96,9 @@ class Uptime implements \WyriHaximus\PhuninNode\PluginInterface
         $deferredResolver->resolve($values);
     }
 
+    /**
+     * @return \WyriHaximus\PhuninNode\Value
+     */
     private function getUptimeValue()
     {
         $value = new \WyriHaximus\PhuninNode\Value();
