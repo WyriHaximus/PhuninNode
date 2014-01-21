@@ -20,7 +20,22 @@ class ConnectionContextTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->loop = $this->getMock('\React\EventLoop\StreamSelectLoop');
+        $this->loop = $this->getMock(
+            '\React\EventLoop\StreamSelectLoop',
+            [
+                'addReadStream',
+                'addWriteStream',
+                'removeReadStream',
+                'removeWriteStream',
+                'removeStream',
+                'addTimer',
+                'cancelTimer',
+            ]
+        );
+        $this->loop->expects($this->atleastOnce())
+            ->method('addTimer')
+            ->willReturn($this->getMock('\React\EventLoop\Timer\TimerInterface'));
+
         $this->socket = $this->getMock(
             '\React\Socket\Server',
             [
@@ -40,12 +55,16 @@ class ConnectionContextTest extends \PHPUnit_Framework_TestCase
                 'getPlugins',
                 'getPlugin',
                 'getValues',
+                'getLoop',
             ],
             [
                 $this->loop,
                 $this->socket,
             ]
         );
+        $this->node->expects($this->once())
+            ->method('getLoop')
+            ->willReturn($this->loop);
 
         $this->plugins = new \SplObjectStorage();
         $plugin = $this->getMock(
@@ -126,6 +145,9 @@ class ConnectionContextTest extends \PHPUnit_Framework_TestCase
 
     public function testOnData()
     {
+        $this->loop->expects($this->atleastOnce())
+            ->method('cancelTimer');
+
         $this->node->expects($this->any())
             ->method('getPlugins')
             ->willReturn($this->plugins);

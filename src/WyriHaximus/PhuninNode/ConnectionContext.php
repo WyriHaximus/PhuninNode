@@ -23,6 +23,11 @@ class ConnectionContext
     const GREETING = "# munin node at HOSTNAME\n";
 
     /**
+     * The timeout after which we disconnection for no data transmission
+     */
+    const CONNECTION_TIMEOUT = 60;
+
+    /**
      * @var \React\Socket\Connection
      */
     private $conn;
@@ -37,6 +42,8 @@ class ConnectionContext
      */
     private $commandMap = [];
 
+    private $timeoutTimer;
+
     /**
      * @param \React\Socket\Connection $conn
      * @param Node $node
@@ -45,6 +52,7 @@ class ConnectionContext
     {
         $this->conn = $conn;
         $this->node = $node;
+        $this->loop = $node->getLoop();
 
         $this->conn->on('data', [$this, 'onData']);
         $this->conn->on('close', [$this, 'onClose']);
@@ -56,7 +64,53 @@ class ConnectionContext
         $this->commandMap['fetch'] = [$this, 'onFetch'];
         $this->commandMap['quit'] = [$this, 'onQuit'];
 
-        $this->conn->write(self::GREETING);
+        $this->write(self::GREETING);
+    }
+
+    /**
+     * Write data to the connection
+     *
+     * @param string $data
+     */
+    protected function write($data)
+    {
+        $this->clearTimeout();
+        $this->conn->write($data);
+        $this->setTimeout();
+    }
+
+    /**
+     * Clear the timeout, close the connection, and tell node the client disconnected
+     */
+    protected function close()
+    {
+        $this->clearTimeout();
+        $this->conn->close();
+        $this->node->onClose($this);
+    }
+
+    /**
+     * Set a timeout that disconnects the client when it's idle for to long
+     */
+    protected function setTimeout()
+    {
+        $this->timeoutTimer = $this->loop->addTimer(
+            self::CONNECTION_TIMEOUT,
+            function () {
+                $this->close();
+            }
+        );
+    }
+
+    /**
+     * Clear the timeout if it's set
+     */
+    protected function clearTimeout()
+    {
+        if ($this->timeoutTimer !== null) {
+            $this->loop->cancelTimer($this->timeoutTimer);
+            $this->timeoutTimer = null;
+        }
     }
 
     /**
@@ -72,7 +126,7 @@ class ConnectionContext
             call_user_func_array($this->commandMap[$command], [$data]);
         } else {
             $list = implode(', ', array_keys($this->commandMap));
-            $this->conn->write(
+            $this->write(
                 '# Unknown command. Try ' . substr_replace($list, ' or ', strrpos($list, ', '), 2) . "\n"
             );
         }
@@ -87,7 +141,7 @@ class ConnectionContext
         foreach ($this->node->getPlugins() as $plugin) {
             $list[] = $plugin->getSlug();
         }
-        $this->conn->write(implode(' ', $list) . "\n");
+        $this->write(implode(' ', $list) . "\n");
     }
 
     /**
@@ -95,7 +149,7 @@ class ConnectionContext
      */
     public function onNodes()
     {
-        $this->conn->write(implode(' ', ['HOSTNAME']) . "\n");
+        $this->write(implode(' ', ['HOSTNAME']) . "\n");
     }
 
     /**
@@ -103,7 +157,7 @@ class ConnectionContext
      */
     public function onVersion()
     {
-        $this->conn->write('PhuninNode on HOSTNAME version: ' . Node::VERSION . "\n");
+        $this->write('PhuninNode on HOSTNAME version: ' . Node::VERSION . "\n");
     }
 
     /**
@@ -130,9 +184,9 @@ class ConnectionContext
         $deferred = $this->node->resolverFactory(
             function ($configuration) {
                 foreach ($configuration->getPairs() as $pair) {
-                    $this->conn->write($pair->getKey() . ' ' . $pair->getValue() . "\n");
+                    $this->write($pair->getKey() . ' ' . $pair->getValue() . "\n");
                 }
-                $this->conn->write(".\n");
+                $this->write(".\n");
             }
         );
         $plugin->getConfiguration($deferred->resolver());
@@ -163,11 +217,11 @@ class ConnectionContext
             $deferred = $this->node->resolverFactory(
                 function ($values) {
                     foreach ($values as $value) {
-                        $this->conn->write(
+                        $this->write(
                             $value->getKey() . '.value ' . str_replace(',', '.', $value->getValue()) . "\n"
                         );
                     }
-                    $this->conn->write(".\n");
+                    $this->write(".\n");
                 }
             );
             $plugin->getValues($deferred->resolver());
@@ -181,7 +235,7 @@ class ConnectionContext
      */
     public function onQuit()
     {
-        $this->conn->close();
+        $this->close();
     }
 
     /**
@@ -189,6 +243,6 @@ class ConnectionContext
      */
     public function onClose()
     {
-        $this->node->onClose($this);
+        $this->close();
     }
 }
