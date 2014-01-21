@@ -179,6 +179,12 @@ class NodeTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(!$node->getPlugin('b'));
     }
 
+    public function testGetLoop()
+    {
+        $node = new \WyriHaximus\PhuninNode\Node($this->loop, $this->socket);
+        $this->assertSame($this->loop, $node->getLoop());
+    }
+
     public function testResolverFactory()
     {
         $called = false;

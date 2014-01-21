@@ -125,6 +125,16 @@ class Node
     }
 
     /**
+     * return the react
+     *
+     * @return LoopInterface
+     */
+    public function getLoop()
+    {
+        return $this->loop;
+    }
+
+    /**
      * Get a plugin by slug or return false when none can be found
      *
      * @param string $slug
