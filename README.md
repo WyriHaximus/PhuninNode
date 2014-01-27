@@ -54,7 +54,7 @@ $loop->run();
 
 ## License ##
 
-Copyright 2013 [Cees-Jan Kiewiet](http://wyrihaximus.net/)
+Copyright 2013 - 2014 [Cees-Jan Kiewiet](http://wyrihaximus.net/)
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
