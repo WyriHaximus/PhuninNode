@@ -26,6 +26,8 @@ Installation is easy with composer just add PhuninNode to your composer.json.
 ## Basic usage ##
 
 ```php
+<?php
+
 // Create eventloop
 $loop = \React\EventLoop\Factory::create();
 
