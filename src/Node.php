@@ -57,6 +57,11 @@ class Node
      */
     public function __construct(LoopInterface $loop, Socket $socket)
     {
+
+        if (false === strpos(PHP_VERSION, "hiphop")) {
+            gc_enable();
+        }
+
         $this->loop = $loop;
         $this->socket = $socket;
 
