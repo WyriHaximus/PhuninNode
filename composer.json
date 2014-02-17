@@ -14,7 +14,8 @@
         "munin-node"
     ],
     "require": {
-        "react/react": "0.4.*"
+        "react/promise": "2.0.*",
+        "react/socket": "0.4.*"
     },
     "require-dev": {
         "satooshi/php-coveralls": "~0.6",
