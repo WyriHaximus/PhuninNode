@@ -6,6 +6,7 @@
 - PSR-4 For autoloading (instead of PSR-0)
 - Auto disconnect a client after 60 seconds of inactivity
 - React bumped to 0.4
+- Promise rejection handling
 
 ## 0.2.3 ##
 - React bumped to 0.3

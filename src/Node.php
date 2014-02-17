@@ -161,13 +161,14 @@ class Node
     /**
      * Create and setup a promise
      *
-     * @param $callback
+     * @param callable $onFulfilled
+     * @param callable $onRejected
      * @return \React\Promise\Deferred
      */
-    public function resolverFactory($callback)
+    public function resolverFactory(callable $onFulfilled, callable $onRejected)
     {
         $resolver = new \React\Promise\Deferred();
-        $resolver->promise()->then($callback);
+        $resolver->promise()->then($onFulfilled, $onRejected);
         return $resolver;
     }
 }

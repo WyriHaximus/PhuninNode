@@ -192,9 +192,27 @@ class NodeTest extends \PHPUnit_Framework_TestCase
         $resolver = $node->resolverFactory(
             function () use (&$called) {
                 $called = true;
+            },
+            function () {
             }
         );
         $resolver->resolve();
+
+        $this->assertTrue($called);
+    }
+
+    public function testResolverFactoryReject()
+    {
+        $called = false;
+        $node = new \WyriHaximus\PhuninNode\Node($this->loop, $this->socket);
+        $resolver = $node->resolverFactory(
+            function () {
+            },
+            function () use (&$called) {
+                $called = true;
+            }
+        );
+        $resolver->reject();
 
         $this->assertTrue($called);
     }

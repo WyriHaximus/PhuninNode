@@ -187,6 +187,9 @@ class ConnectionContext
                     $this->write($pair->getKey() . ' ' . $pair->getValue() . "\n");
                 }
                 $this->write(".\n");
+            },
+            function () {
+                $this->write(".\n");
             }
         );
         $plugin->getConfiguration($deferred);
@@ -221,6 +224,9 @@ class ConnectionContext
                             $value->getKey() . '.value ' . str_replace(',', '.', $value->getValue()) . "\n"
                         );
                     }
+                    $this->write(".\n");
+                },
+                function () {
                     $this->write(".\n");
                 }
             );
