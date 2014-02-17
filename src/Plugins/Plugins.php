@@ -53,7 +53,7 @@ class Plugins implements \WyriHaximus\PhuninNode\PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getConfiguration(\React\Promise\DeferredResolver $deferredResolver)
+    public function getConfiguration(\React\Promise\Deferred $deferredResolver)
     {
         if ($this->configuration instanceof \WyriHaximus\PhuninNode\PluginConfiguration) {
             $deferredResolver->resolve($this->configuration);
@@ -72,7 +72,7 @@ class Plugins implements \WyriHaximus\PhuninNode\PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getValues(\React\Promise\DeferredResolver $deferredResolver)
+    public function getValues(\React\Promise\Deferred $deferredResolver)
     {
         $values = new \SplObjectStorage;
         $values->attach($this->getPluginCountValue());
@@ -119,7 +119,7 @@ class Plugins implements \WyriHaximus\PhuninNode\PluginInterface
                     }
                 }
             );
-            $plugin->getConfiguration($deferred->resolver());
+            $plugin->getConfiguration($deferred);
         }
 
         $this->values['plugins_category_count'] = new \WyriHaximus\PhuninNode\Value();

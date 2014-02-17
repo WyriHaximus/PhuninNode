@@ -103,7 +103,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
                 $this->assertInstanceOf('WyriHaximus\PhuninNode\PluginConfiguration', $configuration);
             }
         );
-        $this->plugin->getConfiguration($deferred->resolver());
+        $this->plugin->getConfiguration($deferred);
         $this->assertTrue($callbackRan);
 
         $callbackRan = false;
@@ -114,7 +114,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
                 $this->assertInstanceOf('WyriHaximus\PhuninNode\PluginConfiguration', $configuration);
             }
         );
-        $this->plugin->getConfiguration($deferred->resolver());
+        $this->plugin->getConfiguration($deferred);
         $this->assertTrue($callbackRan);
     }
 
@@ -131,7 +131,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
                 }
             }
         );
-        $this->plugin->getConfiguration($deferred->resolver());
+        $this->plugin->getConfiguration($deferred);
         $this->assertTrue($callbackRan);
     }
 
@@ -146,7 +146,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
                 $this->assertInstanceOf('SplObjectStorage', $values);
             }
         );
-        $this->plugin->getValues($deferred->resolver());
+        $this->plugin->getValues($deferred);
         $this->assertTrue($callbackRan);
 
         $callbackRan = false;
@@ -157,7 +157,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
                 $this->assertInstanceOf('WyriHaximus\PhuninNode\PluginConfiguration', $values);
             }
         );
-        $this->plugin->getValues($deferred->resolver());
+        $this->plugin->getValues($deferred);
         $this->assertTrue($callbackRan);
     }
 
@@ -174,7 +174,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
                 }
             }
         );
-        $this->plugin->getValues($deferred->resolver());
+        $this->plugin->getValues($deferred);
         $this->assertTrue($callbackRan);
     }
 }

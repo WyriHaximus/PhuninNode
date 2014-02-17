@@ -68,7 +68,7 @@ class Uptime implements \WyriHaximus\PhuninNode\PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getConfiguration(\React\Promise\DeferredResolver $deferredResolver)
+    public function getConfiguration(\React\Promise\Deferred $deferredResolver)
     {
         if ($this->configuration instanceof \WyriHaximus\PhuninNode\PluginConfiguration) {
             $deferredResolver->resolve($this->configuration);
@@ -89,7 +89,7 @@ class Uptime implements \WyriHaximus\PhuninNode\PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getValues(\React\Promise\DeferredResolver $deferredResolver)
+    public function getValues(\React\Promise\Deferred $deferredResolver)
     {
         $values = new \SplObjectStorage;
         $values->attach($this->getUptimeValue());

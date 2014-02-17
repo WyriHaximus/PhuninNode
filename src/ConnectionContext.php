@@ -189,7 +189,7 @@ class ConnectionContext
                 $this->write(".\n");
             }
         );
-        $plugin->getConfiguration($deferred->resolver());
+        $plugin->getConfiguration($deferred);
     }
 
     /**
@@ -224,7 +224,7 @@ class ConnectionContext
                     $this->write(".\n");
                 }
             );
-            $plugin->getValues($deferred->resolver());
+            $plugin->getValues($deferred);
         } else {
             $this->conn->close();
         }

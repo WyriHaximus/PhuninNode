@@ -58,7 +58,7 @@ class PluginsCategories implements \WyriHaximus\PhuninNode\PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getConfiguration(\React\Promise\DeferredResolver $deferredResolver)
+    public function getConfiguration(\React\Promise\Deferred $deferredResolver)
     {
         if ($this->configuration instanceof \WyriHaximus\PhuninNode\PluginConfiguration) {
             $deferredResolver->resolve($this->configuration);
@@ -79,7 +79,7 @@ class PluginsCategories implements \WyriHaximus\PhuninNode\PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getValues(\React\Promise\DeferredResolver $deferredResolver)
+    public function getValues(\React\Promise\Deferred $deferredResolver)
     {
         $values = new \SplObjectStorage;
         foreach ($this->getPluginCategories() as $key => $value) {
@@ -109,7 +109,7 @@ class PluginsCategories implements \WyriHaximus\PhuninNode\PluginInterface
                     $this->categories[$category]++;
                 }
             );
-            $plugin->getConfiguration($deferred->resolver());
+            $plugin->getConfiguration($deferred);
         }
 
         return $this->categories;

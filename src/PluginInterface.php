@@ -38,7 +38,7 @@ interface PluginInterface
      * @param \React\Promise\DeferredResolver $deferredResolver
      * @return void
      */
-    public function getConfiguration(\React\Promise\DeferredResolver $deferredResolver);
+    public function getConfiguration(\React\Promise\Deferred $deferredResolver);
 
     /**
      * Get the values for this plugin, it should resolve the passed resolver
@@ -46,5 +46,5 @@ interface PluginInterface
      * @param \React\Promise\DeferredResolver $deferredResolver
      * @return void
      */
-    public function getValues(\React\Promise\DeferredResolver $deferredResolver);
+    public function getValues(\React\Promise\Deferred $deferredResolver);
 }
