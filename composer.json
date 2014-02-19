@@ -11,7 +11,8 @@
     ],
     "keywords": [
         "munin",
-        "munin-node"
+        "munin-node",
+        "reactphp"
     ],
     "require": {
         "react/promise": "2.0.*",
