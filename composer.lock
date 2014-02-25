@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "34fcfae659974d3075987576909ba521",
+    "hash": "3de532cd098f44104af0593aa769cf11",
     "packages": [
         {
             "name": "evenement/evenement",
@@ -321,16 +321,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "1.3.x-dev",
+            "version": "2.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "b3ed716433a142591a436e848e5dd2298acdea51"
+                "reference": "8d687b4a9ccb203326014b242f6a86f24c0cfa74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/b3ed716433a142591a436e848e5dd2298acdea51",
-                "reference": "b3ed716433a142591a436e848e5dd2298acdea51",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/8d687b4a9ccb203326014b242f6a86f24c0cfa74",
+                "reference": "8d687b4a9ccb203326014b242f6a86f24c0cfa74",
                 "shasum": ""
             },
             "require": {
@@ -338,11 +338,12 @@
                 "phpunit/php-file-iterator": ">=1.3.0",
                 "phpunit/php-text-template": ">=1.2.0",
                 "phpunit/php-token-stream": ">=1.1.3",
+                "sebastian/environment": ">=1.0.0",
                 "sebastian/version": ">=1.0.0"
             },
             "require-dev": {
                 "ext-xdebug": ">=2.1.4",
-                "phpunit/phpunit": "3.8.*@dev"
+                "phpunit/phpunit": "4.1.*@dev"
             },
             "suggest": {
                 "ext-dom": "*",
@@ -351,7 +352,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.3.x-dev"
+                    "dev-master": "2.1.x-dev"
                 }
             },
             "autoload": {
@@ -380,7 +381,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-02-14 05:50:00"
+            "time": "2014-02-24 19:21:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -567,16 +568,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "3.8.x-dev",
+            "version": "4.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "91646b8bac6cc4db6dc038d7d4cfe7901cdc6354"
+                "reference": "aca29fd9b42bc5204434a7dc066ed22a6a47a3b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/91646b8bac6cc4db6dc038d7d4cfe7901cdc6354",
-                "reference": "91646b8bac6cc4db6dc038d7d4cfe7901cdc6354",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/aca29fd9b42bc5204434a7dc066ed22a6a47a3b4",
+                "reference": "aca29fd9b42bc5204434a7dc066ed22a6a47a3b4",
                 "shasum": ""
             },
             "require": {
@@ -585,18 +586,16 @@
                 "ext-reflection": "*",
                 "ext-spl": "*",
                 "php": ">=5.3.3",
-                "phpunit/php-code-coverage": "1.3.*@dev",
+                "phpunit/php-code-coverage": "2.0.*@dev",
                 "phpunit/php-file-iterator": ">=1.3.1",
                 "phpunit/php-text-template": ">=1.1.1",
                 "phpunit/php-timer": ">=1.0.2",
-                "phpunit/phpunit-mock-objects": "1.3.*@dev",
+                "phpunit/phpunit-mock-objects": "2.0.*@dev",
                 "sebastian/diff": ">=1.1.0",
+                "sebastian/environment": ">=1.0.0",
                 "sebastian/exporter": ">=1.0.0",
                 "sebastian/version": ">=1.0.0",
                 "symfony/yaml": "~2.0"
-            },
-            "require-dev": {
-                "pear-pear/pear": "1.9.4"
             },
             "suggest": {
                 "ext-json": "*",
@@ -610,7 +609,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.8.x-dev"
+                    "dev-master": "4.0.x-dev"
                 }
             },
             "autoload": {
@@ -640,20 +639,20 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-02-14 06:58:40"
+            "time": "2014-02-21 21:06:54"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
-            "version": "1.3.x-dev",
+            "version": "2.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "ef09c95921cf3def48ac2c134b7da36b65aeb148"
+                "reference": "3f4bb02d948b0d54498c2ba7058778e34fa923a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/ef09c95921cf3def48ac2c134b7da36b65aeb148",
-                "reference": "ef09c95921cf3def48ac2c134b7da36b65aeb148",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/3f4bb02d948b0d54498c2ba7058778e34fa923a2",
+                "reference": "3f4bb02d948b0d54498c2ba7058778e34fa923a2",
                 "shasum": ""
             },
             "require": {
@@ -661,8 +660,7 @@
                 "phpunit/php-text-template": ">=1.1.1"
             },
             "require-dev": {
-                "pear-pear/pear": "1.9.4",
-                "phpunit/phpunit": "3.8.*@dev"
+                "phpunit/phpunit": "4.0.*@dev"
             },
             "suggest": {
                 "ext-soap": "*"
@@ -670,7 +668,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.3.x-dev"
+                    "dev-master": "2.0.x-dev"
                 }
             },
             "autoload": {
@@ -698,7 +696,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2014-02-11 07:25:28"
+            "time": "2014-02-18 07:55:26"
         },
         {
             "name": "psr/log",
@@ -855,6 +853,57 @@
                 "diff"
             ],
             "time": "2013-08-03 16:46:33"
+        },
+        {
+            "name": "sebastian/environment",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastianbergmann/environment.git",
+                "reference": "79517609ec01139cd7e9fded0dd7ce08c952ef6a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/79517609ec01139cd7e9fded0dd7ce08c952ef6a",
+                "reference": "79517609ec01139cd7e9fded0dd7ce08c952ef6a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.0.*@dev"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian Bergmann",
+                    "email": "sebastian@phpunit.de",
+                    "role": "lead"
+                }
+            ],
+            "description": "Provides functionality to handle HHVM/PHP environments",
+            "homepage": "http://www.github.com/sebastianbergmann/environment",
+            "keywords": [
+                "Xdebug",
+                "environment",
+                "hhvm"
+            ],
+            "time": "2014-02-18 16:17:19"
         },
         {
             "name": "sebastian/exporter",
@@ -1270,7 +1319,8 @@
     "stability-flags": {
         "phpunit/phpunit": 20,
         "phpunit/phpunit-mock-objects": 20,
-        "phpunit/php-code-coverage": 20
+        "phpunit/php-code-coverage": 20,
+        "sebastian/environment": 20
     },
     "platform": [
 
