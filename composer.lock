@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "3de532cd098f44104af0593aa769cf11",
+    "hash": "6ac37b527be5dc27ef6fcf16119aae90",
     "packages": [
         {
             "name": "evenement/evenement",
@@ -321,29 +321,29 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "2.0.x-dev",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "8d687b4a9ccb203326014b242f6a86f24c0cfa74"
+                "reference": "23e6ac9513df2af67f9f713347f3e4bf4b59784c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/8d687b4a9ccb203326014b242f6a86f24c0cfa74",
-                "reference": "8d687b4a9ccb203326014b242f6a86f24c0cfa74",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/23e6ac9513df2af67f9f713347f3e4bf4b59784c",
+                "reference": "23e6ac9513df2af67f9f713347f3e4bf4b59784c",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3",
-                "phpunit/php-file-iterator": ">=1.3.0",
-                "phpunit/php-text-template": ">=1.2.0",
-                "phpunit/php-token-stream": ">=1.1.3",
-                "sebastian/environment": ">=1.0.0",
-                "sebastian/version": ">=1.0.0"
+                "phpunit/php-file-iterator": "~1.3.1",
+                "phpunit/php-text-template": "~1.2",
+                "phpunit/php-token-stream": "~1.1.3",
+                "sebastian/environment": "~1.0",
+                "sebastian/version": "~1.0.3"
             },
             "require-dev": {
                 "ext-xdebug": ">=2.1.4",
-                "phpunit/phpunit": "4.1.*@dev"
+                "phpunit/phpunit": ">=4.0.0,<4.1.0"
             },
             "suggest": {
                 "ext-dom": "*",
@@ -352,7 +352,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1.x-dev"
+                    "dev-master": "2.0.x-dev"
                 }
             },
             "autoload": {
@@ -381,7 +381,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-02-24 19:21:00"
+            "time": "2014-03-07 16:03:14"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -518,16 +518,16 @@
         },
         {
             "name": "phpunit/php-token-stream",
-            "version": "1.2.1",
+            "version": "1.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "5220af2a7929aa35cf663d97c89ad3d50cf5fa3e"
+                "reference": "66a29f0c5bdf85e70112f25ec9072efec5e2d426"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/5220af2a7929aa35cf663d97c89ad3d50cf5fa3e",
-                "reference": "5220af2a7929aa35cf663d97c89ad3d50cf5fa3e",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/66a29f0c5bdf85e70112f25ec9072efec5e2d426",
+                "reference": "66a29f0c5bdf85e70112f25ec9072efec5e2d426",
                 "shasum": ""
             },
             "require": {
@@ -535,11 +535,6 @@
                 "php": ">=5.3.3"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.2-dev"
-                }
-            },
             "autoload": {
                 "classmap": [
                     "PHP/"
@@ -564,20 +559,20 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2013-09-13 04:58:23"
+            "time": "2013-08-02 19:10:55"
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.0.x-dev",
+            "version": "4.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "aca29fd9b42bc5204434a7dc066ed22a6a47a3b4"
+                "reference": "726abb62e9ed37125cd5a75b01f3c0ed36050726"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/aca29fd9b42bc5204434a7dc066ed22a6a47a3b4",
-                "reference": "aca29fd9b42bc5204434a7dc066ed22a6a47a3b4",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/726abb62e9ed37125cd5a75b01f3c0ed36050726",
+                "reference": "726abb62e9ed37125cd5a75b01f3c0ed36050726",
                 "shasum": ""
             },
             "require": {
@@ -586,22 +581,22 @@
                 "ext-reflection": "*",
                 "ext-spl": "*",
                 "php": ">=5.3.3",
-                "phpunit/php-code-coverage": "2.0.*@dev",
-                "phpunit/php-file-iterator": ">=1.3.1",
-                "phpunit/php-text-template": ">=1.1.1",
-                "phpunit/php-timer": ">=1.0.2",
-                "phpunit/phpunit-mock-objects": "2.0.*@dev",
-                "sebastian/diff": ">=1.1.0",
-                "sebastian/environment": ">=1.0.0",
-                "sebastian/exporter": ">=1.0.0",
-                "sebastian/version": ">=1.0.0",
+                "phpunit/php-code-coverage": ">=2.0.0,<2.1.0",
+                "phpunit/php-file-iterator": "~1.3.1",
+                "phpunit/php-text-template": "~1.2",
+                "phpunit/php-timer": "~1.0.2",
+                "phpunit/phpunit-mock-objects": ">=2.0.0,<2.1.0",
+                "sebastian/diff": "~1.1",
+                "sebastian/environment": "~1.0",
+                "sebastian/exporter": "~1.0.1",
+                "sebastian/version": "~1.0.3",
                 "symfony/yaml": "~2.0"
             },
             "suggest": {
                 "ext-json": "*",
                 "ext-simplexml": "*",
                 "ext-tokenizer": "*",
-                "phpunit/php-invoker": ">=1.1.0"
+                "phpunit/php-invoker": "~1.1"
             },
             "bin": [
                 "phpunit"
@@ -639,28 +634,28 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-02-21 21:06:54"
+            "time": "2014-03-12 15:09:38"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
-            "version": "2.0.x-dev",
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "3f4bb02d948b0d54498c2ba7058778e34fa923a2"
+                "reference": "5888b2501d41c34f9132c959b073b23de83235aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/3f4bb02d948b0d54498c2ba7058778e34fa923a2",
-                "reference": "3f4bb02d948b0d54498c2ba7058778e34fa923a2",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/5888b2501d41c34f9132c959b073b23de83235aa",
+                "reference": "5888b2501d41c34f9132c959b073b23de83235aa",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3",
-                "phpunit/php-text-template": ">=1.1.1"
+                "phpunit/php-text-template": "~1.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "4.0.*@dev"
+                "phpunit/phpunit": ">=4.0.0,<4.1.0"
             },
             "suggest": {
                 "ext-soap": "*"
@@ -696,7 +691,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2014-02-18 07:55:26"
+            "time": "2014-03-11 09:46:18"
         },
         {
             "name": "psr/log",
@@ -856,7 +851,7 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
@@ -907,20 +902,23 @@
         },
         {
             "name": "sebastian/exporter",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "7c801c2db02018e00a91026994eadb9fae51701f"
+                "reference": "1f9a98e6f5dfe0524cb8c6166f7c82f3e9ae1529"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/7c801c2db02018e00a91026994eadb9fae51701f",
-                "reference": "7c801c2db02018e00a91026994eadb9fae51701f",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/1f9a98e6f5dfe0524cb8c6166f7c82f3e9ae1529",
+                "reference": "1f9a98e6f5dfe0524cb8c6166f7c82f3e9ae1529",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.0.*@dev"
             },
             "type": "library",
             "extra": {
@@ -966,20 +964,20 @@
                 "export",
                 "exporter"
             ],
-            "time": "2013-07-09 05:47:49"
+            "time": "2014-02-16 08:26:31"
         },
         {
             "name": "sebastian/version",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/version.git",
-                "reference": "b5d32aad75602e50b6b588583bd62f338f0f7a50"
+                "reference": "b6e1f0cf6b9e1ec409a0d3e2f2a5fb0998e36b43"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/version/zipball/b5d32aad75602e50b6b588583bd62f338f0f7a50",
-                "reference": "b5d32aad75602e50b6b588583bd62f338f0f7a50",
+                "url": "https://api.github.com/repos/sebastianbergmann/version/zipball/b6e1f0cf6b9e1ec409a0d3e2f2a5fb0998e36b43",
+                "reference": "b6e1f0cf6b9e1ec409a0d3e2f2a5fb0998e36b43",
                 "shasum": ""
             },
             "type": "library",
@@ -1001,7 +999,7 @@
             ],
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
             "homepage": "https://github.com/sebastianbergmann/version",
-            "time": "2014-02-12 16:30:13"
+            "time": "2014-03-07 15:35:33"
         },
         {
             "name": "symfony/config",
@@ -1316,12 +1314,9 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "phpunit/phpunit": 20,
-        "phpunit/phpunit-mock-objects": 20,
-        "phpunit/php-code-coverage": 20,
-        "sebastian/environment": 20
-    },
+    "stability-flags": [
+
+    ],
     "platform": [
 
     ],
