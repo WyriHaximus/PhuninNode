@@ -52,7 +52,6 @@ $loop->run();
 
 - Async support
 - Further work out munin protocol support
-- Wildcard plugins like [this](http://munin-monitoring.org/browser/munin/plugins/node.d.linux/if_.in)
 
 ## License ##
 
