@@ -24,7 +24,11 @@
     },
     "autoload": {
         "psr-4": {
-            "WyriHaximus\\PhuninNode\\": "src/",
+            "WyriHaximus\\PhuninNode\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "WyriHaximus\\PhuninNode\\Tests\\": "tests/"
         }
     }
