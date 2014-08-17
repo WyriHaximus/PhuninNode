@@ -24,7 +24,7 @@ class PluginConfiguration
     private $pairs = [];
 
     /**
-     * @param $key
+     * @param string $key
      * @param $value
      */
     public function setPair($key, $value)
