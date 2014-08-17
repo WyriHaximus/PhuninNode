@@ -24,6 +24,7 @@ class ConnectionContext
 
     /**
      * The timeout after which we disconnection for no data transmission
+     * @var int
      */
     const CONNECTION_TIMEOUT = 60;
 
