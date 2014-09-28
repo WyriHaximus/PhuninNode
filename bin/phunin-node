@@ -1,0 +1,24 @@
+#!/usr/bin/env php
+<?php
+
+require dirname(__DIR__) . '/vendor/autoload.php';
+
+$config = \Symfony\Component\Yaml\Yaml::parse(file_get_contents(dirname(__DIR__) . '/phunin-node.yml'));
+
+// Create eventloop
+$loop = \React\EventLoop\Factory::create();
+
+// Create a socket
+$socket = new \React\Socket\Server($loop);
+$socket->listen($config['port'], $config['ip']);
+
+// Bind to IP and port
+$node = new \WyriHaximus\PhuninNode\Node($loop, $socket);
+
+// Add plugins
+foreach ($config['plugins'] as $plugin) {
+    $node->addPlugin(new $plugin());
+}
+
+// Get rolling
+$loop->run();

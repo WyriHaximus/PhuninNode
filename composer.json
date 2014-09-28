@@ -16,7 +16,8 @@
     ],
     "require": {
         "react/promise": "2.0.*",
-        "react/socket": "0.4.*"
+        "react/socket": "0.4.*",
+        "symfony/yaml": "~2.4"
     },
     "require-dev": {
         "satooshi/php-coveralls": "~0.6",
@@ -31,5 +32,11 @@
         "psr-4": {
             "WyriHaximus\\PhuninNode\\Tests\\": "tests/"
         }
+    },
+    "bin": [
+        "phunin-node"
+    ],
+    "config": {
+        "bin-dir": "bin"
     }
 }
