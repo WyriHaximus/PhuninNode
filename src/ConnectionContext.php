@@ -42,7 +42,15 @@ class ConnectionContext
      */
     private $commandMap = [];
 
+    /**
+     * @var \React\EventLoop\Timer\TimerInterface
+     */
     private $timeoutTimer;
+
+    /**
+     * @var \React\EventLoop\LoopInterface
+     */
+    private $loop;
 
     /**
      * @param \React\Socket\Connection $conn
