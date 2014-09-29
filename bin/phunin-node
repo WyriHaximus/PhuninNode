@@ -1,7 +1,12 @@
 #!/usr/bin/env php
 <?php
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+foreach (array(__DIR__ . '/../../autoload.php', __DIR__ . '/vendor/autoload.php') as $file) {
+    if (file_exists($file)) {
+        require $file;
+        break;
+    }
+}
 
 $config = \Symfony\Component\Yaml\Yaml::parse(file_get_contents(dirname(__DIR__) . '/phunin-node.yml'));
 
