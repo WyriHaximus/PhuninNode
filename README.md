@@ -23,6 +23,10 @@ Installation is easy with composer just add PhuninNode to your composer.json.
 }
 ```
 
+## Simple usage ##
+
+PhuninNode now also comes with a commandline tool to easily start instances based on a configuration file. It will look for the `phunin-node.yml` file containing the configuration. Just run `./vendor/bin/phunin-node` to start a new instance.
+
 ## Basic usage ##
 
 ```php
