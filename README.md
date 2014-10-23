@@ -13,14 +13,10 @@ PhuninNode is a munin-node port PHP aiming to provide application monitoring uti
 
 ## Installation ##
 
-Installation is easy with composer just add PhuninNode to your composer.json.
+To install via [Composer](http://getcomposer.org/), use the command below, it will automatically detect the latest version and bind it with `~`.
 
-```json
-{
-	"require": {
-		"wyrihaximus/phunin-node": "dev-master"
-	}
-}
+```
+composer require wyrihaximus/phunin-node 
 ```
 
 ## Simple usage ##
