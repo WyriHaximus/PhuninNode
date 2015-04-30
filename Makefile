@@ -19,3 +19,6 @@ dunit: init
 
 dunit-nightly: init
 	./bin/dunit -c .dunitconfig-nightly
+
+coveralls: init
+	if [ -f ./build/logs/clover.xml ]; then ./bin/coveralls; fi
