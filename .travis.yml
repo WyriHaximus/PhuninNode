@@ -45,7 +45,7 @@ before_script:
   - if [ "$dependencies" = "lowest" ]; then composer update --prefer-lowest -n -q; fi;
   - if [ "$dependencies" = "highest" ]; then composer update -n -q; fi;
 
-script: make travis
+script: vendor/bin/phpunit --coverage-text --coverage-clover ./build/logs/clover.xml
 
 after_script:
   - make coveralls
