@@ -65,6 +65,7 @@ class ConnectionContext
         $this->conn->on('data', [$this, 'onData']);
         $this->conn->on('close', [$this, 'onClose']);
 
+        $this->commandMap['cap'] = [$this, 'onCap'];
         $this->commandMap['list'] = [$this, 'onList'];
         $this->commandMap['nodes'] = [$this, 'onNodes'];
         $this->commandMap['version'] = [$this, 'onVersion'];
@@ -138,6 +139,14 @@ class ConnectionContext
                 '# Unknown command. Try ' . substr_replace($list, ' or ', strrpos($list, ', '), 2) . "\n"
             );
         }
+    }
+
+    /**
+     * List capabilities
+     */
+    public function onCap()
+    {
+        $this->write("\n");
     }
 
     /**
