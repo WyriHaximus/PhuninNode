@@ -231,7 +231,7 @@ class ConnectionContextTest extends \PHPUnit_Framework_TestCase
             ->method('close');
         $connection->expects($this->at(15))
             ->method('write')
-            ->with("# Unknown command. Try list, nodes, version, config, fetch or quit\n");
+            ->with("# Unknown command. Try cap, list, nodes, version, config, fetch or quit\n");
 
 
         $connetionContext = new \WyriHaximus\PhuninNode\ConnectionContext($connection, $this->node);
