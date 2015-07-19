@@ -11,6 +11,13 @@
 
 namespace WyriHaximus\PhuninNode\Tests\Plugins;
 
+use React\EventLoop\StreamSelectLoop;
+use React\Promise\Deferred;
+use WyriHaximus\PhuninNode\Node;
+use WyriHaximus\PhuninNode\PluginConfiguration;
+use WyriHaximus\PhuninNode\PluginInterface;
+use WyriHaximus\PhuninNode\Value;
+
 /**
  * Class AbstractPluginTest
  * @package WyriHaximus\PhuninNode\Tests\Plugins
@@ -24,7 +31,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->loop = $this->getMock('\React\EventLoop\StreamSelectLoop');
+        $this->loop = $this->getMock(StreamSelectLoop::class);
         $this->socket = $this->getMock(
             '\React\Socket\Server',
             [
@@ -39,7 +46,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->node = $this->getMock(
-            '\WyriHaximus\PhuninNode\Node',
+            Node::class,
             [
                 'getPlugins',
                 'getPlugin',
@@ -56,7 +63,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
 
         $this->plugins = new \SplObjectStorage();
         $plugin = $this->getMock(
-            '\WyriHaximus\PhuninNode\PluginInterface',
+            PluginInterface::class,
             [
                 'getSlug',
                 'getConfiguration',
@@ -70,7 +77,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
             ->will(
                 $this->returnCallback(
                     function ($resolver) {
-                        $configuration = new \WyriHaximus\PhuninNode\PluginConfiguration();
+                        $configuration = new PluginConfiguration();
                         $configuration->setPair('graph_category', 'a');
                         $resolver->resolve($configuration);
                     }
@@ -89,7 +96,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
     public function testPlugin()
     {
         $classImplements = class_implements($this->plugin);
-        $this->assertTrue(isset($classImplements['WyriHaximus\PhuninNode\PluginInterface']));
+        $this->assertTrue(isset($classImplements[PluginInterface::class]));
     }
 
     public function testGetConfiguration()
@@ -97,7 +104,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
 
         $callbackRan = false;
         $callbackArgument = null;
-        $deferred = new \React\Promise\Deferred();
+        $deferred = new Deferred();
         $deferred->promise()->then(
             function ($configuration) use (&$callbackRan, &$callbackArgument) {
                 $callbackRan = true;
@@ -106,11 +113,11 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
         );
         $this->plugin->getConfiguration($deferred);
         $this->assertTrue($callbackRan);
-        $this->assertInstanceOf('WyriHaximus\PhuninNode\PluginConfiguration', $callbackArgument);
+        $this->assertInstanceOf(PluginConfiguration::class, $callbackArgument);
 
         $callbackRan = false;
         $callbackArgument = null;
-        $deferred = new \React\Promise\Deferred();
+        $deferred = new Deferred();
         $deferred->promise()->then(
             function ($configuration) use (&$callbackRan, &$callbackArgument) {
                 $callbackRan = true;
@@ -119,7 +126,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
         );
         $this->plugin->getConfiguration($deferred);
         $this->assertTrue($callbackRan);
-        $this->assertInstanceOf('WyriHaximus\PhuninNode\PluginConfiguration', $callbackArgument);
+        $this->assertInstanceOf(PluginConfiguration::class, $callbackArgument);
     }
 
     public function testGetConfigurationValues()
@@ -127,7 +134,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
 
         $callbackRan = false;
         $callbackArgument = null;
-        $deferred = new \React\Promise\Deferred();
+        $deferred = new Deferred();
         $deferred->promise()->then(
             function ($configuration) use (&$callbackRan, &$callbackArgument) {
                 $callbackRan = true;
@@ -137,7 +144,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
         $this->plugin->getConfiguration($deferred);
         $this->assertTrue($callbackRan);
         foreach ($callbackArgument as $value) {
-            $this->assertInstanceOf('WyriHaximus\PhuninNode\Value', $value);
+            $this->assertInstanceOf(Value::class, $value);
         }
     }
 
@@ -146,7 +153,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
 
         $callbackRan = false;
         $callbackArgument = null;
-        $deferred = new \React\Promise\Deferred();
+        $deferred = new Deferred();
         $deferred->promise()->then(
             function ($values) use (&$callbackRan, &$callbackArgument) {
                 $callbackRan = true;
@@ -165,7 +172,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
 
         $callbackRan = false;
         $callbackArgument = null;
-        $deferred = new \React\Promise\Deferred();
+        $deferred = new Deferred();
         $deferred->promise()->then(
             function ($values) use (&$callbackRan, &$callbackArgument) {
                 $callbackRan = true;
@@ -183,7 +190,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
 
         $callbackRan = false;
         $callbackArgument = null;
-        $deferred = new \React\Promise\Deferred();
+        $deferred = new Deferred();
         $deferred->promise()->then(
             function ($values) use (&$callbackRan, &$callbackArgument) {
                 $callbackRan = true;
@@ -193,7 +200,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
         $this->plugin->getValues($deferred);
         $this->assertTrue($callbackRan);
         foreach ($callbackArgument as $value) {
-            $this->assertInstanceOf('WyriHaximus\PhuninNode\Value', $value);
+            $this->assertInstanceOf(Value::class, $value);
         }
     }
 }

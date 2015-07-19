@@ -11,6 +11,17 @@
 
 namespace WyriHaximus\PhuninNode\Tests;
 
+use React\EventLoop\StreamSelectLoop;
+use React\EventLoop\Timer\TimerInterface;
+use React\Promise\Deferred;
+use React\Socket\Connection;
+use React\Socket\Server;
+use WyriHaximus\PhuninNode\ConnectionContext;
+use WyriHaximus\PhuninNode\Node;
+use WyriHaximus\PhuninNode\PluginConfiguration;
+use WyriHaximus\PhuninNode\Plugins\Plugins;
+use WyriHaximus\PhuninNode\Value;
+
 /**
  * Class ConnectionContextTest
  * @package WyriHaximus\PhuninNode\Tests
@@ -21,7 +32,7 @@ class ConnectionContextTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->loop = $this->getMock(
-            '\React\EventLoop\StreamSelectLoop',
+            StreamSelectLoop::class,
             [
                 'addReadStream',
                 'addWriteStream',
@@ -34,10 +45,10 @@ class ConnectionContextTest extends \PHPUnit_Framework_TestCase
         );
         $this->loop->expects($this->atleastOnce())
             ->method('addTimer')
-            ->willReturn($this->getMock('\React\EventLoop\Timer\TimerInterface'));
+            ->willReturn($this->getMock(TimerInterface::class));
 
         $this->socket = $this->getMock(
-            '\React\Socket\Server',
+            Server::class,
             [
                 'on',
                 'write',
@@ -50,7 +61,7 @@ class ConnectionContextTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->node = $this->getMock(
-            '\WyriHaximus\PhuninNode\Node',
+            Node::class,
             [
                 'getPlugins',
                 'getPlugin',
@@ -68,7 +79,7 @@ class ConnectionContextTest extends \PHPUnit_Framework_TestCase
 
         $this->plugins = new \SplObjectStorage();
         $plugin = $this->getMock(
-            '\WyriHaximus\PhuninNode\Interfaces\Plugin',
+            Plugins::class,
             [
                 'getSlug',
                 'getConfiguration',
@@ -81,10 +92,10 @@ class ConnectionContextTest extends \PHPUnit_Framework_TestCase
         $plugin->method('getConfiguration')
             ->will(
                 $this->returnCallback(
-                    function ($resolver) {
-                        $configuration = new \WyriHaximus\PhuninNode\PluginConfiguration();
+                    function (Deferred $deferred) {
+                        $configuration = new PluginConfiguration();
                         $configuration->setPair('graph_category', 'a');
-                        $resolver->resolve($configuration);
+                        $deferred->resolve($configuration);
                     }
                 )
             );
@@ -99,13 +110,13 @@ class ConnectionContextTest extends \PHPUnit_Framework_TestCase
     public function testConstruct()
     {
         $connection = $this->getMock(
-            '\React\Socket\Connection',
+            Connection::class,
             [
                 'on',
                 'write',
             ],
             [
-                $this->socket,
+                fopen('php://temp', 'r+'),
                 $this->loop,
             ]
         );
@@ -117,7 +128,7 @@ class ConnectionContextTest extends \PHPUnit_Framework_TestCase
                 $this->callback(
                     function ($callback) {
                         return $this->isInstanceOf(
-                            '\WyriHaximus\PhuninNode\ConnectionContext',
+                            ConnectionContext::class,
                             $callback[0]
                         ) && $this->identicalTo('onData', $callback[1]);
                     }
@@ -130,7 +141,7 @@ class ConnectionContextTest extends \PHPUnit_Framework_TestCase
                 $this->callback(
                     function ($callback) {
                         return $this->isInstanceOf(
-                            '\WyriHaximus\PhuninNode\ConnectionContext',
+                            ConnectionContext::class,
                             $callback[0]
                         ) && $this->identicalTo('onClose', $callback[1]);
                     }
@@ -140,7 +151,7 @@ class ConnectionContextTest extends \PHPUnit_Framework_TestCase
             ->method('write')
             ->with("# munin node at HOSTNAME\n");
 
-        $connetionContext = new \WyriHaximus\PhuninNode\ConnectionContext($connection, $this->node);
+        new ConnectionContext($connection, $this->node);
     }
 
     public function testOnData()
@@ -161,20 +172,20 @@ class ConnectionContextTest extends \PHPUnit_Framework_TestCase
                 $this->returnCallback(
                     function ($deferredResolver) {
                         $values = new \SplObjectStorage;
-                        $values->attach(new \WyriHaximus\PhuninNode\Value(1, 2));
+                        $values->attach(new Value(1, 2));
                         $deferredResolver->resolve($values);
                     }
                 )
             );
 
         $connection = $this->getMock(
-            '\React\Socket\Connection',
+            Connection::class,
             [
                 'write',
                 'close',
             ],
             [
-                $this->socket,
+                fopen('php://temp', 'r+'),
                 $this->loop,
             ]
         );
@@ -198,9 +209,9 @@ class ConnectionContextTest extends \PHPUnit_Framework_TestCase
             ->will(
                 $this->returnCallback(
                     function ($callback) {
-                        $resolver = new \React\Promise\Deferred();
-                        $resolver->promise()->then($callback);
-                        return $resolver;
+                        $deferred = new Deferred();
+                        $deferred->promise()->then($callback);
+                        return $deferred;
                     }
                 )
             );
@@ -234,18 +245,18 @@ class ConnectionContextTest extends \PHPUnit_Framework_TestCase
             ->with("# Unknown command. Try cap, list, nodes, version, config, fetch or quit\n");
 
 
-        $connetionContext = new \WyriHaximus\PhuninNode\ConnectionContext($connection, $this->node);
+        $connectionContext = new ConnectionContext($connection, $this->node);
 
-        $connetionContext->onData("list\n");
-        $connetionContext->onData("nodes\n");
-        $connetionContext->onData("version\n");
-        $connetionContext->onData("config\n");
-        $connetionContext->onData("config b\n");
-        $connetionContext->onData("config a\n");
-        $connetionContext->onData("fetch\n");
-        $connetionContext->onData("fetch b\n");
-        $connetionContext->onData("fetch a\n");
-        $connetionContext->onData("quit\n");
-        $connetionContext->onData("skjargyefw\n");
+        $connectionContext->onData("list\n");
+        $connectionContext->onData("nodes\n");
+        $connectionContext->onData("version\n");
+        $connectionContext->onData("config\n");
+        $connectionContext->onData("config b\n");
+        $connectionContext->onData("config a\n");
+        $connectionContext->onData("fetch\n");
+        $connectionContext->onData("fetch b\n");
+        $connectionContext->onData("fetch a\n");
+        $connectionContext->onData("quit\n");
+        $connectionContext->onData("skjargyefw\n");
     }
 }

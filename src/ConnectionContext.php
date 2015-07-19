@@ -11,6 +11,10 @@
 
 namespace WyriHaximus\PhuninNode;
 
+use React\EventLoop\LoopInterface;
+use \React\EventLoop\Timer\TimerInterface;
+use React\Socket\Connection;
+
 /**
  * Class ConnectionContext
  * @package WyriHaximus\PhuninNode
@@ -28,7 +32,7 @@ class ConnectionContext
     const CONNECTION_TIMEOUT = 60;
 
     /**
-     * @var \React\Socket\Connection
+     * @var Connection
      */
     private $conn;
 
@@ -43,20 +47,20 @@ class ConnectionContext
     private $commandMap = [];
 
     /**
-     * @var \React\EventLoop\Timer\TimerInterface
+     * @var TimerInterface
      */
     private $timeoutTimer;
 
     /**
-     * @var \React\EventLoop\LoopInterface
+     * @var LoopInterface
      */
     private $loop;
 
     /**
-     * @param \React\Socket\Connection $conn
+     * @param Connection $conn
      * @param Node $node
      */
-    public function __construct(\React\Socket\Connection $conn, Node $node)
+    public function __construct(Connection $conn, Node $node)
     {
         $this->conn = $conn;
         $this->node = $node;

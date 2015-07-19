@@ -11,11 +11,17 @@
 
 namespace WyriHaximus\PhuninNode\Plugins;
 
+use React\Promise\Deferred;
+use WyriHaximus\PhuninNode\Node;
+use WyriHaximus\PhuninNode\PluginConfiguration;
+use WyriHaximus\PhuninNode\PluginInterface;
+use WyriHaximus\PhuninNode\Value;
+
 /**
  * Class Uptime
  * @package WyriHaximus\PhuninNode\Plugins
  */
-class Uptime implements \WyriHaximus\PhuninNode\PluginInterface
+class Uptime implements PluginInterface
 {
     /**
      * Seconds in a day
@@ -23,14 +29,14 @@ class Uptime implements \WyriHaximus\PhuninNode\PluginInterface
     const DAY_IN_SECONDS = 86400;
 
     /**
-     * @var \WyriHaximus\PhuninNode\Node
+     * @var Node
      */
     private $node;
 
     /**
      * Cached configuration state
      *
-     * @var \WyriHaximus\PhuninNode\PluginConfiguration
+     * @var PluginConfiguration
      */
     private $configuration;
 
@@ -52,7 +58,7 @@ class Uptime implements \WyriHaximus\PhuninNode\PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function setNode(\WyriHaximus\PhuninNode\Node $node)
+    public function setNode(Node $node)
     {
         $this->node = $node;
     }
@@ -68,14 +74,14 @@ class Uptime implements \WyriHaximus\PhuninNode\PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getConfiguration(\React\Promise\Deferred $deferredResolver)
+    public function getConfiguration(Deferred $deferred)
     {
-        if ($this->configuration instanceof \WyriHaximus\PhuninNode\PluginConfiguration) {
-            $deferredResolver->resolve($this->configuration);
+        if ($this->configuration instanceof PluginConfiguration) {
+            $deferred->resolve($this->configuration);
             return;
         }
 
-        $this->configuration = new \WyriHaximus\PhuninNode\PluginConfiguration();
+        $this->configuration = new PluginConfiguration();
         $this->configuration->setPair('graph_category', 'phunin_node');
         $this->configuration->setPair('graph_title', 'Uptime');
         $this->configuration->setPair('graph_args', '--base 1000 -l 0');
@@ -83,17 +89,17 @@ class Uptime implements \WyriHaximus\PhuninNode\PluginInterface
         $this->configuration->setPair('uptime.label', 'uptime');
         $this->configuration->setPair('uptime.draw', 'AREA');
 
-        $deferredResolver->resolve($this->configuration);
+        $deferred->resolve($this->configuration);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getValues(\React\Promise\Deferred $deferredResolver)
+    public function getValues(Deferred $deferred)
     {
         $values = new \SplObjectStorage;
         $values->attach($this->getUptimeValue());
-        $deferredResolver->resolve($values);
+        $deferred->resolve($values);
     }
 
     /**
@@ -101,7 +107,7 @@ class Uptime implements \WyriHaximus\PhuninNode\PluginInterface
      */
     private function getUptimeValue()
     {
-        $value = new \WyriHaximus\PhuninNode\Value();
+        $value = new Value();
         $value->setKey('uptime');
         $value->setValue(round(((time() - $this->startTime) / self::DAY_IN_SECONDS), 2));
         return $value;

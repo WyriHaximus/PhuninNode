@@ -11,14 +11,20 @@
 
 namespace WyriHaximus\PhuninNode\Plugins;
 
+use React\Promise\Deferred;
+use WyriHaximus\PhuninNode\Node;
+use WyriHaximus\PhuninNode\PluginConfiguration;
+use WyriHaximus\PhuninNode\PluginInterface;
+use WyriHaximus\PhuninNode\Value;
+
 /**
  * Class Plugins
  * @package WyriHaximus\PhuninNode\Plugins
  */
-class Plugins implements \WyriHaximus\PhuninNode\PluginInterface
+class Plugins implements PluginInterface
 {
     /**
-     * @var \WyriHaximus\PhuninNode\Node
+     * @var Node
      */
     private $node;
 
@@ -30,14 +36,14 @@ class Plugins implements \WyriHaximus\PhuninNode\PluginInterface
     /**
      * Cached configuration state
      *
-     * @var \WyriHaximus\PhuninNode\PluginConfiguration
+     * @var PluginConfiguration
      */
     private $configuration;
 
     /**
      * {@inheritdoc}
      */
-    public function setNode(\WyriHaximus\PhuninNode\Node $node)
+    public function setNode(Node $node)
     {
         $this->node = $node;
     }
@@ -53,64 +59,62 @@ class Plugins implements \WyriHaximus\PhuninNode\PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getConfiguration(\React\Promise\Deferred $deferredResolver)
+    public function getConfiguration(Deferred $deferred)
     {
-        if ($this->configuration instanceof \WyriHaximus\PhuninNode\PluginConfiguration) {
-            $deferredResolver->resolve($this->configuration);
+        if ($this->configuration instanceof PluginConfiguration) {
+            $deferred->resolve($this->configuration);
             return;
         }
 
-        $this->configuration = new \WyriHaximus\PhuninNode\PluginConfiguration();
+        $this->configuration = new PluginConfiguration();
         $this->configuration->setPair('graph_category', 'phunin_node');
         $this->configuration->setPair('graph_title', 'Plugins loaded');
         $this->configuration->setPair('plugins_count.label', 'Plugin Count');
         $this->configuration->setPair('plugins_category_count.label', 'Plugin Category Count');
 
-        $deferredResolver->resolve($this->configuration);
+        $deferred->resolve($this->configuration);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getValues(\React\Promise\Deferred $deferredResolver)
+    public function getValues(Deferred $deferred)
     {
         $values = new \SplObjectStorage;
         $values->attach($this->getPluginCountValue());
         $values->attach($this->getPluginCategoryCountValue());
-        $deferredResolver->resolve($values);
+        $deferred->resolve($values);
     }
 
     /**
-     * @return \WyriHaximus\PhuninNode\Value
+     * @return Value
      */
     private function getPluginCountValue()
     {
         if (isset($this->values['plugins_count']) &&
-            $this->values['plugins_count'] instanceof \WyriHaximus\PhuninNode\Value) {
+            $this->values['plugins_count'] instanceof Value) {
             return $this->values['plugins_count'];
         }
 
-        $this->values['plugins_count'] = new \WyriHaximus\PhuninNode\Value();
-        $this->values['plugins_count']->setKey('plugins_count');
-        $this->values['plugins_count']->setValue($this->node->getPlugins()->count());
+        $this->values['plugins_count'] = new Value('plugins_count', $this->node->getPlugins()->count());
 
         return $this->values['plugins_count'];
     }
 
     /**
-     * @return \WyriHaximus\PhuninNode\Value
+     * @return Value
      */
     private function getPluginCategoryCountValue()
     {
         if (isset($this->values['plugins_category_count']) &&
-            $this->values['plugins_category_count'] instanceof \WyriHaximus\PhuninNode\Value) {
+            $this->values['plugins_category_count'] instanceof Value) {
             return $this->values['plugins_category_count'];
         }
 
         $categories = [];
         $plugins = $this->node->getPlugins();
         foreach ($plugins as $plugin) {
-            $deferred = new \React\Promise\Deferred();
+            $deferred = new Deferred();
             $deferred->promise()->then(
                 function ($configuration) use (&$categories) {
                     $category = $configuration->getPair('graph_category')->getValue();
@@ -122,9 +126,7 @@ class Plugins implements \WyriHaximus\PhuninNode\PluginInterface
             $plugin->getConfiguration($deferred);
         }
 
-        $this->values['plugins_category_count'] = new \WyriHaximus\PhuninNode\Value();
-        $this->values['plugins_category_count']->setKey('plugins_category_count');
-        $this->values['plugins_category_count']->setValue(count($categories));
+        $this->values['plugins_category_count'] = new Value('plugins_category_count', count($categories));
 
         return $this->values['plugins_category_count'];
     }

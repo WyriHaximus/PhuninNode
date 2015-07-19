@@ -11,28 +11,34 @@
 
 namespace WyriHaximus\PhuninNode\Plugins;
 
+use React\Promise\Deferred;
+use WyriHaximus\PhuninNode\Node;
+use WyriHaximus\PhuninNode\PluginConfiguration;
+use WyriHaximus\PhuninNode\PluginInterface;
+use WyriHaximus\PhuninNode\Value;
+
 /**
  * Class MemoryUsage
  * @package WyriHaximus\PhuninNode\Plugins
  */
-class MemoryUsage implements \WyriHaximus\PhuninNode\PluginInterface
+class MemoryUsage implements PluginInterface
 {
     /**
-     * @var \WyriHaximus\PhuninNode\Node
+     * @var Node
      */
     private $node;
 
     /**
      * Cached configuration state
      *
-     * @var \WyriHaximus\PhuninNode\PluginConfiguration
+     * @var PluginConfiguration
      */
     private $configuration;
 
     /**
      * {@inheritdoc}
      */
-    public function setNode(\WyriHaximus\PhuninNode\Node $node)
+    public function setNode(Node $node)
     {
         $this->node = $node;
     }
@@ -48,56 +54,46 @@ class MemoryUsage implements \WyriHaximus\PhuninNode\PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getConfiguration(\React\Promise\Deferred $deferredResolver)
+    public function getConfiguration(Deferred $deferred)
     {
-        if ($this->configuration instanceof \WyriHaximus\PhuninNode\PluginConfiguration) {
-            $deferredResolver->resolve($this->configuration);
+        if ($this->configuration instanceof PluginConfiguration) {
+            $deferred->resolve($this->configuration);
             return;
         }
 
-        $this->configuration = new \WyriHaximus\PhuninNode\PluginConfiguration();
+        $this->configuration = new PluginConfiguration();
         $this->configuration->setPair('graph_category', 'phunin_node');
         $this->configuration->setPair('graph_title', 'Memory Usage');
         $this->configuration->setPair('memory_usage.label', 'Current Memory Usage');
         $this->configuration->setPair('memory_peak_usage.label', 'Peak Memory Usage');
 
-        $deferredResolver->resolve($this->configuration);
+        $deferred->resolve($this->configuration);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getValues(\React\Promise\Deferred $deferredResolver)
+    public function getValues(Deferred $deferred)
     {
         $values = new \SplObjectStorage;
         $values->attach($this->getMemoryUsageValue());
         $values->attach($this->getMemoryPeakUsageValue());
-        $deferredResolver->resolve($values);
+        $deferred->resolve($values);
     }
 
     /**
-     * @return \WyriHaximus\PhuninNode\Value
+     * @return Value
      */
     private function getMemoryUsageValue()
     {
-
-        $value = new \WyriHaximus\PhuninNode\Value();
-        $value->setKey('memory_usage');
-        $value->setValue(memory_get_usage(true));
-
-        return $value;
+        return new Value('memory_usage', memory_get_usage(true));
     }
 
     /**
-     * @return \WyriHaximus\PhuninNode\Value
+     * @return Value
      */
     private function getMemoryPeakUsageValue()
     {
-
-        $value = new \WyriHaximus\PhuninNode\Value();
-        $value->setKey('memory_peak_usage');
-        $value->setValue(memory_get_peak_usage(true));
-
-        return $value;
+        return new Value('memory_peak_usage', memory_get_peak_usage(true));
     }
 }

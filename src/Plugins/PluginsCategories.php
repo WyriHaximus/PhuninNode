@@ -11,14 +11,20 @@
 
 namespace WyriHaximus\PhuninNode\Plugins;
 
+use React\Promise\Deferred;
+use WyriHaximus\PhuninNode\Node;
+use WyriHaximus\PhuninNode\PluginConfiguration;
+use WyriHaximus\PhuninNode\PluginInterface;
+use WyriHaximus\PhuninNode\Value;
+
 /**
  * Class PluginsCategories
  * @package WyriHaximus\PhuninNode\Plugins
  */
-class PluginsCategories implements \WyriHaximus\PhuninNode\PluginInterface
+class PluginsCategories implements PluginInterface
 {
     /**
-     * @var \WyriHaximus\PhuninNode\Node
+     * @var Node
      */
     private $node;
 
@@ -35,14 +41,14 @@ class PluginsCategories implements \WyriHaximus\PhuninNode\PluginInterface
     /**
      * Cached configuration state
      *
-     * @var \WyriHaximus\PhuninNode\PluginConfiguration
+     * @var PluginConfiguration
      */
     private $configuration;
 
     /**
      * {@inheritdoc}
      */
-    public function setNode(\WyriHaximus\PhuninNode\Node $node)
+    public function setNode(Node $node)
     {
         $this->node = $node;
     }
@@ -58,14 +64,14 @@ class PluginsCategories implements \WyriHaximus\PhuninNode\PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getConfiguration(\React\Promise\Deferred $deferredResolver)
+    public function getConfiguration(Deferred $deferred)
     {
-        if ($this->configuration instanceof \WyriHaximus\PhuninNode\PluginConfiguration) {
-            $deferredResolver->resolve($this->configuration);
+        if ($this->configuration instanceof PluginConfiguration) {
+            $deferred->resolve($this->configuration);
             return;
         }
 
-        $this->configuration = new \WyriHaximus\PhuninNode\PluginConfiguration();
+        $this->configuration = new PluginConfiguration();
         $this->configuration->setPair('graph_category', 'phunin_node');
         $this->configuration->setPair('graph_title', 'Plugin Per Categories');
 
@@ -73,19 +79,19 @@ class PluginsCategories implements \WyriHaximus\PhuninNode\PluginInterface
             $this->configuration->setPair($key . '.label', $key);
         }
 
-        $deferredResolver->resolve($this->configuration);
+        $deferred->resolve($this->configuration);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getValues(\React\Promise\Deferred $deferredResolver)
+    public function getValues(Deferred $deferred)
     {
         $values = new \SplObjectStorage;
         foreach ($this->getPluginCategories() as $key => $value) {
             $values->attach($this->getPluginCategoryValue($key));
         }
-        $deferredResolver->resolve($values);
+        $deferred->resolve($values);
     }
 
     /**
@@ -99,7 +105,7 @@ class PluginsCategories implements \WyriHaximus\PhuninNode\PluginInterface
 
         $plugins = $this->node->getPlugins();
         foreach ($plugins as $plugin) {
-            $deferred = new \React\Promise\Deferred();
+            $deferred = new Deferred();
             $deferred->promise()->then(
                 function ($configuration) {
                     $category = $configuration->getPair('graph_category')->getValue();
@@ -117,18 +123,15 @@ class PluginsCategories implements \WyriHaximus\PhuninNode\PluginInterface
 
     /**
      * @param $key
-     * @return \WyriHaximus\PhuninNode\Value
+     * @return Value
      */
     private function getPluginCategoryValue($key)
     {
-        if (isset($this->values[$key]) && $this->values[$key] instanceof \WyriHaximus\PhuninNode\Value) {
+        if (isset($this->values[$key]) && $this->values[$key] instanceof Value) {
             return $this->values[$key];
         }
 
-        $this->values[$key] = new \WyriHaximus\PhuninNode\Value();
-        $this->values[$key]->setKey($key);
-        $categories = $this->getPluginCategories();
-        $this->values[$key]->setValue($categories[$key]);
+        $this->values[$key] = new Value($key, $this->getPluginCategories()[$key]);
 
         return $this->values[$key];
     }

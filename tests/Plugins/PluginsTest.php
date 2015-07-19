@@ -11,6 +11,8 @@
 
 namespace WyriHaximus\PhuninNode\Tests\Plugins;
 
+use WyriHaximus\PhuninNode\Plugins\Plugins;
+
 /**
  * Class PluginsTest
  * @package WyriHaximus\PhuninNode\Tests\Plugins
@@ -20,7 +22,7 @@ class PluginsTest extends AbstractPluginTest
 
     public function setUp()
     {
-        $this->plugin = new \WyriHaximus\PhuninNode\Plugins\Plugins();
+        $this->plugin = new Plugins();
 
         parent::setUp();
 

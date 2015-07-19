@@ -11,6 +11,14 @@
 
 namespace WyriHaximus\PhuninNode\Tests;
 
+use React\EventLoop\StreamSelectLoop;
+use React\Promise\Deferred;
+use React\Socket\Connection;
+use WyriHaximus\PhuninNode\ConnectionContext;
+use WyriHaximus\PhuninNode\Node;
+use WyriHaximus\PhuninNode\PluginConfiguration;
+use WyriHaximus\PhuninNode\PluginInterface;
+
 /**
  * Class NodeTest
  * @package WyriHaximus\PhuninNode\Tests
@@ -19,7 +27,7 @@ class NodeTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->loop = $this->getMock('\React\EventLoop\StreamSelectLoop');
+        $this->loop = $this->getMock(StreamSelectLoop::class);
         $this->socket = $this->getMock(
             '\React\Socket\Server',
             [
@@ -36,7 +44,7 @@ class NodeTest extends \PHPUnit_Framework_TestCase
 
         $this->plugins = new \SplObjectStorage();
         $plugin = $this->getMock(
-            '\WyriHaximus\PhuninNode\PluginInterface',
+            PluginInterface::class,
             [
                 'getSlug',
                 'getConfiguration',
@@ -49,8 +57,8 @@ class NodeTest extends \PHPUnit_Framework_TestCase
         $plugin->method('getConfiguration')
             ->will(
                 $this->returnCallback(
-                    function ($resolver) {
-                        $configuration = new \WyriHaximus\PhuninNode\PluginConfiguration();
+                    function (Deferred $resolver) {
+                        $configuration = new PluginConfiguration();
                         $configuration->setPair('graph_category', 'a');
                         $resolver->resolve($configuration);
                     }
@@ -72,53 +80,53 @@ class NodeTest extends \PHPUnit_Framework_TestCase
                 'connection',
                 $this->callback(
                     function ($callback) {
-                        return $this->isInstanceOf('\WyriHaximus\PhuninNode\Node', $callback[0]) && $this->identicalTo(
+                        return $this->isInstanceOf(Node::class, $callback[0]) && $this->identicalTo(
                             'onConnection',
                             $callback[1]
                         );
                     }
                 )
             );
-        $node = new \WyriHaximus\PhuninNode\Node($this->loop, $this->socket);
+        new Node($this->loop, $this->socket);
     }
 
     public function testShutdown()
     {
         $this->socket->expects($this->once())
             ->method('shutdown');
-        $node = new \WyriHaximus\PhuninNode\Node($this->loop, $this->socket);
+        $node = new Node($this->loop, $this->socket);
         $node->shutdown();
     }
 
     public function testOnConnection()
     {
         $connection = $this->getMock(
-            '\React\Socket\Connection',
+            Connection::class,
             [],
             [
-                $this->socket,
+                fopen('php://temp', 'r+'),
                 $this->loop,
             ]
         );
-        $node = new \WyriHaximus\PhuninNode\Node($this->loop, $this->socket);
+        $node = new Node($this->loop, $this->socket);
         $node->onConnection($connection);
         $connections = $node->getConnections();
         $connections->rewind();
         $this->assertSameSize(['a'], $connections);
-        $this->assertInstanceOf('\WyriHaximus\PhuninNode\ConnectionContext', $connections->current());
+        $this->assertInstanceOf(ConnectionContext::class, $connections->current());
     }
 
     public function testOnClose()
     {
         $connection = $this->getMock(
-            '\React\Socket\Connection',
+            Connection::class,
             [],
             [
-                $this->socket,
+                fopen('php://temp', 'r+'),
                 $this->loop,
             ]
         );
-        $node = new \WyriHaximus\PhuninNode\Node($this->loop, $this->socket);
+        $node = new Node($this->loop, $this->socket);
         $node->onConnection($connection);
         $connections = $node->getConnections();
         $connections->rewind();
@@ -128,7 +136,7 @@ class NodeTest extends \PHPUnit_Framework_TestCase
 
     public function testAddPlugin()
     {
-        $node = new \WyriHaximus\PhuninNode\Node($this->loop, $this->socket);
+        $node = new Node($this->loop, $this->socket);
         $this->assertSameSize([], $node->getPlugins());
         $this->plugins->rewind();
         $node->addPlugin($this->plugins->current());
@@ -137,13 +145,13 @@ class NodeTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPluginsEmpty()
     {
-        $node = new \WyriHaximus\PhuninNode\Node($this->loop, $this->socket);
+        $node = new Node($this->loop, $this->socket);
         $this->assertSameSize([], $node->getPlugins());
     }
 
     public function testGetPluginsOne()
     {
-        $node = new \WyriHaximus\PhuninNode\Node($this->loop, $this->socket);
+        $node = new Node($this->loop, $this->socket);
         $this->plugins->rewind();
         $node->addPlugin($this->plugins->current());
         $this->assertSameSize(['a'], $node->getPlugins());
@@ -151,28 +159,28 @@ class NodeTest extends \PHPUnit_Framework_TestCase
 
     public function testGetConnectionsEmpty()
     {
-        $node = new \WyriHaximus\PhuninNode\Node($this->loop, $this->socket);
+        $node = new Node($this->loop, $this->socket);
         $this->assertSameSize([], $node->getConnections());
     }
 
     public function testGetConnectionsOne()
     {
         $connection = $this->getMock(
-            '\React\Socket\Connection',
+            Connection::class,
             [],
             [
-                $this->socket,
+                fopen('php://temp', 'r+'),
                 $this->loop,
             ]
         );
-        $node = new \WyriHaximus\PhuninNode\Node($this->loop, $this->socket);
+        $node = new Node($this->loop, $this->socket);
         $node->onConnection($connection);
         $this->assertSameSize(['a'], $node->getConnections());
     }
 
     public function testGetPlugin()
     {
-        $node = new \WyriHaximus\PhuninNode\Node($this->loop, $this->socket);
+        $node = new Node($this->loop, $this->socket);
         $this->plugins->rewind();
         $node->addPlugin($this->plugins->current());
         $this->assertSame($this->plugins->current(), $node->getPlugin('a'));
@@ -181,14 +189,14 @@ class NodeTest extends \PHPUnit_Framework_TestCase
 
     public function testGetLoop()
     {
-        $node = new \WyriHaximus\PhuninNode\Node($this->loop, $this->socket);
+        $node = new Node($this->loop, $this->socket);
         $this->assertSame($this->loop, $node->getLoop());
     }
 
     public function testResolverFactory()
     {
         $called = false;
-        $node = new \WyriHaximus\PhuninNode\Node($this->loop, $this->socket);
+        $node = new Node($this->loop, $this->socket);
         $resolver = $node->resolverFactory(
             function () use (&$called) {
                 $called = true;
@@ -204,7 +212,7 @@ class NodeTest extends \PHPUnit_Framework_TestCase
     public function testResolverFactoryReject()
     {
         $called = false;
-        $node = new \WyriHaximus\PhuninNode\Node($this->loop, $this->socket);
+        $node = new Node($this->loop, $this->socket);
         $resolver = $node->resolverFactory(
             function () {
             },

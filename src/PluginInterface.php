@@ -11,6 +11,8 @@
 
 namespace WyriHaximus\PhuninNode;
 
+use React\Promise\Deferred;
+
 /**
  * Interface PluginInterface
  * @package WyriHaximus\PhuninNode
@@ -23,7 +25,7 @@ interface PluginInterface
      * @param Node $node
      * @return void
      */
-    public function setNode(\WyriHaximus\PhuninNode\Node $node);
+    public function setNode(Node $node);
 
     /**
      * Return the slug identifier for this plugin
@@ -35,16 +37,16 @@ interface PluginInterface
     /**
      * Get the configuration for this plugin, it should resolve the passed resolver
      *
-     * @param \React\Promise\Deferred $deferredResolver
+     * @param \React\Promise\Deferred $deferred
      * @return void
      */
-    public function getConfiguration(\React\Promise\Deferred $deferredResolver);
+    public function getConfiguration(Deferred $deferred);
 
     /**
      * Get the values for this plugin, it should resolve the passed resolver
      *
-     * @param \React\Promise\Deferred $deferredResolver
+     * @param \React\Promise\Deferred $deferred
      * @return void
      */
-    public function getValues(\React\Promise\Deferred $deferredResolver);
+    public function getValues(Deferred $deferred);
 }

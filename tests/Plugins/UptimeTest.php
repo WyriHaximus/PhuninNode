@@ -11,6 +11,8 @@
 
 namespace WyriHaximus\PhuninNode\Tests\Plugins;
 
+use WyriHaximus\PhuninNode\Plugins\Uptime;
+
 /**
  * Class UptimeTest
  * @package WyriHaximus\PhuninNode\Tests\Plugins
@@ -20,7 +22,7 @@ class UptimeTest extends AbstractPluginTest
 
     public function setUp()
     {
-        $this->plugin = new \WyriHaximus\PhuninNode\Plugins\Uptime();
+        $this->plugin = new Uptime();
 
         parent::setUp();
 

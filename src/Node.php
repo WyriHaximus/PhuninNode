@@ -11,9 +11,9 @@
 
 namespace WyriHaximus\PhuninNode;
 
-use \React\EventLoop\LoopInterface;
-use \React\Socket\Server as Socket;
-use \React\Socket\Connection;
+use React\EventLoop\LoopInterface;
+use React\Socket\Connection;
+use React\Socket\Server as Socket;
 
 /**
  * Class Node
