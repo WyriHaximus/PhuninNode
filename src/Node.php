@@ -11,7 +11,10 @@
 
 namespace WyriHaximus\PhuninNode;
 
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use React\EventLoop\LoopInterface;
+use React\Promise\Deferred;
 use React\Socket\Connection;
 use React\Socket\Server as Socket;
 
@@ -33,7 +36,7 @@ class Node
     private $loop;
 
     /**
-     * @var Server
+     * @var Socket
      */
     private $socket;
 
@@ -41,6 +44,11 @@ class Node
      * @var Configuration
      */
     private $configuration;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
     /**
      * Collection of Plugins in use (PluginInterface)
@@ -65,8 +73,9 @@ class Node
      * @param LoopInterface $loop
      * @param Socket $socket The socket to bind on
      * @param Configuration $configuration Node configuration
+     * @param LoggerInterface $logger Logger
      */
-    public function __construct(LoopInterface $loop, Socket $socket, Configuration $configuration = null)
+    public function __construct(LoopInterface $loop, Socket $socket, Configuration $configuration = null, LoggerInterface $logger = null)
     {
 
         if (false === strpos(PHP_VERSION, "hiphop")) {
@@ -81,6 +90,11 @@ class Node
         }
         $configuration->applyDefaults($this->defaultConfiguration);
         $this->configuration = $configuration;
+
+        if ($logger === null) {
+            $logger = new NullLogger();
+        }
+        $this->logger = $logger;
 
         $this->plugins = new \SplObjectStorage;
         $this->connections = new \SplObjectStorage;
@@ -165,6 +179,14 @@ class Node
     }
 
     /**
+     * @return LoggerInterface
+     */
+    public function getLogger()
+    {
+        return $this->logger;
+    }
+
+    /**
      * Get a plugin by slug or return false when none can be found
      *
      * @param string $slug
@@ -192,7 +214,7 @@ class Node
      */
     public function resolverFactory(callable $onFulfilled, callable $onRejected)
     {
-        $resolver = new \React\Promise\Deferred();
+        $resolver = new Deferred();
         $resolver->promise()->then($onFulfilled, $onRejected);
         return $resolver;
     }

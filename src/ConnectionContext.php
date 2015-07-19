@@ -24,12 +24,19 @@ class ConnectionContext
     /**
      * The greeting munin expects
      */
-    const GREETING = "# munin node at %s\n";
+    const GREETING = '# munin node at %s';
+
+    const VERSION_MESSAGE = 'PhuninNode on HOSTNAME version: %s';
 
     /**
      * The timeout after which we disconnection for no data transmission
      */
     const CONNECTION_TIMEOUT = 60;
+
+    /**
+     * New line
+     */
+    const NEW_LINE = "\n";
 
     /**
      * @var Connection
@@ -88,7 +95,8 @@ class ConnectionContext
     protected function write($data)
     {
         $this->clearTimeout();
-        $this->conn->write($data);
+        $this->conn->write($data . static::NEW_LINE);
+        $this->log('<-' . $data);
         $this->setTimeout();
     }
 
@@ -134,13 +142,14 @@ class ConnectionContext
     public function onData($data)
     {
         $data = trim($data);
+        $this->log('->' . $data);
         list($command) = explode(' ', $data);
         if (isset($this->commandMap[$command])) {
             call_user_func_array($this->commandMap[$command], [$data]);
         } else {
             $list = implode(', ', array_keys($this->commandMap));
             $this->write(
-                '# Unknown command. Try ' . substr_replace($list, ' or ', strrpos($list, ', '), 2) . "\n"
+                '# Unknown command. Try ' . substr_replace($list, ' or ', strrpos($list, ', '), 2)
             );
         }
     }
@@ -150,7 +159,7 @@ class ConnectionContext
      */
     public function onCap()
     {
-        $this->write("\n");
+        $this->write('');
     }
 
     /**
@@ -162,7 +171,7 @@ class ConnectionContext
         foreach ($this->node->getPlugins() as $plugin) {
             $list[] = $plugin->getSlug();
         }
-        $this->write(implode(' ', $list) . "\n");
+        $this->write(implode(' ', $list));
     }
 
     /**
@@ -170,7 +179,9 @@ class ConnectionContext
      */
     public function onNodes()
     {
-        $this->write(implode(' ', ['HOSTNAME']) . "\n");
+        $this->write(implode(' ', [
+            $this->node->getConfiguration()->getPair('hostname')->getValue()
+        ]));
     }
 
     /**
@@ -178,7 +189,7 @@ class ConnectionContext
      */
     public function onVersion()
     {
-        $this->write('PhuninNode on HOSTNAME version: ' . Node::VERSION . "\n");
+        $this->write(sprintf(static::VERSION_MESSAGE, Node::VERSION));
     }
 
     /**
@@ -205,12 +216,12 @@ class ConnectionContext
         $deferred = $this->node->resolverFactory(
             function ($configuration) {
                 foreach ($configuration->getPairs() as $pair) {
-                    $this->write($pair->getKey() . ' ' . $pair->getValue() . "\n");
+                    $this->write($pair->getKey() . ' ' . $pair->getValue());
                 }
-                $this->write(".\n");
+                $this->write('.');
             },
             function () {
-                $this->write(".\n");
+                $this->write('.');
             }
         );
         $plugin->getConfiguration($deferred);
@@ -242,13 +253,13 @@ class ConnectionContext
                 function ($values) {
                     foreach ($values as $value) {
                         $this->write(
-                            $value->getKey() . '.value ' . str_replace(',', '.', $value->getValue()) . "\n"
+                            $value->getKey() . '.value ' . str_replace(',', '.', $value->getValue())
                         );
                     }
-                    $this->write(".\n");
+                    $this->write('.');
                 },
                 function () {
-                    $this->write(".\n");
+                    $this->write('.');
                 }
             );
             $plugin->getValues($deferred);
@@ -271,5 +282,13 @@ class ConnectionContext
     public function onClose()
     {
         $this->close();
+    }
+
+    /**
+     * @param string $message
+     */
+    protected function log($message)
+    {
+        $this->node->getLogger()->debug('[' . spl_object_hash($this->conn) . ']' . $message);
     }
 }

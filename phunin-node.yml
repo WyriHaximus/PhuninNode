@@ -3,7 +3,7 @@ ip: 0.0.0.0
 
 hostname: localhost
 
-verbose: false
+verbose: true
 
 plugins:
   - \WyriHaximus\PhuninNode\Plugins\Plugins

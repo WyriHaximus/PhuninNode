@@ -5,6 +5,7 @@ use React\EventLoop\Factory;
 use React\Socket\Server;
 use Symfony\Component\Yaml\Yaml;
 use WyriHaximus\PhuninNode\Configuration;
+use WyriHaximus\PhuninNode\EchoLogger;
 use WyriHaximus\PhuninNode\Node;
 
 foreach (array(__DIR__ . '/../../autoload.php', __DIR__ . '/vendor/autoload.php') as $file) {
@@ -29,7 +30,7 @@ $configuration = new Configuration([
 ]);
 
 // Bind to IP and port
-$node = new Node($loop, $socket, $configuration);
+$node = new Node($loop, $socket, $configuration, $config['verbose'] ? new EchoLogger() : null);
 
 // Add plugins
 foreach ($config['plugins'] as $plugin) {
