@@ -1,6 +1,10 @@
 port: 12345
 ip: 0.0.0.0
 
+hostname: localhost
+
+verbose: false
+
 plugins:
   - \WyriHaximus\PhuninNode\Plugins\Plugins
   - \WyriHaximus\PhuninNode\Plugins\PluginsCategories

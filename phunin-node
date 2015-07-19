@@ -1,0 +1,34 @@
+#!/usr/bin/env php
+<?php
+
+use React\EventLoop\Factory;
+use React\Socket\Server;
+use Symfony\Component\Yaml\Yaml;
+use WyriHaximus\PhuninNode\Node;
+
+foreach (array(__DIR__ . '/../../autoload.php', __DIR__ . '/vendor/autoload.php') as $file) {
+    if (file_exists($file)) {
+        require $file;
+        break;
+    }
+}
+
+$config = Yaml::parse(file_get_contents(__DIR__ . '/phunin-node.yml'));
+
+// Create eventloop
+$loop = Factory::create();
+
+// Create a socket
+$socket = new Server($loop);
+$socket->listen($config['port'], $config['ip']);
+
+// Bind to IP and port
+$node = new Node($loop, $socket);
+
+// Add plugins
+foreach ($config['plugins'] as $plugin) {
+    $node->addPlugin(new $plugin());
+}
+
+// Get rolling
+$loop->run();

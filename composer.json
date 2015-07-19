@@ -38,9 +38,6 @@
     }
   },
   "bin": [
-    "bin/phunin-node"
-  ],
-  "config": {
-    "bin-dir": "bin"
-  }
+    "phunin-node"
+  ]
 }
