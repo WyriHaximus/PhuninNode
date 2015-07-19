@@ -12,7 +12,9 @@
     "keywords": [
         "munin",
         "munin-node",
-        "reactphp"
+        "reactphp",
+        "statistics",
+        "monitoring"
     ],
     "require": {
         "php": ">=5.5.0",
