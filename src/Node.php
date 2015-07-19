@@ -28,14 +28,19 @@ class Node
     const VERSION = '0.3.0-DEV';
 
     /**
-     * @var \React\EventLoop\LoopInterface
+     * @var LoopInterface
      */
     private $loop;
 
     /**
-     * @var \React\Socket\Server
+     * @var Server
      */
     private $socket;
+
+    /**
+     * @var Configuration
+     */
+    private $configuration;
 
     /**
      * Collection of Plugins in use (PluginInterface)
@@ -51,11 +56,17 @@ class Node
      */
     private $connections;
 
+    private $defaultConfiguration = [
+        'hostname' => 'HOSTNAME',
+        'verbose' => false,
+    ];
+
     /**
-     * @param \React\EventLoop\LoopInterface $loop
-     * @param \React\Socket\Server $socket The socket to bind on
+     * @param LoopInterface $loop
+     * @param Socket $socket The socket to bind on
+     * @param Configuration $configuration Node configuration
      */
-    public function __construct(LoopInterface $loop, Socket $socket)
+    public function __construct(LoopInterface $loop, Socket $socket, Configuration $configuration = null)
     {
 
         if (false === strpos(PHP_VERSION, "hiphop")) {
@@ -64,6 +75,12 @@ class Node
 
         $this->loop = $loop;
         $this->socket = $socket;
+
+        if ($configuration === null) {
+            $configuration = new Configuration();
+        }
+        $configuration->applyDefaults($this->defaultConfiguration);
+        $this->configuration = $configuration;
 
         $this->plugins = new \SplObjectStorage;
         $this->connections = new \SplObjectStorage;
@@ -137,6 +154,14 @@ class Node
     public function getLoop()
     {
         return $this->loop;
+    }
+
+    /**
+     * @return Configuration
+     */
+    public function getConfiguration()
+    {
+        return $this->configuration;
     }
 
     /**

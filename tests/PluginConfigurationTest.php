@@ -46,7 +46,7 @@ class PluginConfigurationTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->PluginConfiguration = new \WyriHaximus\PhuninNode\PluginConfiguration();
+        $this->PluginConfiguration = new \WyriHaximus\PhuninNode\Configuration();
     }
 
     public function testPairs()

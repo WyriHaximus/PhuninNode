@@ -24,7 +24,7 @@ class ConnectionContext
     /**
      * The greeting munin expects
      */
-    const GREETING = "# munin node at HOSTNAME\n";
+    const GREETING = "# munin node at %s\n";
 
     /**
      * The timeout after which we disconnection for no data transmission
@@ -77,7 +77,7 @@ class ConnectionContext
         $this->commandMap['fetch'] = [$this, 'onFetch'];
         $this->commandMap['quit'] = [$this, 'onQuit'];
 
-        $this->write(self::GREETING);
+        $this->write(sprintf(self::GREETING, $node->getConfiguration()->getPair('hostname')->getValue()));
     }
 
     /**

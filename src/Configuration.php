@@ -12,11 +12,27 @@
 namespace WyriHaximus\PhuninNode;
 
 /**
- * Class PluginConfiguration
+ * Class Configuration
  * @package WyriHaximus\PhuninNode
  */
-class PluginConfiguration
+class Configuration
 {
+    public function __construct($options = [])
+    {
+        foreach ($options as $key => $value) {
+            $this->setPair($key, $value);
+        }
+    }
+
+    public function applyDefaults($defaults)
+    {
+        foreach ($defaults as $key => $value) {
+            if (!$this->hasPair($key)) {
+                $this->setPair($key, $value);
+            }
+        }
+    }
+
     /**
      * @var array
      */
@@ -33,11 +49,16 @@ class PluginConfiguration
 
     /**
      * @param string $key
-     * @return mixed
+     * @return Value
      */
     public function getPair($key)
     {
         return $this->pairs[$key];
+    }
+
+    public function hasPair($key)
+    {
+        return isset($this->pairs[$key]);
     }
 
     /**

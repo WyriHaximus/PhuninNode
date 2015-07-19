@@ -18,7 +18,7 @@ use React\Socket\Connection;
 use React\Socket\Server;
 use WyriHaximus\PhuninNode\ConnectionContext;
 use WyriHaximus\PhuninNode\Node;
-use WyriHaximus\PhuninNode\PluginConfiguration;
+use WyriHaximus\PhuninNode\Configuration;
 use WyriHaximus\PhuninNode\Plugins\Plugins;
 use WyriHaximus\PhuninNode\Value;
 
@@ -93,7 +93,7 @@ class ConnectionContextTest extends \PHPUnit_Framework_TestCase
             ->will(
                 $this->returnCallback(
                     function (Deferred $deferred) {
-                        $configuration = new PluginConfiguration();
+                        $configuration = new Configuration();
                         $configuration->setPair('graph_category', 'a');
                         $deferred->resolve($configuration);
                     }

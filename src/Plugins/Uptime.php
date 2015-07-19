@@ -13,7 +13,7 @@ namespace WyriHaximus\PhuninNode\Plugins;
 
 use React\Promise\Deferred;
 use WyriHaximus\PhuninNode\Node;
-use WyriHaximus\PhuninNode\PluginConfiguration;
+use WyriHaximus\PhuninNode\Configuration;
 use WyriHaximus\PhuninNode\PluginInterface;
 use WyriHaximus\PhuninNode\Value;
 
@@ -36,7 +36,7 @@ class Uptime implements PluginInterface
     /**
      * Cached configuration state
      *
-     * @var PluginConfiguration
+     * @var Configuration
      */
     private $configuration;
 
@@ -76,12 +76,12 @@ class Uptime implements PluginInterface
      */
     public function getConfiguration(Deferred $deferred)
     {
-        if ($this->configuration instanceof PluginConfiguration) {
+        if ($this->configuration instanceof Configuration) {
             $deferred->resolve($this->configuration);
             return;
         }
 
-        $this->configuration = new PluginConfiguration();
+        $this->configuration = new Configuration();
         $this->configuration->setPair('graph_category', 'phunin_node');
         $this->configuration->setPair('graph_title', 'Uptime');
         $this->configuration->setPair('graph_args', '--base 1000 -l 0');

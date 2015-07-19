@@ -16,7 +16,7 @@ use React\Promise\Deferred;
 use React\Socket\Connection;
 use WyriHaximus\PhuninNode\ConnectionContext;
 use WyriHaximus\PhuninNode\Node;
-use WyriHaximus\PhuninNode\PluginConfiguration;
+use WyriHaximus\PhuninNode\Configuration;
 use WyriHaximus\PhuninNode\PluginInterface;
 
 /**
@@ -58,7 +58,7 @@ class NodeTest extends \PHPUnit_Framework_TestCase
             ->will(
                 $this->returnCallback(
                     function (Deferred $resolver) {
-                        $configuration = new PluginConfiguration();
+                        $configuration = new Configuration();
                         $configuration->setPair('graph_category', 'a');
                         $resolver->resolve($configuration);
                     }

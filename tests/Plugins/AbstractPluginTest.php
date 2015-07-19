@@ -14,7 +14,7 @@ namespace WyriHaximus\PhuninNode\Tests\Plugins;
 use React\EventLoop\StreamSelectLoop;
 use React\Promise\Deferred;
 use WyriHaximus\PhuninNode\Node;
-use WyriHaximus\PhuninNode\PluginConfiguration;
+use WyriHaximus\PhuninNode\Configuration;
 use WyriHaximus\PhuninNode\PluginInterface;
 use WyriHaximus\PhuninNode\Value;
 
@@ -77,7 +77,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
             ->will(
                 $this->returnCallback(
                     function ($resolver) {
-                        $configuration = new PluginConfiguration();
+                        $configuration = new Configuration();
                         $configuration->setPair('graph_category', 'a');
                         $resolver->resolve($configuration);
                     }
@@ -113,7 +113,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
         );
         $this->plugin->getConfiguration($deferred);
         $this->assertTrue($callbackRan);
-        $this->assertInstanceOf(PluginConfiguration::class, $callbackArgument);
+        $this->assertInstanceOf(Configuration::class, $callbackArgument);
 
         $callbackRan = false;
         $callbackArgument = null;
@@ -126,7 +126,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
         );
         $this->plugin->getConfiguration($deferred);
         $this->assertTrue($callbackRan);
-        $this->assertInstanceOf(PluginConfiguration::class, $callbackArgument);
+        $this->assertInstanceOf(Configuration::class, $callbackArgument);
     }
 
     public function testGetConfigurationValues()
