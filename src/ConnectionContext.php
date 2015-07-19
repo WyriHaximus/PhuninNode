@@ -26,6 +26,9 @@ class ConnectionContext
      */
     const GREETING = '# munin node at %s';
 
+    /**
+     * Version message
+     */
     const VERSION_MESSAGE = 'PhuninNode on HOSTNAME version: %s';
 
     /**
