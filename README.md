@@ -51,7 +51,8 @@ $loop->run();
 ## Ideas ##
 
 - Async support
-- Further work out munin protocol support
+- Multigraph
+- Full cap command
 
 ## License ##
 
