@@ -243,6 +243,9 @@ class ConnectionContextTest extends \PHPUnit_Framework_TestCase
         $connection->expects($this->at(15))
             ->method('write')
             ->with("# Unknown command. Try cap, list, nodes, version, config, fetch or quit\n");
+        $connection->expects($this->at(16))
+            ->method('write')
+            ->with("multigraph\n");
 
 
         $connectionContext = new ConnectionContext($connection, $this->node);
@@ -258,5 +261,6 @@ class ConnectionContextTest extends \PHPUnit_Framework_TestCase
         $connectionContext->onData("fetch a\n");
         $connectionContext->onData("quit\n");
         $connectionContext->onData("skjargyefw\n");
+        $connectionContext->onData("cap\n");
     }
 }

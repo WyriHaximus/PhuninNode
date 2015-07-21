@@ -162,7 +162,7 @@ class ConnectionContext
      */
     public function onCap()
     {
-        $this->write('');
+        $this->write('multigraph');
     }
 
     /**
