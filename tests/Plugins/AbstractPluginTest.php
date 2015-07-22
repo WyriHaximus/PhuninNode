@@ -99,6 +99,12 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(isset($classImplements[PluginInterface::class]));
     }
 
+    public function testGetSlug()
+    {
+        $this->assertInternalType('string', $this->plugin->getSlug());
+        $this->assertTrue(strlen($this->plugin->getSlug()) > 0);
+    }
+
     public function testGetConfiguration()
     {
 
