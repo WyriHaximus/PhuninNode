@@ -75,8 +75,12 @@ class Node
      * @param Configuration $configuration Node configuration
      * @param LoggerInterface $logger Logger
      */
-    public function __construct(LoopInterface $loop, Socket $socket, Configuration $configuration = null, LoggerInterface $logger = null)
-    {
+    public function __construct(
+        LoopInterface $loop,
+        Socket $socket,
+        Configuration $configuration = null,
+        LoggerInterface $logger = null
+    ) {
 
         if (false === strpos(PHP_VERSION, "hiphop")) {
             gc_enable();
