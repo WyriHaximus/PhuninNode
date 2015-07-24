@@ -82,7 +82,7 @@ class Node
         LoggerInterface $logger = null
     ) {
 
-        if (false === strpos(PHP_VERSION, "hiphop")) {
+        if (false === strpos(PHP_VERSION, 'hiphop')) {
             gc_enable();
         }
 
