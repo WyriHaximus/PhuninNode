@@ -92,10 +92,10 @@ class ConnectionContextTest extends \PHPUnit_Framework_TestCase
         $plugin->method('getConfiguration')
             ->will(
                 $this->returnCallback(
-                    function (Deferred $deferred) {
+                    function () {
                         $configuration = new Configuration();
                         $configuration->setPair('graph_category', 'a');
-                        $deferred->resolve($configuration);
+                        return \React\Promise\resolve($configuration);
                     }
                 )
             );
@@ -170,10 +170,10 @@ class ConnectionContextTest extends \PHPUnit_Framework_TestCase
             ->method('getValues')
             ->will(
                 $this->returnCallback(
-                    function ($deferredResolver) {
+                    function () {
                         $values = new \SplObjectStorage;
                         $values->attach(new Value(1, 2));
-                        $deferredResolver->resolve($values);
+                        return \React\Promise\resolve($values);
                     }
                 )
             );

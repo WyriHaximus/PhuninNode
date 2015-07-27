@@ -3,7 +3,7 @@
 /*
  * This file is part of PhuninNode.
  *
- ** (c) 2013 - 2014 Cees-Jan Kiewiet
+ ** (c) 2013 - 2015 Cees-Jan Kiewiet
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,9 +11,8 @@
 
 namespace WyriHaximus\PhuninNode\Plugins;
 
-use React\Promise\Deferred;
-use WyriHaximus\PhuninNode\Node;
 use WyriHaximus\PhuninNode\Configuration;
+use WyriHaximus\PhuninNode\Node;
 use WyriHaximus\PhuninNode\PluginInterface;
 use WyriHaximus\PhuninNode\Value;
 
@@ -54,11 +53,10 @@ class MemoryUsage implements PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getConfiguration(Deferred $deferred)
+    public function getConfiguration()
     {
         if ($this->configuration instanceof Configuration) {
-            $deferred->resolve($this->configuration);
-            return;
+            return \React\Promise\resolve($this->configuration);
         }
 
         $this->configuration = new Configuration();
@@ -67,18 +65,24 @@ class MemoryUsage implements PluginInterface
         $this->configuration->setPair('memory_usage.label', 'Current Memory Usage');
         $this->configuration->setPair('memory_peak_usage.label', 'Peak Memory Usage');
 
-        $deferred->resolve($this->configuration);
+        return \React\Promise\resolve($this->configuration);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getValues(Deferred $deferred)
+    public function getValues()
     {
-        $values = new \SplObjectStorage;
-        $values->attach($this->getMemoryUsageValue());
-        $values->attach($this->getMemoryPeakUsageValue());
-        $deferred->resolve($values);
+        $promises = [];
+        $promises[] = $this->getMemoryUsageValue();
+        $promises[] = $this->getMemoryPeakUsageValue();
+        return \React\Promise\all($promises)->then(function ($values) {
+            $valuesStorage = new \SplObjectStorage();
+            array_walk($values, function ($value) use ($valuesStorage) {
+                $valuesStorage->attach($value);
+            });
+            return \React\Promise\resolve($valuesStorage);
+        });
     }
 
     /**

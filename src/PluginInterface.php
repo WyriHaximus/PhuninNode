@@ -3,7 +3,7 @@
 /*
  * This file is part of PhuninNode.
  *
- ** (c) 2013 - 2014 Cees-Jan Kiewiet
+ ** (c) 2013 - 2015 Cees-Jan Kiewiet
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,7 +11,7 @@
 
 namespace WyriHaximus\PhuninNode;
 
-use React\Promise\Deferred;
+use React\Promise\PromiseInterface;
 
 /**
  * Interface PluginInterface
@@ -35,18 +35,16 @@ interface PluginInterface
     public function getSlug();
 
     /**
-     * Get the configuration for this plugin, it should resolve the passed resolver
+     * Get the configuration for this plugin, it should return a promise
      *
-     * @param \React\Promise\Deferred $deferred
-     * @return void
+     * @return PromiseInterface
      */
-    public function getConfiguration(Deferred $deferred);
+    public function getConfiguration();
 
     /**
-     * Get the values for this plugin, it should resolve the passed resolver
+     * Get the values for this plugin, it should return a promise
      *
-     * @param \React\Promise\Deferred $deferred
-     * @return void
+     * @return PromiseInterface
      */
-    public function getValues(Deferred $deferred);
+    public function getValues();
 }

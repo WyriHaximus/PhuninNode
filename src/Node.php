@@ -208,18 +208,4 @@ class Node
 
         return false;
     }
-
-    /**
-     * Create and setup a promise
-     *
-     * @param callable $onFulfilled
-     * @param callable $onRejected
-     * @return \React\Promise\Deferred
-     */
-    public function resolverFactory(callable $onFulfilled, callable $onRejected)
-    {
-        $resolver = new Deferred();
-        $resolver->promise()->then($onFulfilled, $onRejected);
-        return $resolver;
-    }
 }

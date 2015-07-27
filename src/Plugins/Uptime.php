@@ -3,7 +3,7 @@
 /*
  * This file is part of PhuninNode.
  *
- ** (c) 2013 - 2014 Cees-Jan Kiewiet
+ ** (c) 2013 - 2015 Cees-Jan Kiewiet
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -12,8 +12,8 @@
 namespace WyriHaximus\PhuninNode\Plugins;
 
 use React\Promise\Deferred;
-use WyriHaximus\PhuninNode\Node;
 use WyriHaximus\PhuninNode\Configuration;
+use WyriHaximus\PhuninNode\Node;
 use WyriHaximus\PhuninNode\PluginInterface;
 use WyriHaximus\PhuninNode\Value;
 
@@ -74,11 +74,10 @@ class Uptime implements PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getConfiguration(Deferred $deferred)
+    public function getConfiguration()
     {
         if ($this->configuration instanceof Configuration) {
-            $deferred->resolve($this->configuration);
-            return;
+            return \React\Promise\resolve($this->configuration);
         }
 
         $this->configuration = new Configuration();
@@ -89,17 +88,17 @@ class Uptime implements PluginInterface
         $this->configuration->setPair('uptime.label', 'uptime');
         $this->configuration->setPair('uptime.draw', 'AREA');
 
-        $deferred->resolve($this->configuration);
+        return \React\Promise\resolve($this->configuration);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getValues(Deferred $deferred)
+    public function getValues()
     {
         $values = new \SplObjectStorage;
         $values->attach($this->getUptimeValue());
-        $deferred->resolve($values);
+        return \React\Promise\resolve($values);
     }
 
     /**

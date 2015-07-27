@@ -24,7 +24,9 @@ use WyriHaximus\PhuninNode\Value;
  */
 abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
 {
-
+    /**
+     * @var PluginInterface
+     */
     protected $plugin;
 
     public function setUp()
@@ -76,10 +78,10 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
         $plugin->method('getConfiguration')
             ->will(
                 $this->returnCallback(
-                    function ($resolver) {
+                    function () {
                         $configuration = new Configuration();
                         $configuration->setPair('graph_category', 'a');
-                        $resolver->resolve($configuration);
+                        return \React\Promise\resolve($configuration);
                     }
                 )
             );
@@ -110,27 +112,23 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
 
         $callbackRan = false;
         $callbackArgument = null;
-        $deferred = new Deferred();
-        $deferred->promise()->then(
+        $this->plugin->getConfiguration()->then(
             function ($configuration) use (&$callbackRan, &$callbackArgument) {
                 $callbackRan = true;
                 $callbackArgument = $configuration;
             }
         );
-        $this->plugin->getConfiguration($deferred);
         $this->assertTrue($callbackRan);
         $this->assertInstanceOf(Configuration::class, $callbackArgument);
 
         $callbackRan = false;
         $callbackArgument = null;
-        $deferred = new Deferred();
-        $deferred->promise()->then(
+        $this->plugin->getConfiguration()->then(
             function ($configuration) use (&$callbackRan, &$callbackArgument) {
                 $callbackRan = true;
                 $callbackArgument = $configuration;
             }
         );
-        $this->plugin->getConfiguration($deferred);
         $this->assertTrue($callbackRan);
         $this->assertInstanceOf(Configuration::class, $callbackArgument);
     }
@@ -140,14 +138,12 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
 
         $callbackRan = false;
         $callbackArgument = null;
-        $deferred = new Deferred();
-        $deferred->promise()->then(
+        $this->plugin->getConfiguration()->then(
             function ($configuration) use (&$callbackRan, &$callbackArgument) {
                 $callbackRan = true;
                 $callbackArgument = $configuration;
             }
         );
-        $this->plugin->getConfiguration($deferred);
         $this->assertTrue($callbackRan);
         foreach ($callbackArgument as $value) {
             $this->assertInstanceOf(Value::class, $value);
@@ -159,14 +155,12 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
 
         $callbackRan = false;
         $callbackArgument = null;
-        $deferred = new Deferred();
-        $deferred->promise()->then(
+        $this->plugin->getValues()->then(
             function ($values) use (&$callbackRan, &$callbackArgument) {
                 $callbackRan = true;
                 $callbackArgument = $values;
             }
         );
-        $this->plugin->getValues($deferred);
         $this->assertTrue($callbackRan);
         $this->assertInstanceOf('SplObjectStorage', $callbackArgument);
 
@@ -178,15 +172,12 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
 
         $callbackRan = false;
         $callbackArgument = null;
-        $deferred = new Deferred();
-        $deferred->promise()->then(
+        $this->plugin->getValues()->then(
             function ($values) use (&$callbackRan, &$callbackArgument) {
                 $callbackRan = true;
                 $callbackArgument = $values;
             }
         );
-
-        $this->plugin->getValues($deferred);
         $this->assertTrue($callbackRan);
         $this->assertInstanceOf('SplObjectStorage', $callbackArgument);
     }
@@ -196,14 +187,12 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
 
         $callbackRan = false;
         $callbackArgument = null;
-        $deferred = new Deferred();
-        $deferred->promise()->then(
+        $this->plugin->getValues()->then(
             function ($values) use (&$callbackRan, &$callbackArgument) {
                 $callbackRan = true;
                 $callbackArgument = $values;
             }
         );
-        $this->plugin->getValues($deferred);
         $this->assertTrue($callbackRan);
         foreach ($callbackArgument as $value) {
             $this->assertInstanceOf(Value::class, $value);

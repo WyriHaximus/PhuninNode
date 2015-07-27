@@ -216,7 +216,7 @@ class ConnectionContext
             return;
         }
 
-        $deferred = $this->node->resolverFactory(
+        $plugin->getConfiguration()->then(
             function ($configuration) {
                 foreach ($configuration->getPairs() as $pair) {
                     $this->write($pair->getKey() . ' ' . $pair->getValue());
@@ -227,7 +227,6 @@ class ConnectionContext
                 $this->write('.');
             }
         );
-        $plugin->getConfiguration($deferred);
     }
 
     /**
@@ -252,7 +251,7 @@ class ConnectionContext
         }
 
         if ($plugin !== false) {
-            $deferred = $this->node->resolverFactory(
+            $plugin->getValues()->then(
                 function ($values) {
                     foreach ($values as $value) {
                         $this->write(
@@ -265,7 +264,6 @@ class ConnectionContext
                     $this->write('.');
                 }
             );
-            $plugin->getValues($deferred);
         } else {
             $this->conn->close();
         }

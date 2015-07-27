@@ -3,7 +3,7 @@
 /*
  * This file is part of PhuninNode.
  *
- ** (c) 2013 - 2014 Cees-Jan Kiewiet
+ ** (c) 2013 - 2015 Cees-Jan Kiewiet
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,9 +11,8 @@
 
 namespace WyriHaximus\PhuninNode\Plugins;
 
-use React\Promise\Deferred;
-use WyriHaximus\PhuninNode\Node;
 use WyriHaximus\PhuninNode\Configuration;
+use WyriHaximus\PhuninNode\Node;
 use WyriHaximus\PhuninNode\PluginInterface;
 use WyriHaximus\PhuninNode\Value;
 
@@ -27,11 +26,6 @@ class Plugins implements PluginInterface
      * @var Node
      */
     private $node;
-
-    /**
-     * @var array
-     */
-    private $values = [];
 
     /**
      * Cached configuration state
@@ -59,11 +53,10 @@ class Plugins implements PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getConfiguration(Deferred $deferred)
+    public function getConfiguration()
     {
         if ($this->configuration instanceof Configuration) {
-            $deferred->resolve($this->configuration);
-            return;
+            return \React\Promise\resolve($this->configuration);
         }
 
         $this->configuration = new Configuration();
@@ -72,18 +65,24 @@ class Plugins implements PluginInterface
         $this->configuration->setPair('plugins_count.label', 'Plugin Count');
         $this->configuration->setPair('plugins_category_count.label', 'Plugin Category Count');
 
-        $deferred->resolve($this->configuration);
+        return \React\Promise\resolve($this->configuration);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getValues(Deferred $deferred)
+    public function getValues()
     {
-        $values = new \SplObjectStorage;
-        $values->attach($this->getPluginCountValue());
-        $values->attach($this->getPluginCategoryCountValue());
-        $deferred->resolve($values);
+        $promises = [];
+        $promises[] = $this->getPluginCountValue();
+        $promises[] = $this->getPluginCategoryCountValue();
+        return \React\Promise\all($promises)->then(function ($values) {
+            $valuesStorage = new \SplObjectStorage();
+            array_walk($values, function ($value) use ($valuesStorage) {
+                $valuesStorage->attach($value);
+            });
+            return \React\Promise\resolve($valuesStorage);
+        });
     }
 
     /**
@@ -91,14 +90,7 @@ class Plugins implements PluginInterface
      */
     private function getPluginCountValue()
     {
-        if (isset($this->values['plugins_count']) &&
-            $this->values['plugins_count'] instanceof Value) {
-            return $this->values['plugins_count'];
-        }
-
-        $this->values['plugins_count'] = new Value('plugins_count', $this->node->getPlugins()->count());
-
-        return $this->values['plugins_count'];
+        return \React\Promise\resolve(new Value('plugins_count', $this->node->getPlugins()->count()));
     }
 
     /**
@@ -106,28 +98,20 @@ class Plugins implements PluginInterface
      */
     private function getPluginCategoryCountValue()
     {
-        if (isset($this->values['plugins_category_count']) &&
-            $this->values['plugins_category_count'] instanceof Value) {
-            return $this->values['plugins_category_count'];
-        }
-
+        $promises = [];
         $categories = [];
         $plugins = $this->node->getPlugins();
         foreach ($plugins as $plugin) {
-            $deferred = new Deferred();
-            $deferred->promise()->then(
+            $plugin->getConfiguration()->then(
                 function ($configuration) use (&$categories) {
                     $category = $configuration->getPair('graph_category')->getValue();
-                    if (!isset($categories[$category])) {
-                        $categories[$category] = true;
-                    }
+                    $categories[$category] = true;
                 }
             );
-            $plugin->getConfiguration($deferred);
         }
 
-        $this->values['plugins_category_count'] = new Value('plugins_category_count', count($categories));
-
-        return $this->values['plugins_category_count'];
+        return \React\Promise\all($promises)->then(function () use (&$categories) {
+            return \React\Promise\resolve(new Value('plugins_category_count', count($categories)));
+        });
     }
 }
