@@ -11,15 +11,14 @@
 
 namespace WyriHaximus\PhuninNode\Tests;
 
+use WyriHaximus\PhuninNode\Configuration;
+
 /**
  * Class PluginConfigurationTest
  * @package WyriHaximus\PhuninNode\Tests
  */
 class PluginConfigurationTest extends \PHPUnit_Framework_TestCase
 {
-
-    private $Value;
-
     private $testData = [
         [
             'key' => 'a',
@@ -43,28 +42,22 @@ class PluginConfigurationTest extends \PHPUnit_Framework_TestCase
         ],
     ];
 
-    public function setUp()
-    {
-        parent::setUp();
-        $this->PluginConfiguration = new \WyriHaximus\PhuninNode\Configuration();
-    }
-
     public function testPairs()
     {
-        $this->assertEquals(0, count($this->PluginConfiguration->getPairs()));
+        $configuration = new Configuration([
+            'v' => 'w',
+            'y' => 'z',
+        ]);
+        $this->assertEquals(2, count($configuration->getPairs()));
+        $configuration = new Configuration();
+        $this->assertEquals(0, count($configuration->getPairs()));
         for ($i = 0; $i < count($this->testData); $i++) {
-            $this->PluginConfiguration->setPair($this->testData[$i]['key'], $this->testData[$i]['value']);
-            $this->assertEquals(($i + 1), count($this->PluginConfiguration->getPairs()));
-            $pair = $this->PluginConfiguration->getPair($this->testData[$i]['key']);
+            $configuration->setPair($this->testData[$i]['key'], $this->testData[$i]['value']);
+            $this->assertEquals(($i + 1), count($configuration->getPairs()));
+            $pair = $configuration->getPair($this->testData[$i]['key']);
             $this->assertEquals('WyriHaximus\PhuninNode\Value', get_class($pair));
             $this->assertEquals($this->testData[$i]['key'], $pair->getKey());
             $this->assertEquals($this->testData[$i]['value'], $pair->getValue());
         }
-    }
-
-    public function tearDown()
-    {
-        unset($this->PluginConfiguration);
-        parent::tearDown();
     }
 }
