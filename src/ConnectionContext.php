@@ -109,7 +109,6 @@ class ConnectionContext
     protected function close()
     {
         $this->clearTimeout();
-        $this->conn->close();
         $this->node->onClose($this);
     }
 
@@ -274,6 +273,7 @@ class ConnectionContext
      */
     public function onQuit()
     {
+        $this->conn->close();
         $this->close();
     }
 
