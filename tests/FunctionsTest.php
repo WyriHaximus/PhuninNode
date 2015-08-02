@@ -22,13 +22,13 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
 {
     public function testValuePromisesToObjectStorageAndTestArrayToValuePromises()
     {
-        $promises = [
+        $array = [
             ['a', 'b'],
             ['c', 'd'],
             ['e', 'f'],
         ];
 
-        \WyriHaximus\PhuninNode\valuePromisesToObjectStorage(\WyriHaximus\PhuninNode\arrayToValuePromises($promises))->then(function (\SplObjectStorage $storage) {
+        \WyriHaximus\PhuninNode\valuePromisesToObjectStorage(\WyriHaximus\PhuninNode\arrayToValuePromises($array))->then(function (\SplObjectStorage $storage) {
             $storage->rewind();
             $this->assertSame(3, $storage->count());
             $this->assertSame([
