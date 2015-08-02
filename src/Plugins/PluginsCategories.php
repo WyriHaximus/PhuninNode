@@ -14,7 +14,6 @@ namespace WyriHaximus\PhuninNode\Plugins;
 use WyriHaximus\PhuninNode\Configuration;
 use WyriHaximus\PhuninNode\Node;
 use WyriHaximus\PhuninNode\PluginInterface;
-use WyriHaximus\PhuninNode\Value;
 
 /**
  * Class PluginsCategories
@@ -74,14 +73,11 @@ class PluginsCategories implements PluginInterface
      */
     public function getValues()
     {
-        return $this->getPluginCategories()->then(function ($values) {
-            $valuesStorage = new \SplObjectStorage();
-            foreach ($values as $key => $value) {
-                $valuesStorage->attach(new Value($key, $value));
-            }
-
-            return \React\Promise\resolve($valuesStorage);
-        });
+        return \WyriHaximus\PhuninNode\valuePromisesToObjectStorage(
+            \WyriHaximus\PhuninNode\arrayToValuePromises(
+                $this->getPluginCategories()
+            )
+        );
     }
 
     /**

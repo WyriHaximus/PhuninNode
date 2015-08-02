@@ -36,7 +36,8 @@
   "autoload-dev": {
     "psr-4": {
       "WyriHaximus\\PhuninNode\\Tests\\": "tests/"
-    }
+    },
+    "files": ["src/functions.php"]
   },
   "bin": [
     "phunin-node"

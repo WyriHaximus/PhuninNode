@@ -84,13 +84,7 @@ class Plugins implements PluginInterface
         $promises = [];
         $promises[] = $this->getPluginCountValue();
         $promises[] = $this->getPluginCategoryCountValue();
-        return \React\Promise\all($promises)->then(function ($values) {
-            $valuesStorage = new \SplObjectStorage();
-            array_walk($values, function ($value) use ($valuesStorage) {
-                $valuesStorage->attach($value);
-            });
-            return \React\Promise\resolve($valuesStorage);
-        });
+        return \WyriHaximus\PhuninNode\valuePromisesToObjectStorage($promises);
     }
 
     /**
