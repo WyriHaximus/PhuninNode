@@ -74,6 +74,14 @@ class Uptime implements PluginInterface
     /**
      * {@inheritdoc}
      */
+    public function getCategorySlug()
+    {
+        return 'phunin_node';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getConfiguration()
     {
         if ($this->configuration instanceof Configuration) {

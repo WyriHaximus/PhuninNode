@@ -68,6 +68,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
             PluginInterface::class,
             [
                 'getSlug',
+                'getCategorySlug',
                 'getConfiguration',
                 'setNode',
                 'getValues',
@@ -75,6 +76,8 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
         );
         $plugin->method('getSlug')
             ->willReturn('a');
+        $plugin->method('getCategorySlug')
+            ->willReturn('b');
         $plugin->method('getConfiguration')
             ->will(
                 $this->returnCallback(
@@ -105,6 +108,12 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInternalType('string', $this->plugin->getSlug());
         $this->assertTrue(strlen($this->plugin->getSlug()) > 0);
+    }
+
+    public function testGetCategorySlug()
+    {
+        $this->assertInternalType('string', $this->plugin->getCategorySlug());
+        $this->assertTrue(strlen($this->plugin->getCategorySlug()) > 0);
     }
 
     public function testGetConfiguration()

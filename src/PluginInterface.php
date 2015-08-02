@@ -35,6 +35,13 @@ interface PluginInterface
     public function getSlug();
 
     /**
+     * Return the category slug identifier for this plugin
+     *
+     * @return string
+     */
+    public function getCategorySlug();
+
+    /**
      * Get the configuration for this plugin, it should return a promise
      *
      * @return PromiseInterface

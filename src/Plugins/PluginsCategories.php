@@ -46,6 +46,14 @@ class PluginsCategories implements PluginInterface
     /**
      * {@inheritdoc}
      */
+    public function getCategorySlug()
+    {
+        return 'phunin_node';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getConfiguration()
     {
         $configuration = new Configuration();
@@ -82,22 +90,15 @@ class PluginsCategories implements PluginInterface
     private function getPluginCategories()
     {
         $categories = [];
-        $promises = [];
         $plugins = $this->node->getPlugins();
         foreach ($plugins as $plugin) {
-            $promises[] = $plugin->getConfiguration()->then(
-                function ($configuration) use (&$categories) {
-                    $category = $configuration->getPair('graph_category')->getValue();
-                    if (!isset($categories[$category])) {
-                        $categories[$category] = 0;
-                    }
-                    $categories[$category]++;
-                }
-            );
+            $category = $plugin->getCategorySlug();
+            if (!isset($categories[$category])) {
+                $categories[$category] = 0;
+            }
+            $categories[$category]++;
         }
 
-        return \React\Promise\all($promises)->then(function () use (&$categories) {
-            return \React\Promise\resolve($categories);
-        });
+        return \React\Promise\resolve($categories);
     }
 }
