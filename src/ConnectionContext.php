@@ -13,7 +13,7 @@ namespace WyriHaximus\PhuninNode;
 
 use \React\EventLoop\Timer\TimerInterface;
 use React\EventLoop\LoopInterface;
-use React\Socket\Connection;
+use React\Stream\DuplexStreamInterface;
 
 /**
  * Class ConnectionContext
@@ -42,7 +42,7 @@ class ConnectionContext
     const NEW_LINE = "\n";
 
     /**
-     * @var Connection
+     * @var DuplexStreamInterface
      */
     private $conn;
 
@@ -67,10 +67,10 @@ class ConnectionContext
     private $loop;
 
     /**
-     * @param Connection $conn
+     * @param DuplexStreamInterface $conn
      * @param Node $node
      */
-    public function __construct(Connection $conn, Node $node)
+    public function __construct(DuplexStreamInterface $conn, Node $node)
     {
         $this->conn = $conn;
         $this->node = $node;
