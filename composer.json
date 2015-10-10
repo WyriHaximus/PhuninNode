@@ -24,6 +24,7 @@
     "psr/log": "^1.0"
   },
   "require-dev": {
+    "php": ">=5.5.0",
     "phpunit/phpunit": "^4.0",
     "vectorface/dunit": "^2.0",
     "squizlabs/php_codesniffer": "^1.5"
