@@ -4,10 +4,8 @@ PhuninNode
 [![Build Status](https://travis-ci.org/WyriHaximus/PhuninNode.png)](https://travis-ci.org/WyriHaximus/PhuninNode)
 [![Latest Stable Version](https://poser.pugx.org/WyriHaximus/Phunin-Node/v/stable.png)](https://packagist.org/packages/WyriHaximus/Phunin-Node)
 [![Total Downloads](https://poser.pugx.org/WyriHaximus/Phunin-Node/downloads.png)](https://packagist.org/packages/WyriHaximus/Phunin-Node)
-[![Coverage Status](https://coveralls.io/repos/WyriHaximus/PhuninNode/badge.png)](https://coveralls.io/r/WyriHaximus/PhuninNode)
+[![Code Coverage](https://scrutinizer-ci.com/g/WyriHaximus/PhuninNode/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/WyriHaximus/PhuninNode/?branch=master)
 [![License](https://poser.pugx.org/wyrihaximus/phunin-node/license.png)](https://packagist.org/packages/wyrihaximus/phunin-node)
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/WyriHaximus/phuninnode/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/7aa7729b-fc93-4e81-81be-56a6e9fcaa26/mini.png)](https://insight.sensiolabs.com/projects/7aa7729b-fc93-4e81-81be-56a6e9fcaa26)
 
 PhuninNode is a munin-node port PHP aiming to provide application monitoring utilizing munin.
 
