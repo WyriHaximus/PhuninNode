@@ -59,13 +59,11 @@ class PluginsCategories implements PluginInterface
         $configuration->setPair('graph_category', 'phunin_node');
         $configuration->setPair('graph_title', 'Plugins Per Category');
 
-        return $this->getPluginCategories()->then(function ($values) use ($configuration) {
-            foreach ($values as $key => $value) {
-                $configuration->setPair($key . '.label', $key);
-            }
+        foreach ($this->getPluginCategories() as $key => $value) {
+            $configuration->setPair($key . '.label', $key);
+        }
 
-            return \React\Promise\resolve($configuration);
-        });
+        return \React\Promise\resolve($configuration);
     }
 
     /**
