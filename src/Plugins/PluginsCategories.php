@@ -57,7 +57,7 @@ class PluginsCategories implements PluginInterface
     {
         $configuration = new Configuration();
         $configuration->setPair('graph_category', 'phunin_node');
-        $configuration->setPair('graph_title', 'Plugin Per Categories');
+        $configuration->setPair('graph_title', 'Plugins Per Category');
 
         return $this->getPluginCategories()->then(function ($values) use ($configuration) {
             foreach ($values as $key => $value) {
