@@ -95,6 +95,6 @@ class PluginsCategories implements PluginInterface
             $categories[$category]++;
         }
 
-        return \React\Promise\resolve($categories);
+        return $categories;
     }
 }
