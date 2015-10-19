@@ -70,8 +70,8 @@ class Plugins implements PluginInterface
         $this->configuration = new Configuration();
         $this->configuration->setPair('graph_category', 'phunin_node');
         $this->configuration->setPair('graph_title', 'Plugins loaded');
-        $this->configuration->setPair('plugins_count.label', 'Plugin Count');
-        $this->configuration->setPair('plugins_category_count.label', 'Plugin Category Count');
+        $this->configuration->setPair('plugins_count.label', 'Plugins');
+        $this->configuration->setPair('plugins_category_count.label', 'Plugin Categories');
 
         return \React\Promise\resolve($this->configuration);
     }
