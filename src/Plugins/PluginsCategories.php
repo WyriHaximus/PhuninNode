@@ -79,7 +79,7 @@ class PluginsCategories implements PluginInterface
     }
 
     /**
-     * @return \React\Promise\PromiseInterface
+     * @return array
      */
     private function getPluginCategories()
     {
