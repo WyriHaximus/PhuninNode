@@ -32,26 +32,26 @@ interface PluginInterface
      *
      * @return string
      */
-    public function getSlug();
+    public function getSlug(): string;
 
     /**
      * Return the category slug identifier for this plugin
      *
      * @return string
      */
-    public function getCategorySlug();
+    public function getCategorySlug(): string;
 
     /**
      * Get the configuration for this plugin, it should return a promise
      *
      * @return PromiseInterface
      */
-    public function getConfiguration();
+    public function getConfiguration(): PromiseInterface;
 
     /**
      * Get the values for this plugin, it should return a promise
      *
      * @return PromiseInterface
      */
-    public function getValues();
+    public function getValues(): PromiseInterface;
 }
