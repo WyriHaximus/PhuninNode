@@ -17,16 +17,15 @@
     "monitoring"
   ],
   "require": {
-    "php": ">=5.5.0",
+    "php": "^7.0",
     "react/promise": "~2.0",
     "react/socket": "^0.4",
-    "symfony/yaml": "^2.4",
+    "symfony/yaml": "^2.4||^3.0",
     "psr/log": "^1.0"
   },
   "require-dev": {
     "php": ">=5.5.0",
     "phpunit/phpunit": "^4.0",
-    "vectorface/dunit": "^2.0",
     "squizlabs/php_codesniffer": "^1.5"
   },
   "autoload": {
