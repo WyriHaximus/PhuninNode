@@ -23,15 +23,15 @@ class Value
     protected $key;
 
     /**
-     * @var mixed
+     * @var string
      */
     protected $value;
 
     /**
      * @param string $key
-     * @param mixed $value
+     * @param string $value
      */
-    public function __construct($key = null, $value = null)
+    public function __construct(string $key = null, string $value = null)
     {
         $this->setKey($key);
         $this->setValue($value);
@@ -40,7 +40,7 @@ class Value
     /**
      * @param string $key
      */
-    public function setKey($key)
+    public function setKey(string $key)
     {
         $this->key = $key;
     }
@@ -48,7 +48,7 @@ class Value
     /**
      * @return string
      */
-    public function getKey()
+    public function getKey(): string
     {
         return $this->key;
     }
@@ -56,15 +56,15 @@ class Value
     /**
      * @param mixed $value
      */
-    public function setValue($value)
+    public function setValue(string $value)
     {
         $this->value = $value;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getValue()
+    public function getValue(): string
     {
         return $this->value;
     }
