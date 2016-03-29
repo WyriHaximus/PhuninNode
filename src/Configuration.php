@@ -17,14 +17,14 @@ namespace WyriHaximus\PhuninNode;
  */
 class Configuration
 {
-    public function __construct($options = [])
+    public function __construct(array $options = [])
     {
         foreach ($options as $key => $value) {
             $this->setPair($key, $value);
         }
     }
 
-    public function applyDefaults($defaults)
+    public function applyDefaults(array $defaults)
     {
         foreach ($defaults as $key => $value) {
             if (!$this->hasPair($key)) {
@@ -42,7 +42,7 @@ class Configuration
      * @param string $key
      * @param $value
      */
-    public function setPair($key, $value)
+    public function setPair(string $key, $value)
     {
         $this->pairs[$key] = new Value($key, $value);
     }
@@ -51,12 +51,16 @@ class Configuration
      * @param string $key
      * @return Value
      */
-    public function getPair($key)
+    public function getPair(string $key): Value
     {
         return $this->pairs[$key];
     }
 
-    public function hasPair($key)
+    /**
+     * @param string $key
+     * @return bool
+     */
+    public function hasPair($key): bool
     {
         return isset($this->pairs[$key]);
     }
@@ -64,7 +68,7 @@ class Configuration
     /**
      * @return array
      */
-    public function getPairs()
+    public function getPairs(): array
     {
         return $this->pairs;
     }
