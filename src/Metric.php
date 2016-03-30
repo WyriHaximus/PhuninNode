@@ -40,7 +40,7 @@ class Metric
     /**
      * @param string $key
      */
-    public function setKey($key)
+    public function setKey(string $key)
     {
         $this->key = $key;
     }
@@ -48,7 +48,7 @@ class Metric
     /**
      * @return string
      */
-    public function getKey()
+    public function getKey(): string
     {
         return $this->key;
     }
