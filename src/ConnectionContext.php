@@ -29,7 +29,7 @@ class ConnectionContext
     /**
      * Version message
      */
-    const VERSION_MESSAGE = 'PhuninNode on HOSTNAME version: %s';
+    const VERSION_MESSAGE = 'PhuninNode on %s version: %s';
 
     /**
      * The timeout after which we disconnection for no data transmission
@@ -95,7 +95,7 @@ class ConnectionContext
      *
      * @param string $data
      */
-    protected function write($data)
+    protected function write(string $data)
     {
         $this->clearTimeout();
         $this->conn->write($data . static::NEW_LINE);
@@ -141,7 +141,7 @@ class ConnectionContext
      *
      * @param string $data
      */
-    public function onData($data)
+    public function onData(string $data)
     {
         $data = trim($data);
         $this->log('->' . $data);
@@ -191,7 +191,13 @@ class ConnectionContext
      */
     public function onVersion()
     {
-        $this->write(sprintf(static::VERSION_MESSAGE, Node::VERSION));
+        $this->write(
+            sprintf(
+                static::VERSION_MESSAGE,
+                $this->node->getConfiguration()->getPair('hostname')->getValue(),
+                Node::VERSION
+            )
+        );
     }
 
     /**
@@ -199,7 +205,7 @@ class ConnectionContext
      *
      * @param string $data
      */
-    public function onConfig($data)
+    public function onConfig(string $data)
     {
         $data = explode(' ', $data);
 
@@ -233,7 +239,7 @@ class ConnectionContext
      *
      * @param string $data
      */
-    public function onFetch($data)
+    public function onFetch(string $data)
     {
         $data = explode(' ', $data);
 
@@ -288,7 +294,7 @@ class ConnectionContext
     /**
      * @param string $message
      */
-    protected function log($message)
+    protected function log(string $message)
     {
         $this->node->getLogger()->debug('[' . spl_object_hash($this->conn) . ']' . $message);
     }
