@@ -64,6 +64,9 @@ class Node
      */
     private $connections;
 
+    /**
+     * @var array
+     */
     private $defaultConfiguration = [
         'hostname' => 'HOSTNAME',
         'verbose' => false,
@@ -149,7 +152,7 @@ class Node
      *
      * @return \SplObjectStorage
      */
-    public function getPlugins()
+    public function getPlugins(): \SplObjectStorage
     {
         return $this->plugins;
     }
@@ -159,7 +162,7 @@ class Node
      *
      * @return \SplObjectStorage
      */
-    public function getConnections()
+    public function getConnections(): \SplObjectStorage
     {
         return $this->connections;
     }
@@ -169,7 +172,7 @@ class Node
      *
      * @return LoopInterface
      */
-    public function getLoop()
+    public function getLoop(): LoopInterface
     {
         return $this->loop;
     }
@@ -177,7 +180,7 @@ class Node
     /**
      * @return Configuration
      */
-    public function getConfiguration()
+    public function getConfiguration(): Configuration
     {
         return $this->configuration;
     }
@@ -185,7 +188,7 @@ class Node
     /**
      * @return LoggerInterface
      */
-    public function getLogger()
+    public function getLogger(): LoggerInterface
     {
         return $this->logger;
     }
