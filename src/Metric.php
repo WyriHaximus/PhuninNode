@@ -33,16 +33,8 @@ class Metric
      */
     public function __construct(string $key = null, int $value = null)
     {
-        $this->setKey($key);
-        $this->setValue($value);
-    }
-
-    /**
-     * @param string $key
-     */
-    public function setKey(string $key)
-    {
         $this->key = $key;
+        $this->value = $value;
     }
 
     /**
@@ -51,14 +43,6 @@ class Metric
     public function getKey(): string
     {
         return $this->key;
-    }
-
-    /**
-     * @param mixed $value
-     */
-    public function setValue(int $value)
-    {
-        $this->value = $value;
     }
 
     /**
