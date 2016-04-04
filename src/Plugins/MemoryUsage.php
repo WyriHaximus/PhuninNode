@@ -73,6 +73,8 @@ class MemoryUsage implements PluginInterface
         $this->configuration->setPair('graph_title', 'Memory Usage');
         $this->configuration->setPair('memory_usage.label', 'Current Memory Usage');
         $this->configuration->setPair('memory_peak_usage.label', 'Peak Memory Usage');
+        $this->configuration->setPair('internal_memory_usage.label', 'Internal Current Memory Usage');
+        $this->configuration->setPair('internal_memory_peak_usage.label', 'Internal Peak Memory Usage');
 
         return \React\Promise\resolve($this->configuration);
     }
@@ -83,24 +85,10 @@ class MemoryUsage implements PluginInterface
     public function getValues(): PromiseInterface
     {
         return \WyriHaximus\PhuninNode\metricPromisesToObjectStorage([
-            $this->getMemoryUsageValue(),
-            $this->getMemoryPeakUsageValue(),
+            new Metric('memory_usage', memory_get_usage(true)),
+            new Metric('memory_peak_usage', memory_get_peak_usage(true)),
+            new Metric('internal_memory_usage', memory_get_usage()),
+            new Metric('internal_memory_peak_usage', memory_get_peak_usage()),
         ]);
-    }
-
-    /**
-     * @return Metric
-     */
-    private function getMemoryUsageValue(): Metric
-    {
-        return new Metric('memory_usage', memory_get_usage(true));
-    }
-
-    /**
-     * @return Metric
-     */
-    private function getMemoryPeakUsageValue(): Metric
-    {
-        return new Metric('memory_peak_usage', memory_get_peak_usage(true));
     }
 }
