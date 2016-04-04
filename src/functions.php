@@ -11,11 +11,13 @@
 
 namespace WyriHaximus\PhuninNode;
 
+use React\Promise\PromiseInterface;
+
 /**
- * @param $promises
- * @return \React\Promise\PromiseInterface
+ * @param array $promises
+ * @return PromiseInterface
  */
-function valuePromisesToObjectStorage($promises)
+function metricPromisesToObjectStorage(array $promises): PromiseInterface
 {
     return \React\Promise\all($promises)->then(function ($values) {
         $storage = new \SplObjectStorage();
@@ -27,12 +29,23 @@ function valuePromisesToObjectStorage($promises)
 }
 
 /**
- * @param $array
+ * @param array $array
  * @return \Generator
  */
-function arrayToValuePromises($array)
+function arrayToValuePromises(array $array): \Generator
 {
     foreach ($array as $key => $value) {
         yield \React\Promise\resolve(new Value($key, $value));
+    }
+}
+
+/**
+ * @param array $array
+ * @return \Generator
+ */
+function arrayToMetricPromises(array $array): \Generator
+{
+    foreach ($array as $key => $value) {
+        yield \React\Promise\resolve(new Metric($key, $value));
     }
 }

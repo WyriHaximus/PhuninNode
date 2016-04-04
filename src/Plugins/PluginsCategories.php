@@ -11,6 +11,7 @@
 
 namespace WyriHaximus\PhuninNode\Plugins;
 
+use React\Promise\PromiseInterface;
 use WyriHaximus\PhuninNode\Configuration;
 use WyriHaximus\PhuninNode\Node;
 use WyriHaximus\PhuninNode\PluginInterface;
@@ -37,7 +38,7 @@ class PluginsCategories implements PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getSlug()
+    public function getSlug(): string
     {
         return 'plugins_categories';
     }
@@ -45,7 +46,7 @@ class PluginsCategories implements PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getCategorySlug()
+    public function getCategorySlug(): string
     {
         return 'phunin_node';
     }
@@ -53,7 +54,7 @@ class PluginsCategories implements PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getConfiguration()
+    public function getConfiguration(): PromiseInterface
     {
         $configuration = new Configuration();
         $configuration->setPair('graph_category', 'phunin_node');
@@ -69,11 +70,13 @@ class PluginsCategories implements PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getValues()
+    public function getValues(): PromiseInterface
     {
-        return \WyriHaximus\PhuninNode\valuePromisesToObjectStorage(
-            \WyriHaximus\PhuninNode\arrayToValuePromises(
-                $this->getPluginCategories()
+        return \WyriHaximus\PhuninNode\metricPromisesToObjectStorage(
+            iterator_to_array(
+                \WyriHaximus\PhuninNode\arrayToMetricPromises(
+                    $this->getPluginCategories()
+                )
             )
         );
     }
@@ -81,7 +84,7 @@ class PluginsCategories implements PluginInterface
     /**
      * @return array
      */
-    private function getPluginCategories()
+    private function getPluginCategories(): array
     {
         $categories = [];
         $plugins = $this->node->getPlugins();

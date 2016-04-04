@@ -11,11 +11,11 @@
 
 namespace WyriHaximus\PhuninNode\Plugins;
 
-use React\Promise\Deferred;
+use React\Promise\PromiseInterface;
 use WyriHaximus\PhuninNode\Configuration;
+use WyriHaximus\PhuninNode\Metric;
 use WyriHaximus\PhuninNode\Node;
 use WyriHaximus\PhuninNode\PluginInterface;
-use WyriHaximus\PhuninNode\Value;
 
 /**
  * Class Uptime
@@ -66,7 +66,7 @@ class Uptime implements PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getSlug()
+    public function getSlug(): string
     {
         return 'uptime';
     }
@@ -74,7 +74,7 @@ class Uptime implements PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getCategorySlug()
+    public function getCategorySlug(): string
     {
         return 'phunin_node';
     }
@@ -82,7 +82,7 @@ class Uptime implements PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getConfiguration()
+    public function getConfiguration(): PromiseInterface
     {
         if ($this->configuration instanceof Configuration) {
             return \React\Promise\resolve($this->configuration);
@@ -102,21 +102,22 @@ class Uptime implements PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getValues()
+    public function getValues(): PromiseInterface
     {
-        $values = new \SplObjectStorage;
-        $values->attach($this->getUptimeValue());
-        return \React\Promise\resolve($values);
+        return \WyriHaximus\PhuninNode\metricPromisesToObjectStorage([
+            $this->getUptimeValue(),
+        ]);
     }
 
     /**
-     * @return \WyriHaximus\PhuninNode\Value
+     * @return Metric
      */
-    private function getUptimeValue()
+    private function getUptimeValue(): Metric
     {
-        $value = new Value();
-        $value->setKey('uptime');
-        $value->setValue(round(((time() - $this->startTime) / self::DAY_IN_SECONDS), 2));
+        $value = new Metric(
+            'uptime',
+            round(((time() - $this->startTime) / self::DAY_IN_SECONDS), 2)
+        );
         return $value;
     }
 }

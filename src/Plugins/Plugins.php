@@ -11,10 +11,11 @@
 
 namespace WyriHaximus\PhuninNode\Plugins;
 
+use React\Promise\PromiseInterface;
 use WyriHaximus\PhuninNode\Configuration;
+use WyriHaximus\PhuninNode\Metric;
 use WyriHaximus\PhuninNode\Node;
 use WyriHaximus\PhuninNode\PluginInterface;
-use WyriHaximus\PhuninNode\Value;
 
 /**
  * Class Plugins
@@ -45,7 +46,7 @@ class Plugins implements PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getSlug()
+    public function getSlug(): string
     {
         return 'plugins';
     }
@@ -53,7 +54,7 @@ class Plugins implements PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getCategorySlug()
+    public function getCategorySlug(): string
     {
         return 'phunin_node';
     }
@@ -61,7 +62,7 @@ class Plugins implements PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getConfiguration()
+    public function getConfiguration(): PromiseInterface
     {
         if ($this->configuration instanceof Configuration) {
             return \React\Promise\resolve($this->configuration);
@@ -79,26 +80,26 @@ class Plugins implements PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getValues()
+    public function getValues(): PromiseInterface
     {
-        $promises = [];
-        $promises[] = $this->getPluginCountValue();
-        $promises[] = $this->getPluginCategoryCountValue();
-        return \WyriHaximus\PhuninNode\valuePromisesToObjectStorage($promises);
+        return \WyriHaximus\PhuninNode\metricPromisesToObjectStorage([
+            $this->getPluginCountValue(),
+            $this->getPluginCategoryCountValue(),
+        ]);
     }
 
     /**
-     * @return Value
+     * @return Metric
      */
-    private function getPluginCountValue()
+    private function getPluginCountValue(): Metric
     {
-        return \React\Promise\resolve(new Value('plugins_count', $this->node->getPlugins()->count()));
+        return new Metric('plugins_count', $this->node->getPlugins()->count());
     }
 
     /**
-     * @return Value
+     * @return Metric
      */
-    private function getPluginCategoryCountValue()
+    private function getPluginCategoryCountValue(): Metric
     {
         $categories = [];
         $plugins = $this->node->getPlugins();
@@ -107,6 +108,6 @@ class Plugins implements PluginInterface
             $categories[$category] = true;
         }
 
-        return \React\Promise\resolve(new Value('plugins_category_count', count($categories)));
+        return new Metric('plugins_category_count', count($categories));
     }
 }

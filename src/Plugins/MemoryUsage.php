@@ -11,10 +11,11 @@
 
 namespace WyriHaximus\PhuninNode\Plugins;
 
+use React\Promise\PromiseInterface;
 use WyriHaximus\PhuninNode\Configuration;
+use WyriHaximus\PhuninNode\Metric;
 use WyriHaximus\PhuninNode\Node;
 use WyriHaximus\PhuninNode\PluginInterface;
-use WyriHaximus\PhuninNode\Value;
 
 /**
  * Class MemoryUsage
@@ -45,7 +46,7 @@ class MemoryUsage implements PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getSlug()
+    public function getSlug(): string
     {
         return 'memory_usage';
     }
@@ -53,7 +54,7 @@ class MemoryUsage implements PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getCategorySlug()
+    public function getCategorySlug(): string
     {
         return 'phunin_node';
     }
@@ -61,7 +62,7 @@ class MemoryUsage implements PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getConfiguration()
+    public function getConfiguration(): PromiseInterface
     {
         if ($this->configuration instanceof Configuration) {
             return \React\Promise\resolve($this->configuration);
@@ -79,27 +80,27 @@ class MemoryUsage implements PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getValues()
+    public function getValues(): PromiseInterface
     {
-        $promises = [];
-        $promises[] = $this->getMemoryUsageValue();
-        $promises[] = $this->getMemoryPeakUsageValue();
-        return \WyriHaximus\PhuninNode\valuePromisesToObjectStorage($promises);
+        return \WyriHaximus\PhuninNode\metricPromisesToObjectStorage([
+            $this->getMemoryUsageValue(),
+            $this->getMemoryPeakUsageValue(),
+        ]);
     }
 
     /**
-     * @return Value
+     * @return Metric
      */
-    private function getMemoryUsageValue()
+    private function getMemoryUsageValue(): Metric
     {
-        return new Value('memory_usage', memory_get_usage(true));
+        return new Metric('memory_usage', memory_get_usage(true));
     }
 
     /**
-     * @return Value
+     * @return Metric
      */
-    private function getMemoryPeakUsageValue()
+    private function getMemoryPeakUsageValue(): Metric
     {
-        return new Value('memory_peak_usage', memory_get_peak_usage(true));
+        return new Metric('memory_peak_usage', memory_get_peak_usage(true));
     }
 }
