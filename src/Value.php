@@ -31,18 +31,10 @@ class Value
      * @param string $key
      * @param string $value
      */
-    public function __construct(string $key = null, string $value = null)
-    {
-        $this->setKey($key);
-        $this->setValue($value);
-    }
-
-    /**
-     * @param string $key
-     */
-    public function setKey(string $key)
+    public function __construct(string $key, string $value)
     {
         $this->key = $key;
+        $this->value = $value;
     }
 
     /**
@@ -51,14 +43,6 @@ class Value
     public function getKey(): string
     {
         return $this->key;
-    }
-
-    /**
-     * @param mixed $value
-     */
-    public function setValue(string $value)
-    {
-        $this->value = $value;
     }
 
     /**
