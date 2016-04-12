@@ -11,9 +11,9 @@
 
 namespace WyriHaximus\PhuninNode\Tests;
 
+use React\EventLoop\LoopInterface;
 use React\EventLoop\StreamSelectLoop;
 use React\EventLoop\Timer\TimerInterface;
-use React\Promise\Deferred;
 use React\Socket\Connection;
 use React\Socket\Server;
 use WyriHaximus\PhuninNode\ConnectionContext;
@@ -28,7 +28,6 @@ use WyriHaximus\PhuninNode\Value;
  */
 class ConnectionContextTest extends \PHPUnit_Framework_TestCase
 {
-
     public function setUp()
     {
         $this->loop = $this->getMock(
@@ -203,18 +202,6 @@ class ConnectionContextTest extends \PHPUnit_Framework_TestCase
             ->method('close');
         $connection->expects($this->at(5))
             ->method('close');
-
-        $this->node->expects($this->any())
-            ->method('resolverFactory')
-            ->will(
-                $this->returnCallback(
-                    function ($callback) {
-                        $deferred = new Deferred();
-                        $deferred->promise()->then($callback);
-                        return $deferred;
-                    }
-                )
-            );
 
         $connection->expects($this->at(6))
             ->method('write')
