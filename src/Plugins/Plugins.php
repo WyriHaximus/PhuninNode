@@ -16,6 +16,8 @@ use WyriHaximus\PhuninNode\Configuration;
 use WyriHaximus\PhuninNode\Metric;
 use WyriHaximus\PhuninNode\Node;
 use WyriHaximus\PhuninNode\PluginInterface;
+use function React\Promise\resolve;
+use function WyriHaximus\PhuninNode\metricPromisesToObjectStorage;
 
 /**
  * Class Plugins
@@ -65,7 +67,7 @@ class Plugins implements PluginInterface
     public function getConfiguration(): PromiseInterface
     {
         if ($this->configuration instanceof Configuration) {
-            return \React\Promise\resolve($this->configuration);
+            return resolve($this->configuration);
         }
 
         $this->configuration = new Configuration();
@@ -74,7 +76,7 @@ class Plugins implements PluginInterface
         $this->configuration->setPair('plugins_count.label', 'Plugins');
         $this->configuration->setPair('plugins_category_count.label', 'Plugin Categories');
 
-        return \React\Promise\resolve($this->configuration);
+        return resolve($this->configuration);
     }
 
     /**
@@ -82,7 +84,7 @@ class Plugins implements PluginInterface
      */
     public function getValues(): PromiseInterface
     {
-        return \WyriHaximus\PhuninNode\metricPromisesToObjectStorage([
+        return metricPromisesToObjectStorage([
             $this->getPluginCountValue(),
             $this->getPluginCategoryCountValue(),
         ]);

@@ -15,6 +15,9 @@ use React\Promise\PromiseInterface;
 use WyriHaximus\PhuninNode\Configuration;
 use WyriHaximus\PhuninNode\Node;
 use WyriHaximus\PhuninNode\PluginInterface;
+use function React\Promise\resolve;
+use function WyriHaximus\PhuninNode\arrayToMetricPromises;
+use function WyriHaximus\PhuninNode\metricPromisesToObjectStorage;
 
 /**
  * Class PluginsCategories
@@ -64,7 +67,7 @@ class PluginsCategories implements PluginInterface
             $configuration->setPair($key . '.label', $key);
         }
 
-        return \React\Promise\resolve($configuration);
+        return resolve($configuration);
     }
 
     /**
@@ -72,9 +75,9 @@ class PluginsCategories implements PluginInterface
      */
     public function getValues(): PromiseInterface
     {
-        return \WyriHaximus\PhuninNode\metricPromisesToObjectStorage(
+        return metricPromisesToObjectStorage(
             iterator_to_array(
-                \WyriHaximus\PhuninNode\arrayToMetricPromises(
+                arrayToMetricPromises(
                     $this->getPluginCategories()
                 )
             )

@@ -12,6 +12,8 @@
 namespace WyriHaximus\PhuninNode;
 
 use React\Promise\PromiseInterface;
+use function React\Promise\all;
+use function React\Promise\resolve;
 
 /**
  * @param array $promises
@@ -19,12 +21,12 @@ use React\Promise\PromiseInterface;
  */
 function metricPromisesToObjectStorage(array $promises): PromiseInterface
 {
-    return \React\Promise\all($promises)->then(function ($values) {
+    return all($promises)->then(function ($values) {
         $storage = new \SplObjectStorage();
         foreach ($values as $value) {
             $storage->attach($value);
         }
-        return \React\Promise\resolve($storage);
+        return resolve($storage);
     });
 }
 
@@ -35,7 +37,7 @@ function metricPromisesToObjectStorage(array $promises): PromiseInterface
 function arrayToValuePromises(array $array): \Generator
 {
     foreach ($array as $key => $value) {
-        yield \React\Promise\resolve(new Value($key, $value));
+        yield resolve(new Value($key, $value));
     }
 }
 
@@ -46,6 +48,6 @@ function arrayToValuePromises(array $array): \Generator
 function arrayToMetricPromises(array $array): \Generator
 {
     foreach ($array as $key => $value) {
-        yield \React\Promise\resolve(new Metric($key, $value));
+        yield resolve(new Metric($key, $value));
     }
 }

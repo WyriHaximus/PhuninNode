@@ -16,6 +16,8 @@ use WyriHaximus\PhuninNode\Configuration;
 use WyriHaximus\PhuninNode\Metric;
 use WyriHaximus\PhuninNode\Node;
 use WyriHaximus\PhuninNode\PluginInterface;
+use function React\Promise\resolve;
+use function WyriHaximus\PhuninNode\metricPromisesToObjectStorage;
 
 /**
  * Class Uptime
@@ -85,7 +87,7 @@ class Uptime implements PluginInterface
     public function getConfiguration(): PromiseInterface
     {
         if ($this->configuration instanceof Configuration) {
-            return \React\Promise\resolve($this->configuration);
+            return resolve($this->configuration);
         }
 
         $this->configuration = new Configuration();
@@ -96,7 +98,7 @@ class Uptime implements PluginInterface
         $this->configuration->setPair('uptime.label', 'uptime');
         $this->configuration->setPair('uptime.draw', 'AREA');
 
-        return \React\Promise\resolve($this->configuration);
+        return resolve($this->configuration);
     }
 
     /**
@@ -104,7 +106,7 @@ class Uptime implements PluginInterface
      */
     public function getValues(): PromiseInterface
     {
-        return \WyriHaximus\PhuninNode\metricPromisesToObjectStorage([
+        return metricPromisesToObjectStorage([
             $this->getUptimeValue(),
         ]);
     }

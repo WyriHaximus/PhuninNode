@@ -16,6 +16,8 @@ use WyriHaximus\PhuninNode\Configuration;
 use WyriHaximus\PhuninNode\Metric;
 use WyriHaximus\PhuninNode\Node;
 use WyriHaximus\PhuninNode\PluginInterface;
+use function React\Promise\resolve;
+use function WyriHaximus\PhuninNode\metricPromisesToObjectStorage;
 
 /**
  * Class MemoryUsage
@@ -65,7 +67,7 @@ class MemoryUsage implements PluginInterface
     public function getConfiguration(): PromiseInterface
     {
         if ($this->configuration instanceof Configuration) {
-            return \React\Promise\resolve($this->configuration);
+            return resolve($this->configuration);
         }
 
         $this->configuration = new Configuration();
@@ -76,7 +78,7 @@ class MemoryUsage implements PluginInterface
         $this->configuration->setPair('internal_memory_usage.label', 'Internal Current Memory Usage');
         $this->configuration->setPair('internal_memory_peak_usage.label', 'Internal Peak Memory Usage');
 
-        return \React\Promise\resolve($this->configuration);
+        return resolve($this->configuration);
     }
 
     /**
@@ -84,7 +86,7 @@ class MemoryUsage implements PluginInterface
      */
     public function getValues(): PromiseInterface
     {
-        return \WyriHaximus\PhuninNode\metricPromisesToObjectStorage([
+        return metricPromisesToObjectStorage([
             new Metric('memory_usage', memory_get_usage(true)),
             new Metric('memory_peak_usage', memory_get_peak_usage(true)),
             new Metric('internal_memory_usage', memory_get_usage()),
