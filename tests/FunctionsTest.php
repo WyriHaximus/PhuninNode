@@ -11,8 +11,12 @@
 
 namespace WyriHaximus\PhuninNode\Tests;
 
-use React\Promise\FulfilledPromise;
+use React\EventLoop\Factory;
 use WyriHaximus\PhuninNode\Value;
+use function Clue\React\Block\await;
+use function WyriHaximus\PhuninNode\arrayToValuePromises;
+use function WyriHaximus\PhuninNode\arrayToMetricPromises;
+use function WyriHaximus\PhuninNode\metricPromisesToObjectStorage;
 
 /**
  * Class FunctionsTest
@@ -23,35 +27,39 @@ class FunctionsTest extends \PHPUnit_Framework_TestCase
     public function testValuePromisesToObjectStorageAndTestArrayToValuePromises()
     {
         $array = [
-            ['a', 'b'],
-            ['c', 'd'],
-            ['e', 'f'],
+            'a' => 'b',
+            'c' => 'd',
+            'e' => 'f',
         ];
 
-        \WyriHaximus\PhuninNode\valuePromisesToObjectStorage(\WyriHaximus\PhuninNode\arrayToValuePromises($array))->then(function (\SplObjectStorage $storage) {
-            $storage->rewind();
-            $this->assertSame(3, $storage->count());
-            $this->assertSame([
-                'a',
-                'b',
-            ], [
-                $storage->current()->getKey(),
-                $storage->current()->getValue(),
-            ]);
-            $this->assertSame([
-                'c',
-                'd',
-            ], [
-                $storage->current()->getKey(),
-                $storage->current()->getValue(),
-            ]);
-            $this->assertSame([
-                'e',
-                'f',
-            ], [
-                $storage->current()->getKey(),
-                $storage->current()->getValue(),
-            ]);
-        });
+        $storage = await(metricPromisesToObjectStorage(iterator_to_array(arrayToValuePromises($array))), Factory::create(), 5);
+        $storage->rewind();
+        $this->assertSame(3, $storage->count());
+        $this->assertInstanceOf(Value::class, $storage->current());
+        $this->assertSame([
+            'a',
+            'b',
+        ], [
+            $storage->current()->getKey(),
+            $storage->current()->getValue(),
+        ]);
+        $storage->next();
+        $this->assertInstanceOf(Value::class, $storage->current());
+        $this->assertSame([
+            'c',
+            'd',
+        ], [
+            $storage->current()->getKey(),
+            $storage->current()->getValue(),
+        ]);
+        $storage->next();
+        $this->assertInstanceOf(Value::class, $storage->current());
+        $this->assertSame([
+            'e',
+            'f',
+        ], [
+            $storage->current()->getKey(),
+            $storage->current()->getValue(),
+        ]);
     }
 }
