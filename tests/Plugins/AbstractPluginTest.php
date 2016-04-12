@@ -13,6 +13,7 @@ namespace WyriHaximus\PhuninNode\Tests\Plugins;
 
 use React\EventLoop\StreamSelectLoop;
 use React\Promise\Deferred;
+use WyriHaximus\PhuninNode\Metric;
 use WyriHaximus\PhuninNode\Node;
 use WyriHaximus\PhuninNode\Configuration;
 use WyriHaximus\PhuninNode\PluginInterface;
@@ -204,7 +205,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertTrue($callbackRan);
         foreach ($callbackArgument as $value) {
-            $this->assertInstanceOf(Value::class, $value);
+            $this->assertInstanceOf(Metric::class, $value);
         }
     }
 }
