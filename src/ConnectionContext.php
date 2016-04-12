@@ -255,23 +255,19 @@ class ConnectionContext
             return;
         }
 
-        if ($plugin !== false) {
-            $plugin->getValues()->then(
-                function ($values) {
-                    foreach ($values as $value) {
-                        $this->write(
-                            $value->getKey() . '.value ' . str_replace(',', '.', $value->getValue())
-                        );
-                    }
-                    $this->write('.');
-                },
-                function () {
-                    $this->write('.');
+        $plugin->getValues()->then(
+            function ($values) {
+                foreach ($values as $value) {
+                    $this->write(
+                        $value->getKey() . '.value ' . str_replace(',', '.', $value->getValue())
+                    );
                 }
-            );
-        } else {
-            $this->conn->close();
-        }
+                $this->write('.');
+            },
+            function () {
+                $this->write('.');
+            }
+        );
     }
 
     /**
