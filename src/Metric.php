@@ -31,7 +31,7 @@ class Metric
      * @param string $key
      * @param int $value
      */
-    public function __construct(string $key = null, int $value = null)
+    public function __construct(string $key, int $value)
     {
         $this->key = $key;
         $this->value = $value;
