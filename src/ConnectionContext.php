@@ -262,8 +262,8 @@ class ConnectionContext
                         $value->getKey() . '.value ' . str_replace(',', '.', $value->getValue())
                     );
                 }
-                $this->write('.');
-            },
+            }
+        )->always(
             function () {
                 $this->write('.');
             }
