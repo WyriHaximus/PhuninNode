@@ -1,6 +1,6 @@
 all: cs unit
 travis: cs unit-travis
-contrib: cs dunit unit
+contrib: cs unit
 
 init:
 	if [ ! -d vendor ]; then composer install; fi;
