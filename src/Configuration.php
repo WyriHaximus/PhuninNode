@@ -17,6 +17,10 @@ namespace WyriHaximus\PhuninNode;
  */
 class Configuration
 {
+    /**
+     * Configuration constructor.
+     * @param array $options
+     */
     public function __construct(array $options = [])
     {
         foreach ($options as $key => $value) {
@@ -24,6 +28,9 @@ class Configuration
         }
     }
 
+    /**
+     * @param array $defaults
+     */
     public function applyDefaults(array $defaults)
     {
         foreach ($defaults as $key => $value) {
