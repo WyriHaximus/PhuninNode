@@ -36,7 +36,7 @@ class Configuration
     /**
      * @var array
      */
-    private $pairs = [];
+    protected $pairs = [];
 
     /**
      * @param string $key
