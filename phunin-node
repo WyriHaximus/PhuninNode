@@ -16,6 +16,7 @@ foreach (array(__DIR__ . '/../../autoload.php', __DIR__ . '/vendor/autoload.php'
     }
 }
 
+// Load configuration
 $config = Yaml::parse(file_get_contents(__DIR__ . '/phunin-node.yml'));
 
 // Create eventloop
