@@ -26,6 +26,7 @@ $loop = Factory::create();
 $socket = new Server($loop);
 $socket->listen($config['port'], $config['ip']);
 
+// Create configuration
 $configuration = new Configuration([
     'verbose' => $config['verbose'],
     'hostname' => $config['hostname'],
