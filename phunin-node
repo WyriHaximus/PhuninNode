@@ -33,7 +33,12 @@ $configuration = new Configuration([
 ]);
 
 // Bind to IP and port
-$node = new Node($loop, $socket, $configuration, $config['verbose'] ? new EchoLogger() : null);
+$node = new Node(
+    $loop,
+    $socket,
+    $configuration,
+    $config['verbose'] ? new EchoLogger() : null
+);
 
 // Add plugins
 foreach ($config['plugins'] as $plugin) {
