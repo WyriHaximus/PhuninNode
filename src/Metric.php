@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /*
  * This file is part of PhuninNode.
@@ -23,15 +24,15 @@ class Metric
     protected $key;
 
     /**
-     * @var int
+     * @var float
      */
     protected $value;
 
     /**
      * @param string $key
-     * @param int $value
+     * @param float $value
      */
-    public function __construct(string $key, int $value)
+    public function __construct(string $key, float $value)
     {
         $this->key = $key;
         $this->value = $value;
@@ -46,9 +47,9 @@ class Metric
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getValue(): int
+    public function getValue(): float
     {
         return $this->value;
     }

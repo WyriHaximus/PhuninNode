@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /*
  * This file is part of PhuninNode.
@@ -118,7 +119,7 @@ class Uptime implements PluginInterface
     {
         $value = new Metric(
             'uptime',
-            round(((time() - $this->startTime) / self::DAY_IN_SECONDS), 2)
+            ((time() - $this->startTime) / self::DAY_IN_SECONDS)
         );
         return $value;
     }

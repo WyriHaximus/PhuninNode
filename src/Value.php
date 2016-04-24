@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /*
  * This file is part of PhuninNode.
@@ -23,15 +24,15 @@ class Value
     protected $key;
 
     /**
-     * @var string
+     * @var mixed
      */
     protected $value;
 
     /**
      * @param string $key
-     * @param string $value
+     * @param mixed $value
      */
-    public function __construct(string $key, string $value)
+    public function __construct(string $key, $value)
     {
         $this->key = $key;
         $this->value = $value;
@@ -46,9 +47,9 @@ class Value
     }
 
     /**
-     * @return string
+     * @return mixed
      */
-    public function getValue(): string
+    public function getValue()
     {
         return $this->value;
     }
