@@ -148,7 +148,7 @@ class ConnectionContext
         $this->log('->' . $data);
         list($command) = explode(' ', $data);
         if (isset($this->commandMap[$command])) {
-            call_user_func_array($this->commandMap[$command], [$data]);
+            $this->commandMap[$command]($data);
         } else {
             $list = implode(', ', array_keys($this->commandMap));
             $this->write(
