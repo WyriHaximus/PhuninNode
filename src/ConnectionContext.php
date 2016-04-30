@@ -88,7 +88,14 @@ class ConnectionContext
         $this->commandMap['fetch'] = [$this, 'onFetch'];
         $this->commandMap['quit'] = [$this, 'onQuit'];
 
-        $this->write(sprintf(self::GREETING, $node->getConfiguration()->getPair('hostname')->getValue()));
+        $this->write(
+            sprintf(
+                self::GREETING,
+                $node->getConfiguration()
+                    ->getPair('hostname')
+                    ->getValue()
+            )
+        );
     }
 
     /**
