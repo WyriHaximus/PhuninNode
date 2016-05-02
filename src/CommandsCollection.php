@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace WyriHaximus\PhuninNode;
 
+use WyriHaximus\PhuninNode\Commands\CommandInterface;
+
 class CommandsCollection
 {
     /**
@@ -31,12 +33,12 @@ class CommandsCollection
         }
     }
 
-    public function has($command)
+    public function has($command): bool
     {
         return isset($this->commands[$command]);
     }
 
-    public function get($command)
+    public function get($command): CommandInterface
     {
         if (!$this->has($command)) {
             throw new \Exception();
@@ -45,7 +47,7 @@ class CommandsCollection
         return $this->commands[$command];
     }
 
-    public function keys()
+    public function keys(): array
     {
         return array_keys($this->commands);
     }
