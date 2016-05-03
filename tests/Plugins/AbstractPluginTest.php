@@ -3,7 +3,7 @@
 /*
  * This file is part of PhuninNode.
  *
- ** (c) 2013 - 2014 Cees-Jan Kiewiet
+ ** (c) 2013 - 2016 Cees-Jan Kiewiet
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,6 +13,7 @@ namespace WyriHaximus\PhuninNode\Tests\Plugins;
 
 use React\EventLoop\StreamSelectLoop;
 use React\Promise\Deferred;
+use WyriHaximus\PhuninNode\Factory;
 use WyriHaximus\PhuninNode\Metric;
 use WyriHaximus\PhuninNode\Node;
 use WyriHaximus\PhuninNode\Configuration;
@@ -59,6 +60,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
             [
                 $this->loop,
                 $this->socket,
+                Factory::createCommands(),
             ]
         );
 

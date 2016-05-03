@@ -3,7 +3,7 @@
 /*
  * This file is part of PhuninNode.
  *
- ** (c) 2013 - 2014 Cees-Jan Kiewiet
+ ** (c) 2013 - 2016 Cees-Jan Kiewiet
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,12 +11,18 @@
 
 namespace WyriHaximus\PhuninNode\Tests;
 
+use Phake;
+use Psr\Log\LoggerInterface;
 use React\EventLoop\LoopInterface;
 use React\EventLoop\StreamSelectLoop;
 use React\EventLoop\Timer\TimerInterface;
 use React\Socket\Connection;
 use React\Socket\Server;
+use React\Stream\DuplexStreamInterface;
+use React\Stream\ThroughStream;
+use WyriHaximus\PhuninNode\CommandsCollection;
 use WyriHaximus\PhuninNode\ConnectionContext;
+use WyriHaximus\PhuninNode\Factory;
 use WyriHaximus\PhuninNode\Node;
 use WyriHaximus\PhuninNode\Configuration;
 use WyriHaximus\PhuninNode\Plugins\Plugins;
@@ -70,6 +76,7 @@ class ConnectionContextTest extends \PHPUnit_Framework_TestCase
             [
                 $this->loop,
                 $this->socket,
+                Factory::createCommands(),
             ]
         );
         $this->node->expects($this->once())
@@ -229,7 +236,7 @@ class ConnectionContextTest extends \PHPUnit_Framework_TestCase
             ->method('close');
         $connection->expects($this->at(15))
             ->method('write')
-            ->with("# Unknown command. Try cap, list, nodes, version, config, fetch or quit\n");
+            ->with("# Unknown command. Try cap, config, fetch, list, nodes, quit or version\n");
         $connection->expects($this->at(16))
             ->method('write')
             ->with("multigraph\n");

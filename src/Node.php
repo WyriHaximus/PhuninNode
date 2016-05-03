@@ -65,6 +65,8 @@ class Node
      */
     private $connections;
 
+    private $commands;
+
     /**
      * @var array
      */
@@ -82,6 +84,7 @@ class Node
     public function __construct(
         LoopInterface $loop,
         Socket $socket,
+        CommandsCollection $commands,
         Configuration $configuration = null,
         LoggerInterface $logger = null
     ) {
@@ -98,6 +101,9 @@ class Node
         }
         $configuration->applyDefaults($this->defaultConfiguration);
         $this->configuration = $configuration;
+
+        $this->commands = $commands;
+        $this->commands->setNode($this);
 
         if ($logger === null) {
             $logger = new NullLogger();
@@ -184,6 +190,14 @@ class Node
     public function getConfiguration(): Configuration
     {
         return $this->configuration;
+    }
+
+    /**
+     * @return CommandsCollection
+     */
+    public function getCommands()
+    {
+        return $this->commands;
     }
 
     /**

@@ -28,11 +28,6 @@ class ConnectionContext
     const GREETING = '# munin node at %s';
 
     /**
-     * Version message
-     */
-    const VERSION_MESSAGE = 'PhuninNode on %s version: %s';
-
-    /**
      * The timeout after which we disconnection for no data transmission
      */
     const CONNECTION_TIMEOUT = 60;
@@ -51,11 +46,6 @@ class ConnectionContext
      * @var Node
      */
     private $node;
-
-    /**
-     * @var array
-     */
-    private $commandMap = [];
 
     /**
      * @var TimerInterface
@@ -79,14 +69,6 @@ class ConnectionContext
 
         $this->conn->on('data', [$this, 'onData']);
         $this->conn->on('close', [$this, 'onClose']);
-
-        $this->commandMap['cap'] = [$this, 'onCap'];
-        $this->commandMap['list'] = [$this, 'onList'];
-        $this->commandMap['nodes'] = [$this, 'onNodes'];
-        $this->commandMap['version'] = [$this, 'onVersion'];
-        $this->commandMap['config'] = [$this, 'onConfig'];
-        $this->commandMap['fetch'] = [$this, 'onFetch'];
-        $this->commandMap['quit'] = [$this, 'onQuit'];
 
         $this->write(
             sprintf(
@@ -153,135 +135,38 @@ class ConnectionContext
     {
         $data = trim($data);
         $this->log('->' . $data);
-        list($command) = explode(' ', $data);
-        if (isset($this->commandMap[$command])) {
-            $this->commandMap[$command]($data);
-        } else {
-            $list = implode(', ', array_keys($this->commandMap));
-            $this->write(
-                '# Unknown command. Try ' . substr_replace($list, ' or ', strrpos($list, ', '), 2)
-            );
+        $chunks = explode(' ', $data);
+        $command = $chunks[0];
+        unset($chunks[0]);
+        $input = '';
+        if (count($chunks) > 0) {
+            $input = implode(' ', $chunks);
         }
-    }
-
-    /**
-     * List capabilities
-     */
-    public function onCap()
-    {
-        $this->write('multigraph');
-    }
-
-    /**
-     * List all plugins
-     */
-    public function onList()
-    {
-        $list = [];
-        foreach ($this->node->getPlugins() as $plugin) {
-            $list[] = $plugin->getSlug();
+        $input = trim($input);
+        if ($this->node->getCommands()->has($command)) {
+            $this
+                ->node
+                ->getCommands()
+                ->get($command)
+                ->handle($this, $input)
+                ->then(function (array $lines) {
+                    foreach ($lines as $line) {
+                        $this->write($line);
+                    }
+                });
+            return;
         }
-        $this->write(implode(' ', $list));
-    }
 
-    /**
-     * List all connected nodes (for now only localhost)
-     */
-    public function onNodes()
-    {
-        $this->write(implode(' ', [
-            $this->node->getConfiguration()->getPair('hostname')->getValue()
-        ]));
-    }
-
-    /**
-     * Respond with the current version
-     */
-    public function onVersion()
-    {
+        $list = implode(', ', $this->node->getCommands()->keys());
         $this->write(
-            sprintf(
-                static::VERSION_MESSAGE,
-                $this->node->getConfiguration()->getPair('hostname')->getValue(),
-                Node::VERSION
-            )
-        );
-    }
-
-    /**
-     * Return the configuration for the given plugin
-     *
-     * @param string $data
-     */
-    public function onConfig(string $data)
-    {
-        $data = explode(' ', $data);
-
-        if (!isset($data[1])) {
-            $this->conn->close();
-            return;
-        }
-
-        $plugin = $this->node->getPlugin(trim($data[1]));
-
-        if ($plugin === false) {
-            $this->conn->close();
-            return;
-        }
-
-        $plugin->getConfiguration()->then(
-            function ($configuration) {
-                foreach ($configuration->getPairs() as $pair) {
-                    $this->write($pair->getKey() . ' ' . $pair->getValue());
-                }
-                $this->write('.');
-            },
-            function () {
-                $this->write('.');
-            }
-        );
-    }
-
-    /**
-     * Fetch data for the given plugin
-     *
-     * @param string $data
-     */
-    public function onFetch(string $data)
-    {
-        $data = explode(' ', $data);
-
-        if (!isset($data[1])) {
-            $this->conn->close();
-            return;
-        }
-
-        $plugin = $this->node->getPlugin(trim($data[1]));
-
-        if ($plugin === false) {
-            $this->conn->close();
-            return;
-        }
-
-        $plugin->getValues()->then(
-            function ($values) {
-                foreach ($values as $value) {
-                    $this->write(
-                        $value->getKey() . '.value ' . str_replace(',', '.', $value->getValue())
-                    );
-                }
-            }
-        )->always(
-            function () {
-                $this->write('.');
-            }
+            '# Unknown command. Try ' . substr_replace($list, ' or ', strrpos($list, ', '), 2)
         );
     }
 
     /**
      * Close connection
      */
-    public function onQuit()
+    public function quit()
     {
         $this->conn->close();
         $this->close();

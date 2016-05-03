@@ -3,7 +3,7 @@
 /*
  * This file is part of PhuninNode.
  *
- ** (c) 2013 - 2014 Cees-Jan Kiewiet
+ ** (c) 2013 - 2016 Cees-Jan Kiewiet
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,6 +15,7 @@ use React\EventLoop\StreamSelectLoop;
 use React\Promise\Deferred;
 use React\Socket\Connection;
 use WyriHaximus\PhuninNode\ConnectionContext;
+use WyriHaximus\PhuninNode\Factory;
 use WyriHaximus\PhuninNode\Node;
 use WyriHaximus\PhuninNode\Configuration;
 use WyriHaximus\PhuninNode\PluginInterface;
@@ -88,14 +89,14 @@ class NodeTest extends \PHPUnit_Framework_TestCase
                     }
                 )
             );
-        new Node($this->loop, $this->socket);
+        new Node($this->loop, $this->socket, Factory::createCommands());
     }
 
     public function testShutdown()
     {
         $this->socket->expects($this->once())
             ->method('shutdown');
-        $node = new Node($this->loop, $this->socket);
+        $node = new Node($this->loop, $this->socket, Factory::createCommands());
         $node->shutdown();
     }
 
@@ -109,7 +110,7 @@ class NodeTest extends \PHPUnit_Framework_TestCase
                 $this->loop,
             ]
         );
-        $node = new Node($this->loop, $this->socket);
+        $node = new Node($this->loop, $this->socket, Factory::createCommands());
         $node->onConnection($connection);
         $connections = $node->getConnections();
         $connections->rewind();
@@ -127,7 +128,7 @@ class NodeTest extends \PHPUnit_Framework_TestCase
                 $this->loop,
             ]
         );
-        $node = new Node($this->loop, $this->socket);
+        $node = new Node($this->loop, $this->socket, Factory::createCommands());
         $node->onConnection($connection);
         $connections = $node->getConnections();
         $connections->rewind();
@@ -137,7 +138,7 @@ class NodeTest extends \PHPUnit_Framework_TestCase
 
     public function testAddPlugin()
     {
-        $node = new Node($this->loop, $this->socket);
+        $node = new Node($this->loop, $this->socket, Factory::createCommands());
         $this->assertSameSize([], $node->getPlugins());
         $this->plugins->rewind();
         $node->addPlugin($this->plugins->current());
@@ -146,13 +147,13 @@ class NodeTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPluginsEmpty()
     {
-        $node = new Node($this->loop, $this->socket);
+        $node = new Node($this->loop, $this->socket, Factory::createCommands());
         $this->assertSameSize([], $node->getPlugins());
     }
 
     public function testGetPluginsOne()
     {
-        $node = new Node($this->loop, $this->socket);
+        $node = new Node($this->loop, $this->socket, Factory::createCommands());
         $this->plugins->rewind();
         $node->addPlugin($this->plugins->current());
         $this->assertSameSize(['a'], $node->getPlugins());
@@ -160,7 +161,7 @@ class NodeTest extends \PHPUnit_Framework_TestCase
 
     public function testGetConnectionsEmpty()
     {
-        $node = new Node($this->loop, $this->socket);
+        $node = new Node($this->loop, $this->socket, Factory::createCommands());
         $this->assertSameSize([], $node->getConnections());
     }
 
@@ -174,14 +175,14 @@ class NodeTest extends \PHPUnit_Framework_TestCase
                 $this->loop,
             ]
         );
-        $node = new Node($this->loop, $this->socket);
+        $node = new Node($this->loop, $this->socket, Factory::createCommands());
         $node->onConnection($connection);
         $this->assertSameSize(['a'], $node->getConnections());
     }
 
     public function testGetPlugin()
     {
-        $node = new Node($this->loop, $this->socket);
+        $node = new Node($this->loop, $this->socket, Factory::createCommands());
         $this->plugins->rewind();
         $node->addPlugin($this->plugins->current());
         $this->assertSame($this->plugins->current(), $node->getPlugin('a'));
@@ -190,7 +191,7 @@ class NodeTest extends \PHPUnit_Framework_TestCase
 
     public function testGetLoop()
     {
-        $node = new Node($this->loop, $this->socket);
+        $node = new Node($this->loop, $this->socket, Factory::createCommands());
         $this->assertSame($this->loop, $node->getLoop());
     }
 }
