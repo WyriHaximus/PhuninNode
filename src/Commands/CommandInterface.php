@@ -18,6 +18,16 @@ use WyriHaximus\PhuninNode\Node;
 
 interface CommandInterface
 {
+    /**
+     * @param Node $node
+     * @return void
+     */
     public function setNode(Node $node);
+
+    /**
+     * @param ConnectionContext $context
+     * @param string $line
+     * @return PromiseInterface
+     */
     public function handle(ConnectionContext $context, string $line): PromiseInterface;
 }

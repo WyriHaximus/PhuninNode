@@ -20,6 +20,11 @@ class Lst implements CommandInterface
 {
     use NodeAwareTrait;
 
+    /**
+     * @param ConnectionContext $context
+     * @param string $line
+     * @return PromiseInterface
+     */
     public function handle(ConnectionContext $context, string $line): PromiseInterface
     {
         $list = [];

@@ -26,6 +26,11 @@ class Version implements CommandInterface
      */
     const VERSION_MESSAGE = 'PhuninNode on %s version: %s';
 
+    /**
+     * @param ConnectionContext $context
+     * @param string $line
+     * @return PromiseInterface
+     */
     public function handle(ConnectionContext $context, string $line): PromiseInterface
     {
         return resolve([
