@@ -11,16 +11,10 @@
 
 namespace WyriHaximus\PhuninNode\Tests;
 
-use Phake;
-use Psr\Log\LoggerInterface;
-use React\EventLoop\LoopInterface;
 use React\EventLoop\StreamSelectLoop;
 use React\EventLoop\Timer\TimerInterface;
 use React\Socket\Connection;
 use React\Socket\Server;
-use React\Stream\DuplexStreamInterface;
-use React\Stream\ThroughStream;
-use WyriHaximus\PhuninNode\CommandsCollection;
 use WyriHaximus\PhuninNode\ConnectionContext;
 use WyriHaximus\PhuninNode\Factory;
 use WyriHaximus\PhuninNode\Node;
