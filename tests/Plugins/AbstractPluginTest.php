@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /*
  * This file is part of PhuninNode.
@@ -178,7 +179,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
 
         foreach ($callbackArgument as $value) {
             $this->assertTrue(strlen($value->getKey()) > 0);
-            $this->assertTrue(strlen($value->getValue()) > 0);
+            $this->assertTrue(strlen((string)$value->getValue()) > 0);
             $this->assertTrue(is_numeric($value->getValue()));
         }
 

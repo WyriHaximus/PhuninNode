@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /*
  * This file is part of PhuninNode.
@@ -172,7 +173,7 @@ class ConnectionContextTest extends \PHPUnit_Framework_TestCase
                 $this->returnCallback(
                     function () {
                         $values = new \SplObjectStorage;
-                        $values->attach(new Value(1, 2));
+                        $values->attach(new Value('1', 2));
                         return \React\Promise\resolve($values);
                     }
                 )
