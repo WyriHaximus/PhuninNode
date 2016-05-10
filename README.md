@@ -48,6 +48,10 @@ $node->addPlugin(new Plugins\Uptime());
 $loop->run();
 ```
 
+## Accessing the example ##
+
+`telnet localhost 12345`
+
 ## Ideas ##
 
 - Async support
