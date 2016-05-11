@@ -50,7 +50,9 @@ $loop->run();
 
 ## Accessing the example ##
 
-`telnet localhost 12345`
+Connect to the running instance: `telnet localhost 12345`
+
+It supports all munin's commands like `list`, `fetch`, `config` etc etc. For example `fetch uptime` resolves the instance uptime.
 
 ## Ideas ##
 
