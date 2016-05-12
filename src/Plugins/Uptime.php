@@ -123,4 +123,12 @@ class Uptime implements PluginInterface
         );
         return $value;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCapabilities(): array
+    {
+        return [];
+    }
 }

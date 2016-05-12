@@ -55,4 +55,9 @@ interface PluginInterface
      * @return PromiseInterface
      */
     public function getValues(): PromiseInterface;
+
+    /**
+     * @return string[]
+     */
+    public function getCapabilities(): array;
 }

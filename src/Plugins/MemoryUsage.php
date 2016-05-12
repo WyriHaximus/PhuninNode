@@ -94,4 +94,12 @@ class MemoryUsage implements PluginInterface
             new Metric('internal_memory_peak_usage', memory_get_peak_usage()),
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCapabilities(): array
+    {
+        return [];
+    }
 }

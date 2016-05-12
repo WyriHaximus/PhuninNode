@@ -76,6 +76,7 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
                 'getConfiguration',
                 'setNode',
                 'getValues',
+                'getCapabilities',
             ]
         );
         $plugin->method('getSlug')
@@ -210,5 +211,9 @@ abstract class AbstractPluginTest extends \PHPUnit_Framework_TestCase
         foreach ($callbackArgument as $value) {
             $this->assertInstanceOf(Metric::class, $value);
         }
+    }
+    public function testGetCapabilities()
+    {
+        $this->assertInternalType('array', $this->plugin->getCapabilities());
     }
 }

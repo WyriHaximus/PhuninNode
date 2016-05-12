@@ -102,4 +102,12 @@ class PluginsCategories implements PluginInterface
 
         return $categories;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCapabilities(): array
+    {
+        return [];
+    }
 }

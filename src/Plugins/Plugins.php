@@ -113,4 +113,12 @@ class Plugins implements PluginInterface
 
         return new Metric('plugins_category_count', count($categories));
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCapabilities(): array
+    {
+        return [];
+    }
 }
