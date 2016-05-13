@@ -28,9 +28,7 @@ class CapTest extends \PHPUnit_Framework_TestCase
         $list = new Cap();
         $list->setNode($node);
         $this->assertSame(
-            [
-                'multigraph',
-            ],
+            [],
             await(
                 $list->handle(
                     Phake::mock(ConnectionContext::class),
@@ -50,6 +48,7 @@ class CapTest extends \PHPUnit_Framework_TestCase
         ]);
         $pluginB = Phake::mock(PluginInterface::class);
         Phake::when($pluginB)->getCapabilities()->thenReturn([
+            'bar',
             'beer',
             'multigraph',
             'whiskey',
@@ -63,10 +62,10 @@ class CapTest extends \PHPUnit_Framework_TestCase
         $list->setNode($node);
         $this->assertSame(
             [
-                'multigraph',
                 'foo',
                 'bar',
                 'beer',
+                'multigraph',
                 'whiskey',
             ],
             await(

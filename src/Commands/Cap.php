@@ -27,9 +27,7 @@ class Cap implements CommandInterface
      */
     public function handle(ConnectionContext $context, string $line): PromiseInterface
     {
-        $caps = [
-            'multigraph',
-        ];
+        $caps = [];
         foreach ($this->getNode()->getPlugins() as $plugin) {
             foreach ($plugin->getCapabilities() as $capability) {
                 if (in_array($capability, $caps)) {

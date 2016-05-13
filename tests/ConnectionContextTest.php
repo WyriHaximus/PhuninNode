@@ -86,8 +86,11 @@ class ConnectionContextTest extends \PHPUnit_Framework_TestCase
                 'getConfiguration',
                 'setNode',
                 'getValues',
+                'getCapabilities',
             ]
         );
+        $plugin->method('getCapabilities')
+            ->willReturn(['multigraph']);
         $plugin->method('getSlug')
             ->willReturn('a');
         $plugin->method('getConfiguration')
