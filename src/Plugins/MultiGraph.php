@@ -1,26 +1,6 @@
 <?php
-
 declare(strict_types=1);
-/*
- * This file is part of PhuninNode.
- *
- ** (c) 2013 - 2016 Cees-Jan Kiewiet
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
-declare(strict_types=1);
-/*
- * This file is part of PhuninNode.
- *
- ** (c) 2013 - 2016 Cees-Jan Kiewiet
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-declare(strict_types=1);
 /*
  * This file is part of PhuninNode.
  *
@@ -32,11 +12,10 @@ declare(strict_types=1);
 
 namespace WyriHaximus\PhuninNode\Plugins;
 
-use React\Promise\Deferred;
-use WyriHaximus\PhuninNode\Configuration;
+use React\Promise\PromiseInterface;
 use WyriHaximus\PhuninNode\Node;
 use WyriHaximus\PhuninNode\PluginInterface;
-use WyriHaximus\PhuninNode\Value;
+use function React\Promise\resolve;
 
 /**
  * Class MultiGraph
@@ -50,16 +29,23 @@ class MultiGraph implements PluginInterface
     private $node;
 
     /**
-     * @var array
+     * @var string
      */
-    protected $plugins = [];
+    protected $slug;
 
     /**
-     * @param PluginInterface[] $plugins
+     * @var string
      */
-    public function __construct(array $plugins)
+    protected $category;
+
+    /**
+     * @param string $slug
+     * @param string $category
+     */
+    public function __construct(string $slug, string $category)
     {
-        $this->plugns = $plugins;
+        $this->slug = $slug;
+        $this->category = $category;
     }
 
     /**
@@ -73,45 +59,42 @@ class MultiGraph implements PluginInterface
     /**
      * {@inheritdoc}
      */
-    public function getSlug()
+    public function getSlug(): string
     {
-        return 'uptime';
+        return $this->slug;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getConfiguration(Deferred $deferred)
+    public function getCategorySlug(): string
     {
-        $this->configuration = new Configuration();
-        $this->configuration->setPair('graph_category', 'phunin_node');
-        $this->configuration->setPair('graph_title', 'Uptime');
-        $this->configuration->setPair('graph_args', '--base 1000 -l 0');
-        $this->configuration->setPair('graph_vlabel', 'uptime in days');
-        $this->configuration->setPair('uptime.label', 'uptime');
-        $this->configuration->setPair('uptime.draw', 'AREA');
-
-        $deferred->resolve($this->configuration);
+        return $this->category;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getValues(Deferred $deferred)
+    public function getConfiguration(): PromiseInterface
     {
-        $values = new \SplObjectStorage;
-        $values->attach($this->getUptimeValue());
-        $deferred->resolve($values);
+        return resolve([]);
     }
 
     /**
-     * @return \WyriHaximus\PhuninNode\Value
+     * {@inheritdoc}
      */
-    private function getUptimeValue()
+    public function getValues(): PromiseInterface
     {
-        $value = new Value();
-        $value->setKey('uptime');
-        $value->setValue(round(((time() - $this->startTime) / self::DAY_IN_SECONDS), 2));
-        return $value;
+        return resolve([]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCapabilities(): array
+    {
+        return [
+            'multigraph'
+        ];
     }
 }
