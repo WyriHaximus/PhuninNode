@@ -26,11 +26,14 @@ matrix:
     - php: hhvm
 
 ## Update composer and run the appropriate composer command
-before_script:
+install:
   - composer self-update -q
   - if [ -z "$dependencies" ]; then composer install; fi;
   - if [ "$dependencies" = "lowest" ]; then composer update --prefer-lowest -n; fi;
   - if [ "$dependencies" = "highest" ]; then composer update -n; fi;
+
+## Show installed packages
+before_script:
   - composer show
 
 ## Run the actual test
