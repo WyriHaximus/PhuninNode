@@ -3,7 +3,7 @@ PhuninNode
 
 [![Build Status](https://travis-ci.org/WyriHaximus/PhuninNode.png)](https://travis-ci.org/WyriHaximus/PhuninNode)
 [![Latest Stable Version](https://poser.pugx.org/WyriHaximus/Phunin-Node/v/stable.png)](https://packagist.org/packages/WyriHaximus/Phunin-Node)
-[![Total Downloads](https://poser.pugx.org/WyriHaximus/Phunin-Node/downloads.png)](https://packagist.org/packages/WyriHaximus/Phunin-Node)
+[![Total Downloads](https://poser.pugx.org/WyriHaximus/Phunin-Node/downloads.png)](https://packagist.org/packages/wyrihaximus/phunin-node/stats)
 [![Code Coverage](https://scrutinizer-ci.com/g/WyriHaximus/PhuninNode/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/WyriHaximus/PhuninNode/?branch=master)
 [![License](https://poser.pugx.org/wyrihaximus/phunin-node/license.png)](https://packagist.org/packages/wyrihaximus/phunin-node)
 
