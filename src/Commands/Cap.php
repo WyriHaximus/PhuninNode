@@ -28,6 +28,7 @@ class Cap implements CommandInterface
     public function handle(ConnectionContext $context, string $line): PromiseInterface
     {
         $caps = [];
+
         foreach ($this->getNode()->getPlugins() as $plugin) {
             foreach ($plugin->getCapabilities() as $capability) {
                 if (in_array($capability, $caps)) {
@@ -37,6 +38,9 @@ class Cap implements CommandInterface
                 $caps[] = $capability;
             }
         }
-        return resolve($caps);
+
+        return resolve([
+            implode(' ', $caps),
+        ]);
     }
 }
